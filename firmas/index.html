@@ -1,0 +1,148 @@
+<!doctype html><html><head><meta charset=utf8><title>Firmas · hola Swift</title><meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap">
+<style>
+  /* Generador de firmas de correo de hola Swift: formulario a la izquierda, firmas reales a la derecha sobre papel blanco.
+     Tema único claro a propósito: una firma se ve sobre el blanco del correo. */
+  :root {
+    --fondo: #F7F7F7; --superficie: #FFFFFF; --linea: #E3E3E8; --texto: #111111; --texto-2: #55555F; --texto-3: #6E6E78;
+    --interfaz: #007AFF; --boton: #0071E3; --enlace: #0066CC;
+    --f-titulos: "Inter", system-ui, sans-serif; --f-texto: "Inter", system-ui, sans-serif; --f-codigo: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html, body { background: var(--fondo); color: var(--texto); }
+  body { font: 400 15px/1.5 var(--f-texto); -webkit-font-smoothing: antialiased; }
+  .hs { max-width: 1180px; margin: 0 auto; padding-inline: 24px; padding-block: 32px 64px; display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 32px; }
+  header { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  header .logo { height: 32px; width: auto; display: block; }
+  header .sep { width: 1px; height: 26px; background: var(--linea); }
+  header h1 { margin: 0; font: 700 26px/1 var(--f-titulos); letter-spacing: -0.02em; }
+  header p { margin: 0 0 0 auto; color: var(--texto-3); font-size: 14px; }
+  form { display: flex; flex-direction: column; gap: 12px; background: var(--superficie); border-radius: 18px; padding: 20px; align-self: start; box-shadow: 0 0 0 1px rgba(17,17,17,.05); }
+  label { display: flex; flex-direction: column; gap: 6px; font-weight: 500; font-size: 13px; color: var(--texto-2); }
+  label small { color: var(--texto-3); font-weight: 400; }
+  input { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid transparent; background: var(--fondo); color: var(--texto); width: 100%; }
+  input:focus { outline: 2px solid var(--interfaz); outline-offset: 0; }
+  .btn:focus-visible { outline: 2px solid var(--interfaz); outline-offset: 2px; }
+  .ayuda { margin: 0; color: var(--texto-3); font-size: 13px; }
+  .firmas { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .tarjeta { background: var(--superficie); border-radius: 18px; padding: 20px; box-shadow: 0 0 0 1px rgba(17,17,17,.05); display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .tarjeta h2 { margin: 0; font: 600 17px/1.2 var(--f-titulos); }
+  .tarjeta .meta { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--texto-3); font-size: 13px; }
+  .tarjeta .meta b { color: var(--texto); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .correo { border: 1px solid var(--linea); border-radius: 12px; padding: 24px; background: #FFFFFF; overflow-x: auto; }
+  .correo .cuerpo { color: #55555F; font: 400 14px/1.5 Helvetica, Arial, sans-serif; margin: 0 0 20px; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .btn { all: unset; cursor: pointer; padding: 9px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; background: var(--fondo); }
+  .btn.principal { background: var(--boton); color: #FFFFFF; }
+  .estado { color: var(--texto-2); font-size: 13px; }
+  details { color: var(--texto-2); font-size: 13px; }
+  details pre { white-space: pre-wrap; word-break: break-all; font: 12px/1.5 var(--f-codigo); background: var(--fondo); padding: 12px; border-radius: 10px; max-height: 200px; overflow: auto; color: var(--texto); }
+  @media (max-width: 860px) { .hs { grid-template-columns: minmax(0, 1fr); padding-inline: 16px; } header p { margin: 0; flex-basis: 100%; } }
+</style>
+
+<div class="hs">
+  <header><img class="logo" src="hola-swift-firma.png" alt="hola Swift"><span class="sep" aria-hidden="true"></span><h1>Firmas</h1><p>Rellena tus datos, copia la firma y pégala en tu correo.</p></header>
+
+  <form id="datos" autocomplete="off">
+    <label for="nombre">Nombre<input id="nombre" type="text" placeholder="Nombre y apellido"></label>
+    <label for="rol">Rol<input id="rol" type="text" placeholder="Rol · hola Swift"></label>
+    <label for="email">Email <small>Opcional</small><input id="email" type="text" placeholder="comunidad@holaswift.com"></label>
+    <label for="telefono">Teléfono <small>Opcional</small><input id="telefono" type="text"></label>
+    <label for="web">Web<input id="web" type="text"></label>
+    <label for="logoUrl">Dirección del logo en la web <small>Para la firma con imagen: sube hola-swift-firma.png a la web y pega aquí su dirección.</small><input id="logoUrl" type="text"></label>
+    <p class="ayuda">No se guarda nada: al cerrar o recargar la página, empieza de cero.</p>
+  </form>
+
+  <section class="firmas" aria-label="Firmas">
+    <article class="tarjeta">
+      <h2>Con el logo en código</h2>
+      <div class="meta"><span>Apple Mail, Mail de iPhone, Outlook para Mac</span><span>Peso <b id="pesoSvg"></b></span></div>
+      <div class="correo"><p class="cuerpo">Un abrazo,</p><div id="firmaSvg"></div></div>
+      <div class="acciones"><button type="button" class="btn principal" data-copiar="svg">Copiar firma</button><button type="button" class="btn" data-html="svg">Copiar HTML</button><span class="estado" role="status" id="estadoSvg"></span></div>
+      <details><summary>Ver el HTML</summary><pre id="codigoSvg"></pre></details>
+    </article>
+    <article class="tarjeta">
+      <h2>Con el logo como imagen</h2>
+      <div class="meta"><span>Gmail, Outlook y el resto</span><span>Peso <b id="pesoPng"></b> + imagen de 4 KB</span></div>
+      <div class="correo"><p class="cuerpo">Un abrazo,</p><div id="firmaPng"></div></div>
+      <div class="acciones"><button type="button" class="btn principal" data-copiar="png">Copiar firma</button><button type="button" class="btn" data-html="png">Copiar HTML</button><span class="estado" role="status" id="estadoPng"></span></div>
+      <details><summary>Ver el HTML</summary><pre id="codigoPng"></pre></details>
+    </article>
+  </section>
+</div>
+
+<script>
+(function () {
+  const SVG = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"124 155 1646 458\" role=\"img\" aria-label=\"hola Swift\"><title>hola Swift</title><g id=\"hola\"><defs><mask id=\"forma\" maskUnits=\"userSpaceOnUse\" x=\"124\" y=\"155\" width=\"874\" height=\"348\"><g fill=\"none\" stroke=\"#fff\" stroke-width=\"40\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M203 443C207 406 206 379 233 350C247 335 263 319 285 323C358 333 268 453 337 459C363 461 382 441 398 423\"/><path d=\"M487 317C419 315 371 439 449 459C535 481 567 318 487 317Z\"/><path d=\"M761 405C762 359 800 306 850 318C860 320 870 325 876 334C884 346 880 361 878 374C875 388 876 404 870 417C865 425 857 431 851 437C842 445 833 454 822 458C787 470 761 437 761 405Z\"/><path d=\"M884 327C882 341 881 354 879 367C874 396 861 460 908 459C930 459 945 443 957 425\"/><path d=\"M530 413C557 412 578 395 600 382C613 374 626 368 637 358C669 331 716 266 707 222C703 201 680 190 662 202C652 208 646 218 640 228C609 281 594 380 651 422C670 436 695 439 718 434C733 431 746 422 760 416\"/><path d=\"M205 425C207 402 209 379 211 357C213 318 212 274 228 238C252 182 325 187 309 246C293 301 210 372 166 409\"/></g></mask></defs><g mask=\"url(#forma)\" fill=\"none\" stroke-width=\"42\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path stroke=\"#7788EC\" d=\"M203 443 208 397 210 387 214 376\"/><path stroke=\"#708EE1\" d=\"M214 376 222 364 234 348\"/><path stroke=\"#659EC8\" d=\"M234 348 250 333 262 326\"/><path stroke=\"#56ADAA\" d=\"M262 326 270 323 279 322 289 323 297 326\"/><path stroke=\"#45BA89\" d=\"M297 326 303 330 310 337 313 344 315 354\"/><path stroke=\"#37C26F\" d=\"M315 354 315 374 309 412\"/><path stroke=\"#44C467\" d=\"M309 412 308 428 310 439\"/><path stroke=\"#78C35F\" d=\"M310 439 315 448 320 453 327 457 337 459\"/><path stroke=\"#AEC151\" d=\"M337 459 346 459 354 457 362 454 370 449\"/><path stroke=\"#DABD3F\" d=\"M370 449 383 439 395 426\"/><path stroke=\"#F4BA2E\" d=\"M395 426 398 423\"/><path stroke=\"#FFB624\" d=\"M487 317 471 318 460 322 451 327 442 335 435 342 421 361\"/><path stroke=\"#F4BA2E\" d=\"M421 361 412 384 409 395 409 405 409 415 411 425 416 436 421 442\"/><path stroke=\"#FFB624\" d=\"M421 442 428 449 434 453 444 458 453 460 463 461 473 461 488 456\"/><path stroke=\"#FFA32D\" d=\"M488 456 502 448 512 436\"/><path stroke=\"#FF9F2F\" d=\"M512 436 520 425 527 408 531 393 533 375 532 361 528 346 522 335 513 325\"/><path stroke=\"#FFA32D\" d=\"M513 325 502 319 489 317\"/><path stroke=\"#FFB624\" d=\"M489 317 471 318 460 322 453 326 445 332 436 340 423 358\"/><path stroke=\"#965FE6\" d=\"M761 405 762 397 765 381\"/><path stroke=\"#815FEB\" d=\"M765 381 770 366 779 350\"/><path stroke=\"#6D5FF0\" d=\"M779 350 786 341 796 331 806 324 815 320\"/><path stroke=\"#6662F0\" d=\"M815 320 824 317 836 316\"/><path stroke=\"#5968F0\" d=\"M836 316 850 318 861 322\"/><path stroke=\"#4170F0\" d=\"M861 322 871 328 876 334 880 343 881 352 873 408 868 419 861 428\"/><path stroke=\"#5968F0\" d=\"M861 428 836 450\"/><path stroke=\"#6662F0\" d=\"M836 450 825 456 816 459\"/><path stroke=\"#6D5FF0\" d=\"M816 459 804 460 796 459 787 455 779 449\"/><path stroke=\"#815FEB\" d=\"M779 449 770 439 765 426\"/><path stroke=\"#965FE6\" d=\"M765 426 762 413 761 403 765 381\"/><path stroke=\"#815FEB\" d=\"M765 381 770 366 779 350\"/><path stroke=\"#6D5FF0\" d=\"M779 350 785 342 793 334\"/><path stroke=\"#3D75F0\" d=\"M884 327 875 389 873 411\"/><path stroke=\"#5684F1\" d=\"M873 411 874 430 880 444\"/><path stroke=\"#7395F1\" d=\"M880 444 884 451 891 455 900 458 910 459\"/><path stroke=\"#8E9CF0\" d=\"M910 459 920 457\"/><path stroke=\"#8EA3F0\" d=\"M920 457 929 454 936 450 943 443 950 435\"/><path stroke=\"#A3AEF2\" d=\"M950 435 957 425\"/><path stroke=\"#965FE6\" d=\"M756 418 760 416M755 418 756 418M754 419 755 418M752 420 754 419M751 420 752 420M749 421 751 420M747 422 749 421M745 423 747 422M744 424 745 423M742 425 744 424M740 426 742 425M738 427 740 426M736 428 738 427\"/><path stroke=\"#B25CDE\" d=\"M735 429 736 428M733 430 735 429M731 430 733 430M729 431 731 430M727 432 729 431M725 432 727 432M724 433 725 432M722 433 724 433M720 434 722 433M718 434 720 434M716 435 718 434M714 435 716 435M712 435 714 435M710 436 712 435M708 436 710 436M706 436 708 436M704 436 706 436\"/><path stroke=\"#C957D7\" d=\"M702 436 704 436M700 436 702 436M698 436 700 436M696 436 698 436M694 436 696 436M692 436 694 436M690 436 692 436M688 436 690 436M686 436 688 436M684 436 686 436M682 435 684 436M680 435 682 435M678 434 680 435M676 434 678 434M674 433 676 434M672 433 674 433M670 432 672 433M668 432 670 432\"/><path stroke=\"#D853CF\" d=\"M666 431 668 432M665 430 666 431M663 429 665 430M661 428 663 429M659 427 661 428M658 426 659 427M656 425 658 426M654 424 656 425M652 423 654 424M651 422 652 423M649 421 651 422M648 420 649 421M646 418 648 420M645 417 646 418M643 416 645 417M642 414 643 416M640 413 642 414M639 411 640 413M638 410 639 411M636 408 638 410M635 407 636 408M634 405 635 407M633 404 634 405M632 402 633 404M631 400 632 402M630 398 631 400M628 397 630 398M628 395 628 397M626 393 628 395M626 392 626 393M625 390 626 392M624 388 625 390M623 386 624 388M622 384 623 386M621 382 622 384M621 380 621 382M620 379 621 380M619 377 620 379M619 375 619 377M618 373 619 375M618 371 618 373M617 369 618 371M617 367 617 369M616 365 617 367M616 363 616 365\"/><path stroke=\"#E154BE\" d=\"M615 361 616 363M615 359 615 361M615 357 615 359M614 355 615 357M614 353 614 355M614 351 614 353M614 349 614 351M613 347 614 349M613 345 613 347M613 343 613 345M613 341 613 343M613 339 613 341M613 337 613 339M613 335 613 337M613 333 613 335M613 331 613 333M613 329 613 331M613 327 613 329M613 325 613 327M613 323 613 325M613 321 613 323\"/><path stroke=\"#EC54AC\" d=\"M613 319 613 321M613 317 613 319M613 315 613 317M614 313 613 315M614 311 614 313M614 309 614 311M614 307 614 309M615 305 614 307M615 303 615 305M615 301 615 303M615 299 615 301M616 297 615 299M616 295 616 297M616 293 616 295M617 291 616 293M617 290 617 291M618 288 617 290M618 286 618 288M619 284 618 286\"/><path stroke=\"#F6529B\" d=\"M619 282 619 284M620 280 619 282M620 278 620 280M620 276 620 278M621 274 620 276M622 272 621 274M622 270 622 272M623 268 622 270M623 266 623 268M624 264 623 266M625 262 624 264M625 260 625 262M626 259 625 260M627 257 626 259M627 255 627 257M628 253 627 255M629 251 628 253M630 249 629 251M630 247 630 249M631 246 630 247M632 244 631 246\"/><path stroke=\"#FF4F8C\" d=\"M633 242 632 244M634 240 633 242M634 238 634 240M635 236 634 238M636 235 635 236M637 233 636 235M638 231 637 233M639 229 638 231M640 228 639 229M641 226 640 228M642 224 641 226M643 222 642 224M644 221 643 222M645 219 644 221M646 217 645 219M648 216 646 217M649 214 648 216M650 212 649 214M651 211 650 212M652 210 651 211M654 208 652 210M655 207 654 208M657 205 655 207M658 204 657 205M660 203 658 204M662 202 660 203M663 201 662 202M665 200 663 201M667 199 665 200M669 198 667 199M670 198 669 198M672 198 670 198M674 197 672 198M676 197 674 197M678 197 676 197M680 197 678 197M682 197 680 197M684 198 682 197M686 198 684 198M688 199 686 198M690 200 688 199M691 200 690 200M693 201 691 200M695 202 693 201M696 204 695 202M698 205 696 204M699 206 698 205\"/><path stroke=\"#FF587D\" d=\"M700 208 699 206M702 209 700 208M703 211 702 209M704 212 703 211M704 214 704 212M705 216 704 214M706 218 705 216M706 220 706 218M707 222 706 220M707 224 707 222M708 225 707 224M708 227 708 225M708 229 708 227M708 231 708 229M708 233 708 231M708 235 708 233M708 237 708 235M707 239 708 237M707 241 707 239M707 243 707 241M706 245 707 243M706 247 706 245M706 249 706 247\"/><path stroke=\"#FF606C\" d=\"M705 251 706 249M705 253 705 251M704 255 705 253M704 257 704 255M703 259 704 257M703 261 703 259M702 263 703 261M702 265 702 263M701 267 702 265M700 268 701 267M700 270 700 268M699 272 700 270M698 274 699 272M697 276 698 274M697 278 697 276M696 280 697 278M695 282 696 280M694 283 695 282\"/><path stroke=\"#FF675A\" d=\"M693 285 694 283M692 287 693 285M692 289 692 287M691 291 692 289M690 292 691 291M689 294 690 292M688 296 689 294M687 298 688 296M686 299 687 298M685 301 686 299M684 303 685 301M683 305 684 303M682 306 683 305M681 308 682 306M680 310 681 308M678 311 680 310M677 313 678 311M676 315 677 313M675 316 676 315\"/><path stroke=\"#FF6D47\" d=\"M674 318 675 316M673 320 674 318M672 321 673 320M670 323 672 321M669 324 670 323M668 326 669 324M667 328 668 326M665 329 667 328M664 331 665 329M663 332 664 331M662 334 663 332M660 335 662 334M659 337 660 335M658 338 659 337M656 340 658 338M655 341 656 340M653 343 655 341M652 344 653 343M651 346 652 344M649 347 651 346\"/><path stroke=\"#FF7438\" d=\"M648 348 649 347M646 350 648 348M645 351 646 350M643 352 645 351M642 354 643 352M640 355 642 354M639 356 640 355M637 358 639 356M636 359 637 358M634 360 636 359M633 362 634 360M631 363 633 362M630 364 631 363M628 365 630 364M626 366 628 365M625 368 626 366M623 369 625 368M621 370 623 369M620 371 621 370M618 372 620 371M616 373 618 372M614 374 616 373M613 375 614 374M611 376 613 375M609 377 611 376M607 378 609 377M606 379 607 378M604 380 606 379M602 381 604 380M600 382 602 381M599 383 600 382M597 384 599 383M595 385 597 384M594 386 595 385M592 387 594 386M590 388 592 387M588 389 590 388M587 390 588 389M585 391 587 390M583 392 585 391M582 393 583 392M580 394 582 393\"/><path stroke=\"#FF8635\" d=\"M578 395 580 394M576 396 578 395M575 398 576 396M573 398 575 398M571 400 573 398M570 401 571 400M568 402 570 401M566 403 568 402M564 404 566 403M563 404 564 404M561 405 563 404M559 406 561 405M557 407 559 406M555 408 557 407M554 408 555 408M552 409 554 408M550 410 552 409M548 410 550 410M546 411 548 410M544 411 546 411M542 412 544 411M540 412 542 412M538 412 540 412\"/><path stroke=\"#FF9F2F\" d=\"M537 412 538 412M536 413 537 412M534 413 536 413M530 413 534 413\"/><path stroke=\"#7788EC\" d=\"M205 425 210 373 215 290 220 261 227 240 234 225 246 212 259 203 272 198 286 199 291 201 298 205 302 209 307 215 311 228 310 238 307 252 295 275 286 288 273 306 238 342\"/><path stroke=\"#7989ED\" d=\"M238 342 219 362\"/><path stroke=\"#8E9CF0\" d=\"M219 362 206 375\"/><path stroke=\"#8EA3F0\" d=\"M206 375 198 382\"/><path stroke=\"#A3AEF2\" d=\"M198 382 166 409\"/></g></g><g id=\"swift\" transform=\"translate(204.7 92.9) scale(0.82)\"><g fill=\"none\" stroke=\"#FF6B4D\" stroke-width=\"48.78\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M1192 220C1186 201 1175 185 1156 176C1138 168 1117 166 1098 172C1081 178 1065 190 1058 208C1025 290 1204 319 1157 413C1147 432 1129 447 1108 453C1084 460 1058 457 1037 445C997 421 998 377 1010 338\"/><path d=\"M1217 322C1211 349 1187 428 1216 446C1223 450 1232 449 1239 445C1256 435 1265 415 1272 398\"/><path d=\"M1272 398C1268 428 1287 472 1319 441C1345 417 1362 362 1369 328\"/><path d=\"M1369 328C1366 346 1361 369 1376 383C1407 413 1456 342 1469 318\"/><path d=\"M1468 318C1459 357 1441 450 1503 455C1526 456 1545 444 1561 428\"/><path d=\"M1557 447C1564 381 1564 308 1589 245C1596 228 1615 183 1641 194C1651 198 1655 209 1658 218C1665 252 1654 290 1639 320C1628 344 1582 392 1586 417C1587 422 1589 426 1592 429C1596 434 1600 437 1605 440C1649 468 1724 456 1741 402\"/><path d=\"M1561 405C1558 440 1543 553 1567 577C1572 582 1578 584 1586 583C1617 577 1627 510 1624 484C1622 470 1616 458 1608 446\"/><path d=\"M1768 212C1760 256 1731 411 1747 446C1755 464 1776 467 1794 463C1823 456 1842 431 1858 407\"/><path d=\"M1696 291C1734 297 1772 302 1810 302\"/></g><circle cx=\"1489\" cy=\"257\" r=\"32.3\" fill=\"#FF6B4D\"/></g></svg>";
+  const PNG = "hola-swift-firma.png";
+  const BASE = { nombre: '', rol: '', email: '', telefono: '', web: 'holaswift.com', logoUrl: 'https://holaswift.com/herramientas/firmas/hola-swift-firma.png' };
+  const CLAVE = 'holaswift-firmas-v2';
+  const $ = (s) => document.querySelector(s);
+  let d = Object.assign({}, BASE);
+  // No se guarda nada: cada vez que se abre, empieza de cero. Borra lo que guardaban versiones anteriores.
+  try { localStorage.removeItem(CLAVE); } catch (e) {}
+
+  const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const F = 'font-family:Inter,Helvetica,Arial,sans-serif;';
+  // Firma en una tabla con estilos en línea: es lo único que respetan todos los clientes de correo.
+  function firma(logo) {
+    const web = d.web.trim(), url = web ? (/^https?:\/\//.test(web) ? web : 'https://' + web) : '';
+    const lineas = [];
+    if (d.email.trim()) lineas.push(`<a href="mailto:${esc(d.email.trim())}" style="color:#0066CC;text-decoration:none">${esc(d.email.trim())}</a>`);
+    if (d.telefono.trim()) lineas.push(`<span style="color:#55555F">${esc(d.telefono.trim())}</span>`);
+    if (url) lineas.push(`<a href="${esc(url)}" style="color:#0066CC;text-decoration:none">${esc(web.replace(/^https?:\/\//, ''))}</a>`);
+    return `<table cellpadding="0" cellspacing="0" border="0" role="presentation" style="border-collapse:collapse">`
+      + `<tr><td style="padding:0 0 12px 0">${logo}</td></tr>`
+      + `<tr><td style="${F}font-size:15px;line-height:20px;font-weight:600;color:#111111">${esc(d.nombre.trim() || 'Tu nombre')}</td></tr>`
+      + (d.rol.trim() ? `<tr><td style="${F}font-size:13px;line-height:18px;color:#55555F">${esc(d.rol)}</td></tr>` : '')
+      + (lineas.length ? `<tr><td style="${F}font-size:13px;line-height:18px;padding:6px 0 0 0">${lineas.join(' <span style="color:#B8B8C2">&middot;</span> ')}</td></tr>` : '')
+      + `</table>`;
+  }
+  const logoSvg = () => SVG.replace('<svg ', '<svg width="156" height="43" style="display:block" ');
+  const logoPng = (src) => `<img src="${esc(src)}" width="156" height="41" alt="hola Swift" style="display:block;border:0;width:156px;height:41px">`;
+  const html = { svg: () => firma(logoSvg()), png: () => firma(logoPng(d.logoUrl.trim() || BASE.logoUrl)) };
+  const kb = (s) => (new Blob([s]).size / 1024).toFixed(1).replace('.', ',') + ' KB';
+
+  function pintar() {
+    const hs = html.svg(), hp = html.png();
+    $('#firmaSvg').innerHTML = hs;
+    $('#firmaPng').innerHTML = firma(logoPng(PNG));               // en la vista previa, la imagen va incrustada
+    $('#codigoSvg').textContent = hs; $('#codigoPng').textContent = hp;
+    $('#pesoSvg').textContent = kb(hs); $('#pesoPng').textContent = kb(hp);
+  }
+  ['nombre', 'rol', 'email', 'telefono', 'web', 'logoUrl'].forEach((k) => {
+    const el = document.getElementById(k); el.value = d[k];
+    el.addEventListener('input', () => { d[k] = el.value; pintar(); });
+  });
+
+  function estado(v, t) { const el = document.getElementById(v === 'svg' ? 'estadoSvg' : 'estadoPng'); el.textContent = t; clearTimeout(el._t); el._t = setTimeout(() => (el.textContent = ''), 4000); }
+  // Copiar firma: como texto con formato, para pegarla tal cual en los ajustes de firma del correo.
+  document.querySelectorAll('[data-copiar]').forEach((b) => b.addEventListener('click', async () => {
+    const v = b.dataset.copiar, h = html[v]();
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([h], { type: 'text/html' }), 'text/plain': new Blob([d.nombre || 'hola Swift'], { type: 'text/plain' }) })]);
+      estado(v, 'Copiada. Pégala en los ajustes de firma de tu correo.');
+    } catch (e) {
+      const nodo = document.getElementById(v === 'svg' ? 'firmaSvg' : 'firmaPng');
+      const r = document.createRange(); r.selectNodeContents(nodo); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      let ok = false; try { ok = document.execCommand('copy'); } catch (e2) {}
+      estado(v, ok ? 'Copiada. Pégala en los ajustes de firma de tu correo.' : 'Firma seleccionada: pulsa ⌘C o Ctrl+C para copiarla.');
+    }
+  }));
+  document.querySelectorAll('[data-html]').forEach((b) => b.addEventListener('click', async () => {
+    const v = b.dataset.html;
+    try { await navigator.clipboard.writeText(html[v]()); estado(v, 'HTML copiado.'); }
+    catch (e) {
+      const pre = document.getElementById(v === 'svg' ? 'codigoSvg' : 'codigoPng'); pre.parentElement.open = true;
+      const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      estado(v, 'HTML seleccionado: pulsa ⌘C o Ctrl+C para copiarlo.');
+    }
+  }));
+  pintar();
+})();
+</script>
+
+</body></html>
