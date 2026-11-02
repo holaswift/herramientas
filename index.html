@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F7F7">
+<title>Herramientas · hola Swift</title>
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<style>
+@font-face{font-family:"Inter";src:url(redes/assets/fonts/Inter-Regular.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Inter";src:url(redes/assets/fonts/Inter-SemiBold.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:"Inter Display";src:url(redes/assets/fonts/InterDisplay-Bold.woff2) format("woff2");font-weight:700;font-display:swap}
+:root{--fondo:#F7F7F7;--superficie:#FFFFFF;--linea:#E3E3E8;--texto:#111111;--texto-2:#55555F;--texto-3:#6E6E78;
+  --enlace:#0066CC;--interfaz:#007AFF;
+  --f-titulos:"Inter Display","Inter",system-ui,sans-serif;--f-texto:"Inter",system-ui,sans-serif;color-scheme:light;
+  --sa-l:env(safe-area-inset-left,0px);--sa-r:env(safe-area-inset-right,0px);--sa-t:env(safe-area-inset-top,0px);--sa-b:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font:17px/26px var(--f-texto);-webkit-font-smoothing:antialiased}
+a{color:var(--enlace);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--interfaz);outline-offset:3px;border-radius:12px}
+.wrap{width:min(1120px,100% - max(16px,var(--sa-l)) - max(16px,var(--sa-r)));margin-inline:auto}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px;padding-top:var(--sa-t)}
+nav.top img{display:block;height:30px;width:auto}
+nav.top .volver{font-size:15px;color:var(--texto-2);text-decoration:none}
+header{padding:clamp(32px,7vh,80px) 0 clamp(24px,4vh,40px)}
+.ceja{font:600 15px/20px var(--f-texto);color:var(--texto-3);margin:0 0 14px}
+h1{font:700 clamp(40px,5.6vw,64px)/1 var(--f-titulos);letter-spacing:-.03em;margin:0;text-wrap:balance}
+.lede{font-size:clamp(19px,1.7vw,21px);line-height:1.45;color:var(--texto-2);margin:20px 0 0;max-width:46ch}
+h2{font:700 clamp(26px,3vw,32px)/1.1 var(--f-titulos);letter-spacing:-.02em;margin:48px 0 0}
+.lista{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0 0;padding:0;list-style:none}
+.item{position:relative;background:var(--superficie);border-radius:28px;padding:28px;display:flex;flex-direction:column;min-height:230px}
+.item img{width:auto;height:56px;align-self:flex-start}
+.item h3{font:600 22px/28px var(--f-titulos);letter-spacing:-.01em;margin:20px 0 6px}
+.item p{margin:0 0 20px;color:var(--texto-2);font-size:15px;line-height:22px;flex:1}
+.item a{align-self:flex-start;font:600 15px/1 var(--f-texto);color:var(--enlace);text-decoration:none}
+.item a::after{content:"";position:absolute;inset:0;border-radius:28px}
+.item a:hover{text-decoration:underline}
+.item:has(a:focus-visible){outline:2px solid var(--interfaz);outline-offset:3px}
+.item a:focus-visible{outline:none}
+.aviso{margin:40px 0 0;padding:20px 24px;border:1px dashed #A5A5AF;border-radius:20px;color:var(--texto-2);font-size:15px;line-height:22px;max-width:70ch}
+footer{margin-top:72px;padding:40px 0 calc(56px + var(--sa-b));border-top:1px solid var(--linea);font-size:14px;color:var(--texto-2)}
+footer a{color:var(--texto-2)}
+@media (max-width:900px){.lista{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.lista{grid-template-columns:1fr}.item{min-height:0}nav.top .volver{display:none}}
+</style>
+</head>
+<body>
+<nav class="top" aria-label="Principal">
+  <div class="wrap">
+    <a href="https://holaswift.com/" aria-label="hola Swift, inicio"><img src="assets/logo-horizontal-color.webp" alt="hola Swift" width="108" height="30"></a>
+    <a class="volver" href="https://holaswift.com/">← Volver a hola Swift</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header>
+    <p class="ceja">Equipo</p>
+    <h1>Herramientas de hola Swift.</h1>
+    <p class="lede">Todo lo que necesitas para firmar, publicar y presentar con la marca. Sin instalar nada: se abre en el navegador.</p>
+  </header>
+
+  <h2>Crear</h2>
+  <ul class="lista">
+    <li class="item">
+      <img src="assets/glifos/arroba.webp" alt="" aria-hidden="true">
+      <h3>Firma de email</h3>
+      <p>Rellena tus datos, copia la firma y pégala en Gmail, Apple Mail u Outlook.</p>
+      <a href="firmas/">Abrir ↗</a>
+    </li>
+    <li class="item">
+      <img src="assets/glifos/corazon.webp" alt="" aria-hidden="true">
+      <h3>Imágenes para redes</h3>
+      <p>Anuncios de charlas, quedadas y avisos con la marca, listos para descargar en cada formato.</p>
+      <a href="redes/">Abrir ↗</a>
+    </li>
+    <li class="item">
+      <img src="assets/glifos/llaves.webp" alt="" aria-hidden="true">
+      <h3>Presentaciones</h3>
+      <p>La skill de Claude para hacer diapositivas con la marca, las fuentes y la plantilla para ponentes.</p>
+      <a href="https://holaswift.com/presentaciones/">Abrir ↗</a>
+    </li>
+  </ul>
+
+  <h2>Descargar</h2>
+  <ul class="lista">
+    <li class="item">
+      <img src="assets/glifos/mano.webp" alt="" aria-hidden="true">
+      <h3>Kit de Discord</h3>
+      <p>Iconos del servidor, banner, fondo de invitación, emojis y stickers (también animados).</p>
+      <a href="descargas/holaswift-discord.zip" download>Descargar ZIP · 3 MB</a>
+    </li>
+    <li class="item">
+      <img src="assets/glifos/enye.webp" alt="" aria-hidden="true">
+      <h3>Kit de perfiles en redes</h3>
+      <p>Fotos de perfil, cabeceras, destacados de Instagram y bios para X, Mastodon, Bluesky, LinkedIn, Instagram y Threads.</p>
+      <a href="descargas/holaswift-redes.zip" download>Descargar ZIP · 7 MB</a>
+    </li>
+    <li class="item">
+      <img src="assets/glifos/pregunta.webp" alt="" aria-hidden="true">
+      <h3>Logos, vídeos y fotos</h3>
+      <p>Logotipos en SVG y PNG, logo 3D, glifos, la animación del logo y las fotos del equipo. Es el mismo kit que usa la prensa.</p>
+      <a href="https://holaswift.com/prensa/#recursos">Abrir ↗</a>
+    </li>
+  </ul>
+
+  <p class="aviso">Esta página es para el equipo y no aparece en buscadores. Comparte el enlace solo con quien colabore con hola Swift. Si algo no funciona o falta material, avisad en el canal del equipo en Discord.</p>
+</main>
+
+<footer>
+  <div class="wrap">hola Swift · <a href="https://holaswift.com/">holaswift.com</a></div>
+</footer>
+</body>
+</html>

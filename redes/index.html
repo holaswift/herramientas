@@ -1,0 +1,846 @@
+<!doctype html><html><head><meta charset=utf8><title>Redes · hola Swift</title><meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+
+<link rel="icon" href="assets/favicon.svg">
+<style>
+  /* Herramienta de redes de hola Swift. Interfaz en los tokens del libro de marca: fondo papel, Inter, botón azul de interfaz. */
+  @font-face { font-family: "Inter"; src: url(assets/fonts/Inter-Regular.woff2) format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Inter"; src: url(assets/fonts/Inter-Medium.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Inter"; src: url(assets/fonts/Inter-SemiBold.woff2) format("woff2"); font-weight: 600; }
+  @font-face { font-family: "Inter Display"; src: url(assets/fonts/InterDisplay-Bold.woff2) format("woff2"); font-weight: 700; }
+  :root {
+    --fondo: #F7F7F7; --superficie: #FFFFFF; --linea: #E3E3E8; --texto: #111111; --texto-2: #55555F; --texto-3: #6E6E78;
+    --interfaz: #007AFF; --boton: #0071E3; --mesa: #ECECF0;
+    --radio-s: 8px; --radio-m: 16px; --radio-total: 999px;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--fondo); color: var(--texto); font: 400 15px/1.45 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .hs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 420px); gap: 32px; max-width: 1360px; margin: 0 auto; padding: 28px 28px 64px; }
+  header.cab { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-bottom: 4px; }
+  header.cab .logo { height: 34px; width: auto; display: block; }
+  header.cab .sep { width: 1px; height: 26px; background: var(--linea); }
+  header.cab h1 { margin: 0; font: 700 26px/1 "Inter Display", "Inter", sans-serif; letter-spacing: -0.02em; }
+  header.cab p { margin: 0 0 0 auto; color: var(--texto-3); font-size: 14px; }
+
+  /* vista previa */
+  .vista { position: sticky; top: 20px; align-self: start; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .formatos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .formatos button { all: unset; cursor: pointer; display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 12px; background: var(--superficie); border: 1px solid var(--linea); min-width: 0; }
+  .formatos button canvas { width: 34px; height: auto; border-radius: 4px; box-shadow: 0 0 0 1px var(--linea); flex: none; }
+  .formatos button b { display: block; font-weight: 600; font-size: 14px; }
+  .formatos button small { display: block; color: var(--texto-3); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .formatos button[aria-pressed="true"] { border-color: var(--interfaz); box-shadow: 0 0 0 1px var(--interfaz); }
+  .formatos button:focus-visible, .seg button:focus-visible, .btn:focus-visible { outline: 2px solid var(--interfaz); outline-offset: 2px; }
+  .mesa { background: var(--mesa) radial-gradient(circle, rgba(17,17,17,.10) 1px, transparent 1.2px) 0 0 / 18px 18px; border-radius: 22px; padding: 28px; display: grid; place-items: center; position: relative; }
+  .mesa canvas.lienzo { display: block; max-width: 100%; max-height: calc(100vh - 280px); width: auto; height: auto; border-radius: 10px; box-shadow: 0 1px 0 rgba(17,17,17,.04), 0 24px 60px -24px rgba(17,17,17,.45); cursor: default; touch-action: none; }
+  .mesa canvas.lienzo.arrastrable { cursor: grab; }
+  .mesa .seguro { position: absolute; pointer-events: none; border: 2px dashed rgba(0,122,255,.55); border-left: 0; border-right: 0; }
+  .acciones { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .btn { all: unset; cursor: pointer; padding: 11px 18px; border-radius: var(--radio-total); font-weight: 600; background: var(--superficie); border: 1px solid var(--linea); }
+  .btn.principal { background: var(--boton); color: #fff; border-color: var(--boton); }
+  .btn[disabled] { opacity: .5; pointer-events: none; }
+  .aviso { color: var(--texto-2); font-size: 13px; }
+
+  /* formulario */
+  form.panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  fieldset { border: 0; margin: 0; padding: 18px; background: var(--superficie); border-radius: 18px; box-shadow: 0 0 0 1px rgba(17,17,17,.05); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  legend { float: left; width: 100%; font: 600 15px/1.2 "Inter Display", "Inter", sans-serif; color: var(--texto); margin: 0 0 4px; padding: 0; }
+  legend + * { clear: both; }
+  label { display: flex; flex-direction: column; gap: 6px; font-weight: 500; font-size: 13px; color: var(--texto-2); }
+  label small { color: var(--texto-3); font-weight: 400; }
+  input[type="text"], textarea, select { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid transparent; background: var(--fondo); color: var(--texto); width: 100%; transition: background .15s, box-shadow .15s; }
+  input[type="text"]:hover, textarea:hover { background: #F0F0F3; }
+  textarea { min-height: 72px; resize: vertical; }
+  textarea.mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; min-height: 140px; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--interfaz); outline-offset: 0; border-color: transparent; }
+  .fila { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .fila > * { min-width: 0; }
+  .seg { display: flex; flex-wrap: wrap; gap: 6px; }
+  #piezas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  #piezas button { justify-content: flex-start; border-radius: 12px; padding: 12px 14px; background: var(--fondo); border-color: transparent; }
+  #piezas button[aria-pressed="true"] { background: var(--texto); color: #fff; }
+  .seg button { all: unset; cursor: pointer; padding: 8px 14px; border-radius: var(--radio-total); background: var(--superficie); border: 1px solid var(--linea); font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+  .seg button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+  .seg button i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .seg.tema { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; padding: 3px; background: var(--fondo); border-radius: 12px; }
+  .seg.tema button { justify-content: center; border: 0; border-radius: 9px; background: transparent; padding: 8px; }
+  .seg.tema button[aria-pressed="true"] { background: var(--superficie); color: var(--texto); box-shadow: 0 1px 3px rgba(17,17,17,.12); }
+  .rango { display: grid; grid-template-columns: 1fr auto; align-items: center; }
+  .rango input { grid-column: 1 / -1; width: 100%; accent-color: var(--interfaz); }
+  .rango output { color: var(--texto-3); font-variant-numeric: tabular-nums; }
+  .pegs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .pegs button { all: unset; box-sizing: border-box; cursor: pointer; height: 72px; border-radius: 14px; background: var(--fondo); border: 1px solid transparent; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+  .pegs button img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .pegs button[aria-pressed="true"] { border-color: var(--interfaz); box-shadow: 0 0 0 1px var(--interfaz); background: #EEF5FF; }
+  .foto { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; }
+  .foto .mini { width: 64px; height: 64px; border-radius: 50%; background: var(--linea) center/cover; }
+  .foto .ctl { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .foto input[type="range"] { width: 100%; accent-color: var(--interfaz); }
+  .foto .botones { display: flex; gap: 8px; flex-wrap: wrap; }
+  .foto .botones label { all: unset; cursor: pointer; color: var(--boton); font-weight: 600; font-size: 14px; }
+  .foto .botones button { all: unset; cursor: pointer; color: var(--texto-3); font-size: 14px; }
+  .ayuda { color: var(--texto-3); font-size: 13px; margin: 0; }
+  .pie-form { display: flex; justify-content: space-between; gap: 10px; color: var(--texto-3); font-size: 13px; padding: 4px 6px; }
+  .pie-form button { all: unset; cursor: pointer; color: var(--texto-2); text-decoration: underline; }
+  [hidden] { display: none !important; }
+  @media (max-width: 900px) {
+    .hs { grid-template-columns: 1fr; padding: 16px 16px 48px; gap: 20px; }
+    .vista { position: static; }
+    .mesa { padding: 12px; }
+    .mesa canvas.lienzo { max-height: 36vh; }
+    .formatos button { flex-direction: column; gap: 6px; padding: 8px 4px; text-align: center; }
+    .formatos button small { display: none; }
+    .formatos button b { font-size: 12px; }
+  }
+</style>
+<div class="hs">
+  <header class="cab"><img src="assets/logo/hola-swift-horizontal-color.webp" alt="hola Swift" class="logo"><span class="sep" aria-hidden="true"></span><h1>Redes</h1><p>Elige una pieza, cambia los textos y descarga.</p></header>
+
+  <section class="vista" aria-label="Vista previa">
+    <div class="formatos" role="group" aria-label="Formato"></div>
+    <div class="mesa"><canvas class="lienzo" aria-label="Vista previa de la pieza"></canvas><div class="seguro" hidden></div></div>
+    <div class="acciones">
+      <button type="button" class="btn principal" id="descargar">Descargar</button>
+      <button type="button" class="btn" id="todos">Los cuatro formatos</button>
+      <label class="aviso" style="flex-direction:row;align-items:center;gap:6px;font-weight:400"><input type="checkbox" id="verSeguro" checked> Zona segura en story</label>
+    </div>
+    <p class="aviso" id="estado" role="status"></p>
+  </section>
+
+  <form class="panel" autocomplete="off" onsubmit="return false">
+    <fieldset>
+      <legend>Pieza</legend>
+      <div class="seg" id="piezas" role="group" aria-label="Pieza"></div>
+      <div class="seg tema" id="tema" role="group" aria-label="Tema">
+        <button type="button" data-v="claro">Claro</button><button type="button" data-v="oscuro">Oscuro</button><button type="button" data-v="color">Color</button></div>
+      <label class="rango">Tamaño del tubo <output id="escalaVal"></output><input type="range" id="escala" min="0.6" max="1.6" step="0.05"></label>
+    </fieldset>
+    <fieldset id="campos"><legend>Textos</legend></fieldset>
+    <fieldset id="fotos" hidden><legend>Fotos</legend><p class="ayuda">Arrastra la foto en la vista previa para encuadrarla.</p></fieldset>
+    <div class="pie-form"><span>No se guarda nada al cerrar.</span><button type="button" id="reset">Empezar de cero</button></div>
+  </form>
+</div>
+<script>/* hola Swift · Redes — motor de dibujo (canvas 2D, sin librerías).
+   window.HolaRedes = R. Cada pieza es una función que dibuja en un contexto de W×H a partir del estado.
+   Colores y tipografías: libro de marca de hola Swift (tokens). */
+(function () {
+  const R = {};
+
+  // ── Marca ───────────────────────────────────────────────────────────────
+  R.TEMAS = {
+    claro:  { fondo: '#F7F7F7', superficie: '#FFFFFF', linea: '#E3E3E8', texto: '#111111', texto2: '#55555F', texto3: '#6E6E78', enlace: '#0066CC', logo: 'logoClaro' },
+    oscuro: { fondo: '#0C0B0B', superficie: '#17171A', linea: '#2A2A2F', texto: '#FFFFFF', texto2: '#B8B8C2', texto3: '#8C8C96', enlace: '#2997FF', logo: 'logoOscuro' },
+  };
+  // espectro hola: rellenos (texto encima: #111111, salvo violeta y azul: blanco)
+  R.ESPECTRO = {
+    lavanda: '#7586EC', verde: '#33C468', amarillo: '#FFB823', naranja: '#FF7039',
+    rosa: '#FF4F8B', magenta: '#D553D3', violeta: '#6D5FF0', azul: '#3772F0',
+  };
+  R.SOBRE = { violeta: '#FFFFFF', azul: '#FFFFFF' };          // el resto: #111111
+  R.BOTON = '#0071E3';
+  R.F = { titulos: '"Inter Display", "Inter", system-ui, sans-serif', texto: '"Inter", system-ui, sans-serif', codigo: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace' };
+
+  R.FORMATOS = {
+    post:       { w: 1080, h: 1350, nombre: 'Post',       uso: 'Instagram, LinkedIn' },
+    story:      { w: 1080, h: 1920, nombre: 'Story',      uso: 'Instagram, WhatsApp', seguro: [250, 1640] },
+    cuadrado:   { w: 1080, h: 1080, nombre: 'Cuadrado',   uso: 'Instagram, LinkedIn' },
+    horizontal: { w: 1200, h: 675,  nombre: 'Horizontal', uso: 'X, LinkedIn, web' },
+  };
+
+  R.PIEZAS = {
+    charla:   { nombre: 'Charla mensual', acento: 'azul' },
+    persona:  { nombre: 'Embajador/a',    acento: 'verde' },
+    evento:   { nombre: 'Encuentro',      acento: 'naranja' },
+    codigo:   { nombre: 'Código',         acento: null },
+    pregunta: { nombre: 'Pregunta',       acento: 'rosa' },
+  };
+
+  R.PEGATINAS = ['llaves', 'codigo', 'enye', 'arroba', 'corazon', 'abre', 'pregunta', 'mano'];
+  R.NOMBRE_PEGATINA = { llaves: '{ }', codigo: '</>', enye: 'ñ', arroba: '@', corazon: '♥', abre: '¿', pregunta: '?', mano: 'Mano' };
+
+  // ── Recursos ────────────────────────────────────────────────────────────
+  // Rutas relativas; build.py las sustituye por data: URIs en la versión de un solo archivo.
+  R.RUTAS = {
+    hola: 'assets/tubo/hola.webp', holaBlanco: 'assets/tubo/hola-blanco.webp', bang: 'assets/tubo/bang.webp',
+    swift: 'assets/tubo/swift.webp', mano: 'assets/tubo/mano.webp',
+    logoClaro: 'assets/logo/hola-swift-horizontal-color.webp', logoOscuro: 'assets/logo/hola-swift-horizontal-color.webp',
+    logoNegro: 'assets/logo/hola-swift-horizontal-negro.webp', logoBlanco: 'assets/logo/hola-swift-horizontal-blanco.webp',
+  };
+  R.PEGATINAS.forEach((p) => (R.RUTAS['peg-' + p] = 'assets/pegatinas/' + p + '.webp'));
+  R.FUENTES = [
+    ['Inter Display', 'assets/fonts/InterDisplay-SemiBold.woff2', '600'],
+    ['Inter Display', 'assets/fonts/InterDisplay-Bold.woff2', '700'],
+    ['Inter', 'assets/fonts/Inter-Regular.woff2', '400'],
+    ['Inter', 'assets/fonts/Inter-Medium.woff2', '500'],
+    ['Inter', 'assets/fonts/Inter-SemiBold.woff2', '600'],
+  ];
+  R.img = {};
+  R.cargar = async function () {
+    const urls = window.HOLA_REDES_DATOS || {};             // versión de un solo archivo
+    const fuentes = R.FUENTES.map(([fam, url, w]) => {
+      const f = new FontFace(fam, `url(${urls[url] || url})`, { weight: w });
+      return f.load().then((ff) => document.fonts.add(ff)).catch(() => console.warn('No se pudo cargar', url));
+    });
+    const imgs = Object.entries(R.RUTAS).map(([k, url]) => new Promise((ok) => {
+      const im = new Image(); im.onload = () => { R.img[k] = im; ok(); }; im.onerror = () => { console.warn('Falta', url); ok(); };
+      im.src = urls[url] || url;
+    }));
+    await Promise.all([...fuentes, ...imgs]);
+  };
+
+  // ── Utilidades ──────────────────────────────────────────────────────────
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  R.clamp = clamp;
+  function fuente(ctx, fam, peso, px, track) {
+    ctx.font = `${peso} ${px}px ${R.F[fam]}`;
+    ctx.letterSpacing = (track || 0) * px + 'px';
+  }
+  function partir(ctx, texto, ancho) {                          // respeta saltos de línea manuales
+    const out = [];
+    String(texto || '').split('\n').forEach((par) => {
+      const pal = par.split(/\s+/).filter(Boolean); let l = '';
+      if (!pal.length) { out.push(''); return; }
+      pal.forEach((p) => { const t = l ? l + ' ' + p : p; if (ctx.measureText(t).width > ancho && l) { out.push(l); l = p; } else l = t; });
+      out.push(l);
+    });
+    return out;
+  }
+  // texto que encoge hasta caber en maxLineas y ancho; devuelve {lineas, px, alto}
+  function ajustar(ctx, texto, { fam = 'titulos', peso = 700, px, min, ancho, maxLineas = 3, inter = 1.06, track = -0.02 }) {
+    let s = px;
+    for (; s >= min; s -= 2) {
+      fuente(ctx, fam, peso, s, track);
+      const ls = partir(ctx, texto, ancho);
+      if (ls.length <= maxLineas && ls.every((l) => ctx.measureText(l).width <= ancho)) return { lineas: ls, px: s, alto: ls.length * s * inter, fam, peso, inter, track };
+    }
+    fuente(ctx, fam, peso, min, track);
+    const ls = partir(ctx, texto, ancho).slice(0, maxLineas);
+    return { lineas: ls, px: min, alto: ls.length * min * inter, fam, peso, inter, track };
+  }
+  function pintarTexto(ctx, b, x, y, color, alinear = 'left') {
+    fuente(ctx, b.fam, b.peso, b.px, b.track); ctx.fillStyle = color; ctx.textAlign = alinear; ctx.textBaseline = 'alphabetic';
+    b.lineas.forEach((l, i) => ctx.fillText(l, x, y + b.px * 0.92 + i * b.px * b.inter));
+    ctx.textAlign = 'left';
+  }
+  function redondo(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, Math.min(r, w / 2, h / 2)); }
+  // cubrir: object-fit cover + punto de foco (fx, fy en 0..1) + zoom
+  function cubrir(ctx, im, x, y, w, h, fx = 0.5, fy = 0.4, zoom = 1) {
+    const k = Math.max(w / im.width, h / im.height) * zoom, sw = im.width * k, sh = im.height * k;
+    ctx.drawImage(im, x - (sw - w) * fx, y - (sh - h) * fy, sw, sh);
+  }
+  R.cubrir = cubrir;
+  function colorAcento(nombre) { return R.ESPECTRO[nombre]; }
+  function tintaSobre(nombre) { return R.SOBRE[nombre] || '#111111'; }
+  // imagen con sombra suave (pegatinas y tubos)
+  function conSombra(ctx, fn, u, fuerza = 1) {
+    ctx.save(); ctx.shadowColor = `rgba(17,17,17,${0.16 * fuerza})`; ctx.shadowBlur = 36 * u; ctx.shadowOffsetY = 14 * u; fn(); ctx.restore();
+  }
+  function pegatina(ctx, nombre, cx, cy, alto, rot, u) {
+    const im = R.img['peg-' + nombre]; if (!im) return;
+    const w = im.width * alto / im.height;
+    ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot * Math.PI / 180); ctx.drawImage(im, -w / 2, -alto / 2, w, alto); ctx.restore();
+  }
+  // ── El bloque "hola + X!" (sin "¡": la marca solo usa el "!" de cierre, el force unwrap de Swift) ──
+  // El "hola" es el tubo 3D (no se redibuja); X va en Inter Display Bold en `texto`. Medidas relativas al alto del tubo.
+  const HOLA = { base: 0.90, ojo: 0.52 };                     // línea base y altura de la "o" como fracción del alto del png
+  function medirHola(ctx, X, alto, signos) {
+    const ih = R.img.hola, ib = R.img.bang;
+    const wHola = ih ? ih.width * alto / ih.height : alto * 2.66;
+    const altoSigno = alto * 0.86, wB = ib ? ib.width * altoSigno / ib.height : alto * 0.2;
+    const px = alto * 0.78;                                    // mayúscula de X ≈ 0,57 del alto del tubo (Inter: 0,727 em)
+    fuente(ctx, 'titulos', 700, px, -0.025);
+    const wX = X ? ctx.measureText(X).width : 0;
+    const gap = alto * 0.07;
+    const linea1 = wHola;
+    const linea2 = X ? wX + (signos ? gap * 0.6 + wB : 0) : 0;
+    return { wHola, wB, wX, px, gap, altoSigno, linea1, linea2, una: linea1 + (X ? gap * 1.6 + linea2 : (signos ? gap + wB : 0)) };
+  }
+  // dibuja y devuelve el alto ocupado. modo: 'auto' | 'una' | 'dos'
+  function bloqueHola(ctx, X, x, y, anchoMax, altoPref, altoMin, color, { signos = true, modo = 'auto', alinear = 'left', brillo = false } = {}) {
+    X = (X || '').trim();
+    let alto = altoPref, m = medirHola(ctx, X, alto, signos), dos = modo === 'dos';
+    if (modo === 'auto') {
+      if (m.una > anchoMax) { const k = anchoMax / m.una; if (k >= 0.8 || !X) { alto *= k; } else dos = true; }   // antes partir en dos líneas que encoger mucho
+    } else if (modo === 'una' && m.una > anchoMax) alto *= anchoMax / m.una;
+    m = medirHola(ctx, X, alto, signos);
+    if (dos) { const w = Math.max(m.linea1, m.linea2); if (w > anchoMax) { alto *= anchoMax / w; m = medirHola(ctx, X, alto, signos); } }
+    const base1 = y + alto * HOLA.base;
+    const anchoTotal = dos ? Math.max(m.linea1, m.linea2) : m.una;
+    let cx = alinear === 'center' ? x + (anchoMax - anchoTotal) / 2 : x;
+    const dibSigno = (im, wx, base, w) => { if (im) ctx.drawImage(im, wx, base - m.altoSigno * 0.98, w, m.altoSigno); };
+    let px1 = cx;
+    if (brillo && R.img.hola) {                                 // en oscuro, el tubo brilla (como el "hello" de keynote)
+      ctx.save(); ctx.filter = `blur(${alto * 0.14}px)`; ctx.globalAlpha = 0.6;
+      ctx.drawImage(R.img.hola, px1, y, m.wHola, alto); ctx.restore();
+    }
+    ctx.save(); ctx.shadowColor = brillo ? 'rgba(0,0,0,0)' : 'rgba(17,17,17,0.10)'; ctx.shadowBlur = 24 * alto / 300; ctx.shadowOffsetY = 10 * alto / 300;
+    if (R.img.hola) ctx.drawImage(R.img.hola, px1, y, m.wHola, alto);
+    ctx.restore();
+    let fin;
+    if (!X) {
+      if (signos) dibSigno(R.img.bang, px1 + m.wHola + m.gap, base1, m.wB);
+      fin = y + alto;
+    } else if (!dos) {
+      let px2 = px1 + m.wHola + m.gap * 1.6;
+      fuente(ctx, 'titulos', 700, m.px, -0.025); ctx.fillStyle = color; ctx.fillText(X, px2, base1);
+      if (signos) dibSigno(R.img.bang, px2 + m.wX + m.gap * 0.6, base1, m.wB);
+      fin = y + alto;
+    } else {
+      const base2 = base1 + m.px * 1.02;
+      let px2 = alinear === 'center' ? x + (anchoMax - m.linea2) / 2 : cx + alto * 0.35;
+      if (px2 + m.linea2 > x + anchoMax) px2 = x + anchoMax - m.linea2;
+      fuente(ctx, 'titulos', 700, m.px, -0.025); ctx.fillStyle = color; ctx.fillText(X, px2, base2);
+      if (signos) dibSigno(R.img.bang, px2 + m.wX + m.gap * 0.6, base2, m.wB);
+      fin = base2 + m.px * 0.12;
+    }
+    return fin - y;
+  }
+  R.bloqueHola = bloqueHola;
+
+  // ── Marco, cabecera y pie ─────────────────────────────────────────────────
+  // Estilo: invitación de keynote. El tubo manda, centrado y grande; arriba el logo pequeño y la categoría; debajo, lo justo.
+  function marco(f) {
+    const F = R.FORMATOS[f], W = F.w, H = F.h, horiz = f === 'horizontal';
+    const u = horiz ? 0.92 : W / 1080;
+    const m = horiz ? 52 : 80 * u;
+    const top = F.seguro ? F.seguro[0] : m, bottom = F.seguro ? F.seguro[1] : H - m;
+    return { F, W, H, u, m, top, bottom, horiz, story: f === 'story', ancho: W - 2 * m, k: f === 'story' ? 1.12 : 1 };
+  }
+  // fondo: plano en claro/oscuro; en "color", un degradado suave del color de la pieza con sus vecinos del espectro
+  function fondo(ctx, M, T) {
+    ctx.fillStyle = T.fondo; ctx.fillRect(0, 0, M.W, M.H);
+    if (T.mancha) {
+      T.mancha.forEach(([c, x, y, r]) => tramado(ctx, M, c, x, y, r));
+    }
+    // retícula de puntos, como papel de cuaderno
+    const paso = 30 * M.u, rp = 1.9 * M.u;
+    ctx.fillStyle = T.puntos || (OSC(T) ? 'rgba(255,255,255,0.13)' : 'rgba(17,17,17,0.14)');
+    for (let y = paso / 2; y < M.H; y += paso) for (let x = paso / 2; x < M.W; x += paso) { ctx.beginPath(); ctx.arc(x, y, rp, 0, 7); ctx.fill(); }
+  }
+  // mancha de color con borde punteado (tramado), como un degradado impreso con grano grueso
+  function tramado(ctx, M, color, fx, fy, r) {
+    const k = 0.5, w = Math.ceil(M.W * k), h = Math.ceil(M.H * k), D = Math.max(w, h) * r;
+    const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d');
+    const gr = g.createRadialGradient(w * fx, h * fy, 0, w * fx, h * fy, D);
+    gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(0.45, 'rgba(0,0,0,0.9)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    g.fillStyle = gr; g.fillRect(0, 0, w, h);
+    const im = g.getImageData(0, 0, w, h), px = im.data, [R0, G0, B0] = [1, 3, 5].map((i) => parseInt(color.slice(i, i + 2), 16));
+    for (let i = 0; i < px.length; i += 4) { const a = px[i + 3] / 255; px[i] = R0; px[i + 1] = G0; px[i + 2] = B0; px[i + 3] = Math.random() < a * a * 1.15 ? 255 : 0; }
+    g.putImageData(im, 0, 0);
+    ctx.save(); ctx.imageSmoothingEnabled = false; ctx.drawImage(c, 0, 0, M.W, M.H); ctx.restore();
+  }
+  // grano de película sobre toda la pieza
+  let RUIDO = null;
+  function grano(ctx, M, T) {
+    if (!RUIDO) {
+      RUIDO = document.createElement('canvas'); RUIDO.width = RUIDO.height = 256;
+      const g = RUIDO.getContext('2d'), im = g.createImageData(256, 256);
+      for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
+      g.putImageData(im, 0, 0);
+    }
+    ctx.save(); ctx.globalAlpha = OSC(T) ? 0.06 : T.mancha ? 0.09 : 0.05; ctx.globalCompositeOperation = 'overlay';
+    ctx.fillStyle = ctx.createPattern(RUIDO, 'repeat'); ctx.fillRect(0, 0, M.W, M.H);
+    ctx.restore();
+  }
+  // tema "color": fondo del color de la pieza
+  const VECINOS = { azul: ['lavanda', 'violeta'], verde: ['amarillo', 'lavanda'], naranja: ['amarillo', 'rosa'], rosa: ['naranja', 'magenta'], violeta: ['magenta', 'azul'] };
+  function temaColor(acento) {
+    const c = R.ESPECTRO[acento], [v1, v2] = VECINOS[acento];
+    return {
+      fondo: c, superficie: '#FFFFFF', linea: 'rgba(255,255,255,0.22)',
+      texto: '#FFFFFF', texto2: 'rgba(255,255,255,0.86)', texto3: 'rgba(255,255,255,0.72)',
+      logo: 'logoBlanco', color: acento, puntos: 'rgba(255,255,255,0.26)',
+      mancha: [[R.ESPECTRO[v1], 1.0, 0.0, 0.55], [R.ESPECTRO[v2], 0.0, 1.0, 0.6]],
+    };
+  }
+
+  function cabecera(ctx, M, T, etiqueta, acento) {
+    const alto = 42 * M.u, y = M.top, lg = R.img[T.logo];
+    if (lg) ctx.drawImage(lg, M.m, y, lg.width * alto / lg.height, alto);
+    if (etiqueta) {
+      const px = 27 * M.u, by = y + alto * 0.64, tx = M.W - M.m;
+      fuente(ctx, 'texto', 500, px, 0.005); ctx.fillStyle = T.texto2; ctx.textAlign = 'right'; ctx.fillText(etiqueta, tx, by); ctx.textAlign = 'left';
+      if (acento) { const w = ctx.measureText(etiqueta).width; ctx.beginPath(); ctx.arc(tx - w - px * 0.75, by - px * 0.34, px * 0.26, 0, 7); ctx.fillStyle = R.ESPECTRO[acento]; ctx.fill(); }
+    }
+    return alto;
+  }
+  function pieWeb(ctx, M, T, s) {
+    const txt = [s.web, s.cuenta].filter(Boolean).join('   ·   '); if (!txt) return 0;
+    const px = 24 * M.u; fuente(ctx, 'texto', 500, px, 0.01); ctx.fillStyle = T.texto3; ctx.textAlign = 'center'; ctx.fillText(txt, M.W / 2, M.bottom - px * 0.2); ctx.textAlign = 'left';
+    return px * 1.2;
+  }
+  const centro = (ctx, b, M, y, color) => pintarTexto(ctx, b, M.W / 2, y, color, 'center');
+  // el alto de tubo más grande (≤ pref) con el que el bloque hola + X! cabe en altoMax
+  const PRUEBA = document.createElement('canvas').getContext('2d');
+  function holaQueCabe(X, ancho, altoMax, pref, opts) {
+    let alto = pref, h;
+    for (let i = 0; i < 30; i++, alto *= 0.95) { h = bloqueHola(PRUEBA, X, 0, 0, ancho, alto, alto, '#000', opts); if (h <= altoMax) break; }
+    return { alto, h };
+  }
+  function pad(n) { n = String(n || '').trim(); return /^\d$/.test(n) ? '0' + n : n; }
+  // foto redonda o rectangular, con borde fino y sombra suave
+  function foto(ctx, f, x, y, w, h, r, T, u, zonas, id, borde = 0, nombre = '') {
+    ctx.save(); ctx.shadowColor = 'rgba(17,17,17,0.18)'; ctx.shadowBlur = 30 * u; ctx.shadowOffsetY = 10 * u;
+    redondo(ctx, x - borde, y - borde, w + 2 * borde, h + 2 * borde, r + borde); ctx.fillStyle = borde ? '#FFFFFF' : T.superficie; ctx.fill(); ctx.restore();
+    ctx.save(); redondo(ctx, x, y, w, h, r); ctx.clip();
+    if (f && f.im) cubrir(ctx, f.im, x, y, w, h, f.fx, f.fy, f.zoom);
+    else {                                                     // sin foto: la inicial sobre el verde de personas
+      const ini = (String(nombre).trim().match(/\p{L}/u) || ['¡'])[0].toUpperCase(), c = Math.min(w, h), grande = c > 300 * u;
+      // en pequeño (ponentes) un círculo verde con la inicial; en grande, hueco neutro para no gritar
+      ctx.fillStyle = grande ? T.superficie : R.ESPECTRO.verde; ctx.fillRect(x, y, w, h);
+      fuente(ctx, 'titulos', 700, c * (grande ? 0.36 : 0.5), -0.02); ctx.fillStyle = grande ? (T.mancha ? '#E3E3E8' : T.linea) : '#111111'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(ini, x + w / 2, y + h / 2 + c * 0.02); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    }
+    ctx.restore(); if (zonas) zonas.push({ id, x, y, w, h });
+  }
+  function boton(ctx, texto, cx, y, px) {
+    fuente(ctx, 'texto', 600, px, 0);
+    const w = ctx.measureText(texto).width + px * 2, h = px * 2.4, x = cx - w / 2;
+    redondo(ctx, x, y, w, h, h / 2); ctx.fillStyle = R.BOTON; ctx.fill();
+    ctx.fillStyle = '#FFFFFF'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center'; ctx.fillText(texto, cx, y + h / 2 + px * 0.04); ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
+    return h;
+  }
+  // grupo de bloques centrado en vertical entre y0 e y1
+  function centrarGrupo(bloques, y0, y1) {
+    const total = bloques.reduce((s, b) => s + b.h + (b.antes || 0), 0);
+    let y = y0 + Math.max(0, (y1 - y0 - total) / 2);
+    bloques.forEach((b) => { y += b.antes || 0; b.y = y; y += b.h; });
+    return total <= y1 - y0 + 1;
+  }
+
+  // ── Piezas ────────────────────────────────────────────────────────────────
+  // Lenguaje común (el de la pieza de pregunta): solo el logo arriba, titular grande a la izquierda,
+  // un tubo enorme que se sale del lienzo y la información pequeña abajo. Sin etiquetas ni pie de web.
+  const P = {};
+  const OSC = (T) => T.fondo === R.TEMAS.oscuro.fondo;
+  function logo(ctx, M, T) { const alto = (M.horiz ? 50 : 54) * M.u, lg = R.img[T.logo]; if (lg) ctx.drawImage(lg, M.m, M.top, lg.width * alto / lg.height, alto); return alto; }
+  // un tubo grande (con halo en oscuro); puede salirse del lienzo
+  function tubo(ctx, im, x, y, h, T, rot = 0) {
+    if (!im) return 0; const w = im.width * h / im.height;
+    ctx.save(); ctx.translate(x + w / 2, y + h / 2); ctx.rotate(rot * Math.PI / 180);
+    if (OSC(T)) { ctx.save(); ctx.filter = `blur(${h * 0.09}px)`; ctx.globalAlpha = 0.55; ctx.drawImage(im, -w / 2, -h / 2, w, h); ctx.restore(); }
+    ctx.drawImage(im, -w / 2, -h / 2, w, h); ctx.restore(); return w;
+  }
+  // titular de una línea que llena el ancho (hasta un máximo)
+  function titularLinea(ctx, texto, ancho, max, min) {
+    let px = max; fuente(ctx, 'titulos', 700, px, -0.035);
+    const w = ctx.measureText(texto).width; if (w > ancho) px = Math.max(min, px * ancho / w);
+    fuente(ctx, 'titulos', 700, px, -0.035); return px;
+  }
+  // bloque de información abajo a la izquierda: [texto fuerte, texto secundario...]; devuelve su y superior
+  function info(ctx, M, T, lineas, ancho, abajo, medir, x0) {
+    const u = M.u, k = M.k, bloques = [];
+    lineas.filter((l) => l && l.t).forEach((l) => bloques.push(ajustar(ctx, l.t, l.fuerte
+      ? { fam: 'titulos', peso: 600, px: (l.px || 44) * u * k, min: 28 * u, ancho, maxLineas: l.max || 3, inter: 1.12, track: -0.015 }
+      : { fam: 'texto', peso: 400, px: 28 * u * k, min: 20 * u, ancho, maxLineas: 2, inter: 1.35, track: 0 })));
+    const gap = 16 * u, total = bloques.reduce((s, b) => s + b.alto, 0) + gap * (bloques.length - 1);
+    if (medir) return total;
+    let y = abajo - total; const y0 = y;
+    bloques.forEach((b, i) => { pintarTexto(ctx, b, x0 == null ? M.m : x0, y, i === 0 && lineas[0].fuerte ? T.texto : T.texto2); y += b.alto + gap; });
+    return y0;
+  }
+
+  // Héroe: el "hola" entero y grande + una palabra enorme debajo; info abajo; opcionalmente ponentes a la derecha.
+  // Las palabras del tubo se leen siempre completas: aquí no se sale del marco.
+  function heroe(ctx, M, T, o) {
+    const u = M.u, ih = T.mancha ? R.img.holaBlanco : R.img.hola;
+    const ratio = ih ? ih.width / ih.height : 2.4;             // ancho del tubo por unidad de alto
+    const logoH = logo(ctx, M, T);
+    const pB = o.ponentes ? o.ponentes(true) : 0;              // alto del bloque de ponentes
+    const pinta = (yH, hH, px) => {
+      tubo(ctx, ih, M.m, yH, hH, T);
+      fuente(ctx, 'titulos', 700, px, -0.035); ctx.fillStyle = T.texto; ctx.fillText(o.X, M.m - px * 0.04, yH + hH + px * 0.8);
+    };
+    const encaja = (anchoH, avail) => {
+      let hH = anchoH / ratio * o.escala, px = titularLinea(ctx, o.X, anchoH, 250 * u, 60 * u);
+      if (o.escala <= 1) { const g = hH + px * 0.84; if (g > avail) { hH *= avail / g; px *= avail / g; } }
+      else { px = Math.min(px, (avail - hH) / 0.84); if (px < 60 * u) { px = 60 * u; hH = avail - px * 0.84; } }
+      return [hH, px];
+    };
+    if (M.horiz) {
+      // hola + palabra a toda altura en la columna izquierda; ponentes arriba a la derecha; info abajo a la derecha
+      const colD = M.W * 0.3, xD = M.W - M.m - colD;
+      const y0 = M.top + logoH + 34, avail = M.bottom - y0;
+      const [hH, px] = encaja(xD - M.m - 80, avail);
+      pinta(y0 + (avail - (hH + px * 0.84)) * 0.5, hH, px);
+      info(ctx, M, T, o.info, colD, M.bottom, false, xD);
+      if (o.ponentes) o.ponentes(false, M.top + pB);
+      return;
+    }
+    // vertical: el héroe y la info van juntos, como un bloque, para que no quede aire muerto en story
+    const anchoInfo = o.ponentes ? M.ancho * 0.6 : M.ancho * 0.86;
+    const hi = info(ctx, M, T, o.info, anchoInfo, M.bottom, true), hb = Math.max(hi, pB);
+    const y0 = M.top + logoH + 60 * u, sep = (M.story ? 110 : 70) * u;
+    const [hH, px] = encaja(M.ancho, M.bottom - hb - sep - y0);
+    const total = hH + px * 0.84 + sep + hb;
+    const yH = y0 + (M.bottom - y0 - total) * (M.story ? 0.42 : 0.3);
+    pinta(yH, hH, px);
+    const abajo = yH + total;
+    info(ctx, M, T, o.info, anchoInfo, abajo);
+    if (o.ponentes) o.ponentes(false, abajo);
+  }
+
+
+  P.charla = function (ctx, M, T, s, fotos, zonas) {
+    const d = s.charla, u = M.u;
+    const lista = [0, 1].filter((i) => i === 0 || (d['ponente' + i] || '').trim());
+    const dp = (M.horiz ? 110 : 170) * u * (lista.length > 1 ? 0.8 : 1) * M.k;
+    const pn = 26 * u * M.k, pr = 22 * u * M.k, xr = M.W - M.m;
+    const rol = lista.length === 1 && d.rol0;
+    const altoP = dp + 18 * u + pn * 1.1 + (rol ? pr * 1.45 : 0);
+    const ponentes = (medir, abajo = M.bottom) => {
+      if (medir) return altoP;
+      const yP = abajo - altoP;
+      lista.forEach((i, n) => foto(ctx, fotos['ponente' + i], xr - dp - n * dp * 0.72, yP, dp, dp, dp / 2, T, u, zonas, 'ponente' + i, 0, d['ponente' + i]));
+      const nombres = lista.map((i) => d['ponente' + i]).filter(Boolean).join(' y ');
+      fuente(ctx, 'texto', 600, pn, 0); ctx.fillStyle = T.texto; ctx.textAlign = 'right'; ctx.fillText(nombres || 'Nombre', xr, yP + dp + 18 * u + pn);
+      if (rol) { fuente(ctx, 'texto', 400, pr, 0); ctx.fillStyle = T.texto2; ctx.fillText(d.rol0, xr, yP + dp + 18 * u + pn + pr * 1.4); }
+      ctx.textAlign = 'left';
+    };
+    heroe(ctx, M, T, {
+      escala: s.escala || 1, X: d.tema || '', ponentes,
+      info: [{ t: d.titulo, fuerte: true, px: M.horiz ? 36 : 46, max: 3 }, { t: [d.numero ? 'Charla ' + pad(d.numero) : '', d.fecha, d.hora, d.lugar].filter(Boolean).join(' · ') }],
+    });
+  };
+
+  P.persona = function (ctx, M, T, s, fotos, zonas) {
+    const d = s.persona, u = M.u, k = M.k;
+    const logoH = logo(ctx, M, T);
+    const frase = d.frase ? '“' + d.frase + '”' : '';
+    const eti = [d.etiqueta, d.ciudad].filter(Boolean).join(' · ');
+    if (M.horiz) {
+      const fx = M.W * 0.5, fw = M.W - fx, fh = M.H;            // foto a sangre en la mitad derecha
+      foto(ctx, fotos.persona, fx, 0, fw, fh, 0, T, u, zonas, 'persona', 0, d.nombre);
+      const ancho = fx - M.m - 40;
+      const n = ajustar(ctx, d.nombre, { px: 84, min: 44, ancho, maxLineas: 2, inter: 0.98, track: -0.035 });
+      pintarTexto(ctx, n, M.m, M.top + logoH + 60, T.texto);
+      info(ctx, M, T, [{ t: frase, fuerte: true, px: 30, max: 3 }, { t: eti }], ancho, M.bottom);
+      return;
+    }
+    // foto grande arriba; nombre enorme debajo; frase y datos abajo
+    const lineas = [{ t: frase, fuerte: true, px: 40, max: 3 }, { t: eti }];
+    const hi = info(ctx, M, T, lineas, M.ancho * 0.9, M.bottom, true);
+    const n = ajustar(ctx, d.nombre, { px: 130 * u * k, min: 64 * u, ancho: M.ancho, maxLineas: 2, inter: 0.94, track: -0.04 });
+    const fy = M.top + logoH + 40 * u;
+    const fh = Math.min(M.ancho * 1.05, M.bottom - hi - 44 * u - n.alto - 36 * u - fy);
+    foto(ctx, fotos.persona, M.m, fy, M.ancho, fh, 28 * u, T, u, zonas, 'persona', 0, d.nombre);
+    pintarTexto(ctx, n, M.m - n.px * 0.03, fy + fh + 36 * u, T.texto);
+    info(ctx, M, T, lineas, M.ancho * 0.9, M.bottom);
+  };
+
+  P.evento = function (ctx, M, T, s) {
+    const d = s.evento;
+    heroe(ctx, M, T, {
+      escala: s.escala || 1, X: d.ciudad || '',
+      info: [{ t: d.fecha, fuerte: true, px: M.horiz ? 44 : 60, max: 2 }, { t: [d.lugar, d.boton].filter(Boolean).join(' · ') }],
+    });
+  };
+
+  // Código: resaltado sencillo de Swift con colores del espectro (todos ≥ 5:1 sobre la superficie oscura).
+  const COD = { clave: R.ESPECTRO.rosa, cadena: R.ESPECTRO.naranja, numero: R.ESPECTRO.amarillo, tipo: R.ESPECTRO.lavanda, llamada: R.ESPECTRO.verde, comentario: '#8C8C96', normal: '#FFFFFF', signo: '#B8B8C2' };
+  const CLAVES = new Set('let var func if else guard return struct class enum protocol extension import for in while switch case default break continue true false nil self Self some any async await throws try catch do where init deinit static private public internal fileprivate final override mutating inout typealias associatedtype weak lazy defer repeat'.split(' '));
+  function tokens(linea) {
+    const out = []; let i = 0;
+    const re = /(\/\/.*$)|("(?:[^"\\]|\\.)*"?)|(\b\d+(?:\.\d+)?\b)|([A-Za-zÁÉÍÓÚáéíóúñÑ_][\wÁÉÍÓÚáéíóúñÑ]*)|(\s+)|(.)/gu;
+    let m;
+    while ((m = re.exec(linea))) {
+      const [t, com, str, num, id, esp] = m;
+      let k = 'signo';
+      if (com) k = 'comentario'; else if (str) k = 'cadena'; else if (num) k = 'numero'; else if (esp) k = 'normal';
+      else if (id) { const sig = linea.slice(re.lastIndex).trimStart()[0]; k = CLAVES.has(id) ? 'clave' : /^[A-Z]/.test(id) ? 'tipo' : sig === '(' ? 'llamada' : 'normal'; }
+      out.push([t, COD[k]]);
+    }
+    return out;
+  }
+  // Código: la frase grande arriba (como la pregunta) y una ventana de Mac enorme que se sale por abajo y por la derecha
+  P.codigo = function (ctx, M, T, s) {
+    const d = s.codigo, u = M.u, k = M.k, osc = OSC(T), esc = s.escala || 1;
+    const logoH = logo(ctx, M, T);
+    const lineas = String(d.codigo || '').replace(/\t/g, '    ').split('\n').slice(0, 12);
+    const capAncho = M.horiz ? M.W * 0.36 : M.ancho * 0.92;
+    const cap = ajustar(ctx, d.texto, { px: (M.horiz ? 64 : 104) * u * k, min: 40 * u, ancho: capAncho, maxLineas: M.horiz ? 4 : 3, inter: 1.0, track: -0.03 });
+    const yCap = M.top + logoH + (M.horiz ? 50 : 110 * u);
+    pintarTexto(ctx, cap, M.m, yCap, T.texto);
+    // ventana
+    let px = (M.horiz ? 38 : 54) * u * k * esc;
+    let vx, vy;
+    if (M.horiz) { vx = M.m + capAncho + 60; vy = M.top + 40; }
+    else { vx = M.m; vy = yCap + cap.alto + (M.story ? 90 : 70) * u; }
+    const vw = M.W - vx + 300, vh = M.H - vy + 300;               // se sale del lienzo
+    const inter = px * 1.6, barra = px * 2.4, pad = px * 1.4;
+    // que las líneas quepan en el hueco visible (y dentro de la zona segura en story)
+    const limite = (M.story ? M.bottom : M.H - 30 * u) - vy - barra - pad;
+    if (lineas.length * inter > limite) { px *= limite / (lineas.length * inter); }
+    // y que la línea más larga se lea entera dentro del lienzo
+    const maxW = M.W - vx - M.m * 0.6;
+    const anchoCod = (p) => { fuente(ctx, 'codigo', 400, p, 0); return Math.max(...lineas.map((l) => ctx.measureText(l).width)) + ctx.measureText(String(lineas.length)).width + p * 3.0; };
+    while (px > 14 && anchoCod(px) > maxW) px -= 1;
+    const I = px * 1.6, B = px * 2.4, Pd = px * 1.4;
+    const sup = osc ? '#1C1C20' : '#FFFFFF', borde = osc ? '#2E2E34' : T.mancha ? 'rgba(17,17,17,0.12)' : '#E3E3E8';
+    ctx.save(); ctx.shadowColor = osc ? 'rgba(0,0,0,0.7)' : 'rgba(17,17,17,0.14)'; ctx.shadowBlur = 80 * u; ctx.shadowOffsetY = 30 * u;
+    redondo(ctx, vx, vy, vw, vh, 30 * u); ctx.fillStyle = sup; ctx.fill(); ctx.restore();
+    redondo(ctx, vx + 0.5, vy + 0.5, vw - 1, vh - 1, 30 * u); ctx.strokeStyle = borde; ctx.lineWidth = Math.max(1, 1.5 * u); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(vx, vy + B); ctx.lineTo(M.W, vy + B); ctx.strokeStyle = borde; ctx.stroke();
+    ['#FF5F57', '#FEBC2E', '#28C840'].forEach((c, i) => { ctx.beginPath(); ctx.arc(vx + Pd + i * px * 0.95, vy + B / 2, px * 0.26, 0, 7); ctx.fillStyle = c; ctx.fill(); });
+    if (d.archivo) { fuente(ctx, 'texto', 500, px * 0.62, 0); ctx.fillStyle = T.texto3; ctx.fillText(d.archivo, vx + Pd + px * 3.4, vy + B / 2 + px * 0.22); }
+    fuente(ctx, 'codigo', 400, px, 0);
+    const nw = ctx.measureText(String(lineas.length)).width + px * 1.6;
+    lineas.forEach((l, i) => {
+      const yy = vy + B + Pd * 0.9 + i * I + px;
+      ctx.fillStyle = osc ? '#5C5C66' : '#B0B0B8'; ctx.textAlign = 'right'; ctx.fillText(String(i + 1), vx + Pd + nw - px, yy); ctx.textAlign = 'left';
+      let x = vx + Pd + nw;
+      tokens(l).forEach(([tk, c]) => { ctx.fillStyle = osc ? c : oscurecer(c); ctx.fillText(tk, x, yy); x += ctx.measureText(tk).width; });
+    });
+  };
+
+
+  // en claro, los colores del código se oscurecen para leerse sobre papel
+  function oscurecer(c) {
+    if (c === '#FFFFFF') return '#111111'; if (c === '#B8B8C2') return '#55555F';
+    const n = parseInt(c.slice(1), 16), f = 0.58;
+    return `rgb(${Math.round((n >> 16) * f)},${Math.round(((n >> 8) & 255) * f)},${Math.round((n & 255) * f)})`;
+  }
+
+  // Pregunta: el "hola" en macro, recortado y saliéndose del marco
+  P.pregunta = function (ctx, M, T, s) {
+    const d = s.pregunta, u = M.u, k = M.k;
+    const ih = T.mancha ? R.img.holaBlanco : R.img.hola;
+    if (ih) {
+      const h = (M.horiz ? M.H * 1.05 : M.H * (M.story ? 0.5 : 0.62)) * (s.escala || 1);
+      const x = M.horiz ? M.W * 0.42 : M.W * 0.14, y = M.horiz ? M.H * 0.28 : M.H - h * (M.story ? 0.82 : 0.78), w = ih.width * h / ih.height;
+      tubo(ctx, ih, x, y, h, T);
+    }
+    logo(ctx, M, T);
+    const ancho = M.horiz ? M.ancho * 0.56 : M.ancho * 0.92;
+    const q = ajustar(ctx, d.pregunta, { px: (M.horiz ? 66 : 104) * u * k, min: 44 * u, ancho, maxLineas: M.story ? 5 : 4, inter: 1.0, track: -0.03 });
+    const sub = ajustar(ctx, d.texto, { fam: 'texto', peso: 400, px: (M.horiz ? 32 : 44) * u * k, min: 24 * u, ancho, maxLineas: 3, inter: 1.3, track: -0.01 });
+    let y = M.top + 54 * u + (M.horiz ? 50 : 110 * u);
+    pintarTexto(ctx, q, M.m, y, T.texto); y += q.alto + 34 * u;
+    if (d.texto) pintarTexto(ctx, sub, M.m, y, T.texto2);
+  };
+
+  // ── Entrada pública ─────────────────────────────────────────────────────
+  R.componer = function (canvas, formato, s, fotos) {
+    R.aviso = '';
+    const M = marco(formato), ctx = canvas.getContext('2d');
+    canvas.width = M.W; canvas.height = M.H;
+    const T = s.tema === 'color' ? temaColor(R.PIEZAS[s.pieza].acento || 'violeta') : (R.TEMAS[s.tema] || R.TEMAS.claro);
+    fondo(ctx, M, T);
+    const zonas = [];
+    P[s.pieza](ctx, M, T, s, fotos || {}, zonas);
+    grano(ctx, M, T);
+    return zonas;
+  };
+  R.BASE = {
+    pieza: 'charla', formato: 'post', tema: 'claro', escala: 1, temaCodigo: 'oscuro',     charla:   { numero: '1', tema: 'SwiftUI', titulo: 'Animaciones que se sienten nativas', fecha: 'Miércoles 20 de enero', hora: '19:00 (España)', lugar: 'Online', ponente0: 'Nombre Apellido', rol0: 'iOS developer en Empresa', ponente1: '', rol1: '' },
+    persona:  { etiqueta: 'Embajadora', nombre: 'Nombre Apellido', ciudad: 'Bogotá', frase: 'Empecé con Swift sola. Aquí ya no lo estoy.' },
+    evento:   { ciudad: '2027', fecha: 'Fecha por anunciar', lugar: 'Ciudad y sede por anunciar', boton: 'holaswift.com' },
+    codigo:   { archivo: 'Comunidad.swift', codigo: 'let comunidad = "en español"\n\nif estásSolo {\n    únete()\n}', texto: 'Ya no estáis solos.' },
+    pregunta: { etiqueta: 'Comunidad', pregunta: '¿Qué tal tu primer build?', texto: 'Cuéntanoslo en los comentarios.' },
+  };
+  window.HolaRedes = R;
+})();
+</script>
+<script>/* hola Swift · Redes — interfaz. Lee y escribe un único objeto de estado (solo en memoria: no se guarda nada). */
+(function () {
+  const R = window.HolaRedes, $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const CLAVE = 'holaswift-redes-v1';
+  const copia = (o) => JSON.parse(JSON.stringify(o));
+  let s = copia(R.BASE); s.fotos = {};
+  // No se guarda nada: cada vez que se abre, empieza de cero. Borra lo que guardaban versiones anteriores.
+  try { localStorage.removeItem(CLAVE); } catch (e) {}
+  const fotosIm = {};                                          // id -> {im, fx, fy, zoom}
+
+  // ── Campos por pieza ─────────────────────────────────────────────────────
+  const CAMPOS = {
+    charla: [
+      ['fila', ['numero', 'Número', 'text', 'Charla #'], ['tema', 'Tema', 'text', 'Sale enorme: SwiftUI, Xcode…']],
+      ['titulo', 'Título de la charla', 'area'], ['fila', ['fecha', 'Fecha', 'text'], ['hora', 'Hora', 'text']], ['lugar', 'Dónde', 'text'],
+      ['fila', ['ponente0', 'Ponente', 'text'], ['rol0', 'Rol', 'text']],
+      ['fila', ['ponente1', 'Segundo ponente', 'text', 'Opcional'], ['rol1', 'Rol', 'text']],
+    ],
+    persona: [['etiqueta', 'Etiqueta', 'text', 'Embajadora, Embajador, Ponente…'], ['nombre', 'Nombre', 'text'], ['ciudad', 'Ciudad', 'text'], ['frase', 'Frase', 'area', 'Opcional']],
+    evento: [['ciudad', 'Palabra grande', 'text', 'Una ciudad, un año…'], ['fecha', 'Fecha', 'text'], ['fila', ['lugar', 'Lugar', 'text'], ['boton', 'Última línea', 'text', 'Opcional']]],
+    codigo: [['archivo', 'Nombre del archivo', 'text', 'Opcional'], ['codigo', 'Código', 'mono', 'Swift, hasta 12 líneas'], ['texto', 'Frase debajo', 'area']],
+    pregunta: [['pregunta', 'Pregunta', 'area', 'Con sus signos: ¿…?'], ['texto', 'Texto debajo', 'area', 'Opcional']],
+  };
+  const FOTOS = { charla: [['ponente0', 'Ponente'], ['ponente1', 'Segundo ponente']], persona: [['persona', 'Foto']] };
+
+  // ── Construcción del formulario ──────────────────────────────────────────
+  const piezas = $('#piezas');
+  Object.entries(R.PIEZAS).forEach(([k, p]) => {
+    const b = document.createElement('button'); b.type = 'button'; b.dataset.v = k;
+    b.innerHTML = (p.acento ? `<i style="background:${R.ESPECTRO[p.acento]}"></i>` : '<i style="background:#111"></i>') + p.nombre;
+    b.onclick = () => { s.pieza = k; montar(); pintar(); };
+    piezas.append(b);
+  });
+  function campo([clave, etiqueta, tipo, ayuda]) {
+    const l = document.createElement('label');
+    l.append(etiqueta); if (ayuda) { const sm = document.createElement('small'); sm.textContent = ayuda; l.append(sm); }
+    const el = tipo === 'text' ? document.createElement('input') : document.createElement('textarea');
+    if (tipo === 'text') el.type = 'text'; if (tipo === 'mono') { el.className = 'mono'; el.spellcheck = false; }
+    el.id = `${s.pieza}-${clave}`; el.value = s[s.pieza][clave] || '';
+    el.oninput = () => { s[s.pieza][clave] = el.value; pintar(); };
+    l.append(el); return l;
+  }
+  function montar() {
+    $$('#piezas button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.pieza));
+    const cs = $('#campos'); cs.replaceChildren(cs.querySelector('legend') || Object.assign(document.createElement('legend'), { textContent: 'Textos' }));
+    CAMPOS[s.pieza].forEach((c) => {
+      if (c[0] === 'fila') { const f = document.createElement('div'); f.className = 'fila'; f.append(campo(c[1]), campo(c[2])); cs.append(f); }
+      else cs.append(campo(c));
+    });
+    // fotos
+    const fs = $('#fotos'); fs.hidden = !FOTOS[s.pieza];
+    $$('.foto', fs).forEach((n) => n.remove());
+    (FOTOS[s.pieza] || []).forEach(([id, nombre]) => fs.append(controlFoto(id, nombre)));
+    $$('#tema button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.tema));
+    $('.rango').hidden = s.pieza === 'persona';
+  }
+  function controlFoto(id, nombre) {
+    const d = document.createElement('div'); d.className = 'foto';
+    const f = s.fotos[id];
+    d.innerHTML = `<div class="mini" style="${f && f.src ? `background-image:url(${f.src})` : ''}"></div>
+      <div class="ctl"><b>${nombre}</b>
+        <div class="botones"><label>${f && f.src ? 'Cambiar' : 'Subir'} foto<input type="file" accept="image/*" hidden></label>${f && f.src ? '<button type="button">Quitar</button>' : ''}</div>
+        ${f && f.src ? `<label style="font-weight:400;font-size:13px;color:var(--texto-3)">Zoom<input type="range" min="1" max="2.5" step="0.01" value="${f.zoom || 1}"></label>` : ''}
+      </div>`;
+    $('input[type=file]', d).onchange = async (e) => {
+      const file = e.target.files[0]; if (!file) return;
+      const src = await reducir(file, 1600);
+      s.fotos[id] = { src, fx: 0.5, fy: 0.35, zoom: 1 }; await cargarFoto(id); montar(); pintar();
+    };
+    const q = $('.botones button', d); if (q) q.onclick = () => { delete s.fotos[id]; delete fotosIm[id]; montar(); pintar(); };
+    const r = $('input[type=range]', d); if (r) r.oninput = () => { s.fotos[id].zoom = +r.value; fotosIm[id].zoom = +r.value; pintar(); };
+    return d;
+  }
+  function reducir(file, max) {
+    return new Promise((ok, ko) => {
+      const url = URL.createObjectURL(file), im = new Image();
+      im.onload = () => { const k = Math.min(1, max / Math.max(im.width, im.height)); const c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url); ok(c.toDataURL('image/jpeg', 0.9)); };
+      im.onerror = () => ko(new Error('No se pudo leer la imagen')); im.src = url;
+    });
+  }
+  function cargarFoto(id) {
+    const f = s.fotos[id]; if (!f || !f.src) return Promise.resolve();
+    return new Promise((ok) => { const im = new Image(); im.onload = () => { fotosIm[id] = { im, fx: f.fx, fy: f.fy, zoom: f.zoom || 1 }; ok(); }; im.onerror = ok; im.src = f.src; });
+  }
+  const esc = $('#escala'), escV = () => ($('#escalaVal').textContent = Math.round((s.escala || 1) * 100) + ' %');
+  esc.value = s.escala || 1; escV();
+  esc.oninput = () => { s.escala = +esc.value; escV(); pintar(); };
+  esc.ondblclick = () => { s.escala = 1; esc.value = 1; escV(); pintar(); };
+  $$('#tema button').forEach((b) => (b.onclick = () => { s.tema = b.dataset.v; montar(); pintar(); }));
+  $("#reset").onclick = () => { const f = s.formato; s = copia(R.BASE); s.fotos = {}; s.formato = f; for (const k in fotosIm) delete fotosIm[k]; $("#escala").value = 1; $("#escalaVal").textContent = "100 %"; montar(); pintar(); estado("Todo vuelve a los textos de ejemplo."); };
+
+  // ── Formatos y vista previa ──────────────────────────────────────────────
+  const lienzo = $('canvas.lienzo'), seguro = $('.seguro');
+  const fmts = $('.formatos');
+  Object.entries(R.FORMATOS).forEach(([k, F]) => {
+    const b = document.createElement('button'); b.type = 'button'; b.dataset.v = k;
+    const mini = document.createElement('canvas'); mini.width = 68; mini.height = Math.round(68 * F.h / F.w);
+    b.append(mini); const t = document.createElement('span'); t.innerHTML = `<b>${F.nombre}</b><small>${F.w}×${F.h} · ${F.uso}</small>`; b.append(t);
+    b.onclick = () => { s.formato = k; pintar(); };
+    fmts.append(b);
+  });
+  let zonas = [], pendiente = false, miniT = 0;
+  function pintar() {
+    if (pendiente) return; pendiente = true;
+    requestAnimationFrame(() => {
+      pendiente = false;
+      zonas = R.componer(lienzo, s.formato, s, fotosIm);
+      estado(R.aviso || '');
+      lienzo.classList.toggle('arrastrable', zonas.some((z) => fotosIm[z.id]));
+      $$('.formatos button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.formato));
+      colocarSeguro();
+      clearTimeout(miniT); miniT = setTimeout(miniaturas, 380);
+    });
+  }
+  function miniaturas() {
+    const tmp = document.createElement('canvas');
+    $$('.formatos button').forEach((b) => { R.componer(tmp, b.dataset.v, s, fotosIm); const m = $('canvas', b); const c = m.getContext('2d'); c.clearRect(0, 0, m.width, m.height); c.drawImage(tmp, 0, 0, m.width, m.height); });
+  }
+  function colocarSeguro() {
+    const F = R.FORMATOS[s.formato];
+    if (!F.seguro || !$('#verSeguro').checked) { seguro.hidden = true; return; }
+    const r = lienzo.getBoundingClientRect(), p = lienzo.parentElement.getBoundingClientRect(), k = r.height / F.h;
+    Object.assign(seguro.style, { left: r.left - p.left + 'px', width: r.width + 'px', top: r.top - p.top + F.seguro[0] * k + 'px', height: (F.seguro[1] - F.seguro[0]) * k + 'px' });
+    seguro.hidden = false;
+  }
+  $('#verSeguro').onchange = colocarSeguro; addEventListener('resize', colocarSeguro);
+
+  // arrastrar para encuadrar una foto
+  let arr = null;
+  lienzo.addEventListener('pointerdown', (e) => {
+    const r = lienzo.getBoundingClientRect(), k = lienzo.width / r.width, x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
+    const z = [...zonas].reverse().find((z) => fotosIm[z.id] && x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h);
+    if (!z) return;
+    arr = { z, x: e.clientX, y: e.clientY, k }; lienzo.setPointerCapture(e.pointerId); lienzo.style.cursor = 'grabbing';
+  });
+  lienzo.addEventListener('pointermove', (e) => {
+    if (!arr) return;
+    const f = fotosIm[arr.z.id], im = f.im, z = arr.z;
+    const esc = Math.max(z.w / im.width, z.h / im.height) * f.zoom, sobraX = im.width * esc - z.w, sobraY = im.height * esc - z.h;
+    const dx = (e.clientX - arr.x) * arr.k, dy = (e.clientY - arr.y) * arr.k; arr.x = e.clientX; arr.y = e.clientY;
+    if (sobraX > 1) f.fx = R.clamp(f.fx - dx / sobraX, 0, 1);
+    if (sobraY > 1) f.fy = R.clamp(f.fy - dy / sobraY, 0, 1);
+    Object.assign(s.fotos[z.id], { fx: f.fx, fy: f.fy }); pintar();
+  });
+  const soltar = () => { if (arr) { arr = null; lienzo.style.cursor = ''; } };
+  lienzo.addEventListener('pointerup', soltar); lienzo.addEventListener('pointercancel', soltar);
+
+  // ── Exportar ─────────────────────────────────────────────────────────────
+  const TOCA = matchMedia('(pointer: coarse)').matches;
+  if (TOCA) $('#descargar').textContent = 'Compartir';
+  const slug = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+  function nombre(fmt) {
+    const d = s[s.pieza], clave = { charla: d.tema, persona: d.nombre, evento: d.ciudad, codigo: d.archivo || d.texto, pregunta: d.pregunta }[s.pieza];
+    return ['holaswift', s.pieza, slug(clave), fmt].filter(Boolean).join('-') + '.png';
+  }
+  function blob(fmt) { const c = document.createElement('canvas'); R.componer(c, fmt, s, fotosIm); return new Promise((ok) => c.toBlob(ok, 'image/png')); }
+  // publicada como artifact de claude.ai, el visor solo deja descargar a través de su capacidad "downloads"
+  let dlP = null;
+  const descargas = () => (dlP = dlP || (window.claude && window.claude.use ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null)));
+  async function entregar(files) {
+    const dl = await descargas();
+    if (dl) {
+      for (const f of files) {
+        try { await dl.save({ filename: f.name, data: f }); }
+        catch (e) { estado(e && e.code === 'declined' ? 'Descarga cancelada.' : 'No se pudo descargar ' + f.name + '.'); return false; }
+      }
+      return true;
+    }
+    if (TOCA && navigator.canShare && navigator.canShare({ files })) { try { await navigator.share({ files }); return true; } catch (e) { if (e.name === 'AbortError') return false; } }
+    for (const f of files) { const a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; document.body.append(a); a.click(); a.remove(); await new Promise((r) => setTimeout(r, 300)); }
+    return true;
+  }
+  $('#descargar').onclick = async () => { const b = await blob(s.formato); if (await entregar([new File([b], nombre(s.formato), { type: 'image/png' })])) estado('Descargado: ' + nombre(s.formato)); };
+  $('#todos').onclick = async () => {
+    const btn = $('#todos'); btn.disabled = true; estado('Preparando los cuatro formatos…');
+    const files = [];
+    for (const f of Object.keys(R.FORMATOS)) files.push(new File([await blob(f)], nombre(f), { type: 'image/png' }));
+    try {
+      if (TOCA && !(await descargas())) throw 0;
+      await cargarZip();
+      const zip = new window.JSZip(); files.forEach((f) => zip.file(f.name, f));
+      const z = await zip.generateAsync({ type: 'blob' });
+      const ok = await entregar([new File([z], `holaswift-${s.pieza}-${slug(nombre('').replace('.png', ''))}.zip`.replace(/-+\.zip$/, '.zip'), { type: 'application/zip' })]);
+      btn.disabled = false; if (ok) estado('Listo: ' + files.length + ' imágenes en un zip.'); return;
+    } catch (e) { const ok = await entregar(files); btn.disabled = false; if (ok) estado('Listo: ' + files.length + ' imágenes.'); return; }
+  };
+  function cargarZip() {
+    if (window.JSZip) return Promise.resolve();
+    return new Promise((ok, ko) => { const sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; sc.onload = ok; sc.onerror = ko; document.head.append(sc); });
+  }
+  function estado(t) { $('#estado').textContent = t; }
+
+  // ── Arranque ─────────────────────────────────────────────────────────────
+  estado('Cargando tipografías e imágenes…');
+  R.cargar().then(async () => {
+    await Promise.all(Object.keys(s.fotos || {}).map(cargarFoto));
+    montar(); pintar(); estado('');
+  });
+})();
+</script>
+
+
+</body></html>
