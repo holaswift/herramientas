@@ -2,172 +2,206 @@
 
 <link rel="icon" href="assets/favicon.svg">
 <style>
-  /* Herramienta de redes de hola Swift. Interfaz en los tokens del libro de marca: fondo papel, Inter, botón azul de interfaz. */
+  /* hola Swift social tool. The UI uses the brand book tokens: paper background, Inter, blue UI button. */
   @font-face { font-family: "Inter"; src: url(assets/fonts/Inter-Regular.woff2) format("woff2"); font-weight: 400; }
   @font-face { font-family: "Inter"; src: url(assets/fonts/Inter-Medium.woff2) format("woff2"); font-weight: 500; }
   @font-face { font-family: "Inter"; src: url(assets/fonts/Inter-SemiBold.woff2) format("woff2"); font-weight: 600; }
   @font-face { font-family: "Inter Display"; src: url(assets/fonts/InterDisplay-Bold.woff2) format("woff2"); font-weight: 700; }
   :root {
-    --fondo: #F7F7F7; --superficie: #FFFFFF; --linea: #E3E3E8; --texto: #111111; --texto-2: #55555F; --texto-3: #6E6E78;
-    --interfaz: #007AFF; --boton: #0071E3; --mesa: #ECECF0;
-    --radio-s: 8px; --radio-m: 16px; --radio-total: 999px;
+    --bg: #F7F7F7; --surface: #FFFFFF; --line: #E3E3E8; --text: #111111; --text-2: #55555F; --text-3: #6E6E78;
+    --ui: #007AFF; --button: #0071E3; --stage: #ECECF0;
+    --radius-s: 8px; --radius-m: 16px; --radius-full: 999px;
     color-scheme: light;
   }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--fondo); color: var(--texto); font: 400 15px/1.45 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font: 400 15px/1.45 "Inter", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
   .hs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 420px); gap: 32px; max-width: 1360px; margin: 0 auto; padding: 28px 28px 64px; }
-  header.cab { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-bottom: 4px; }
-  header.cab .logo { height: 34px; width: auto; display: block; }
-  header.cab .sep { width: 1px; height: 26px; background: var(--linea); }
-  header.cab h1 { margin: 0; font: 700 26px/1 "Inter Display", "Inter", sans-serif; letter-spacing: -0.02em; }
-  header.cab p { margin: 0 0 0 auto; color: var(--texto-3); font-size: 14px; }
+  header.masthead { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-bottom: 4px; }
+  header.masthead .logo { height: 34px; width: auto; display: block; }
+  header.masthead .sep { width: 1px; height: 26px; background: var(--line); }
+  header.masthead h1 { margin: 0; font: 700 26px/1 "Inter Display", "Inter", sans-serif; letter-spacing: -0.02em; }
+  header.masthead p { margin: 0 0 0 auto; color: var(--text-3); font-size: 14px; }
 
-  /* vista previa */
-  .vista { position: sticky; top: 20px; align-self: start; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-  .formatos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-  .formatos button { all: unset; cursor: pointer; display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 12px; background: var(--superficie); border: 1px solid var(--linea); min-width: 0; }
-  .formatos button canvas { width: 34px; height: auto; border-radius: 4px; box-shadow: 0 0 0 1px var(--linea); flex: none; }
-  .formatos button b { display: block; font-weight: 600; font-size: 14px; }
-  .formatos button small { display: block; color: var(--texto-3); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .formatos button[aria-pressed="true"] { border-color: var(--interfaz); box-shadow: 0 0 0 1px var(--interfaz); }
-  .formatos button:focus-visible, .seg button:focus-visible, .btn:focus-visible { outline: 2px solid var(--interfaz); outline-offset: 2px; }
-  .mesa { background: var(--mesa) radial-gradient(circle, rgba(17,17,17,.10) 1px, transparent 1.2px) 0 0 / 18px 18px; border-radius: 22px; padding: 28px; display: grid; place-items: center; position: relative; }
-  .mesa canvas.lienzo { display: block; max-width: 100%; max-height: calc(100vh - 280px); width: auto; height: auto; border-radius: 10px; box-shadow: 0 1px 0 rgba(17,17,17,.04), 0 24px 60px -24px rgba(17,17,17,.45); cursor: default; touch-action: none; }
-  .mesa canvas.lienzo.arrastrable { cursor: grab; }
-  .mesa .seguro { position: absolute; pointer-events: none; border: 2px dashed rgba(0,122,255,.55); border-left: 0; border-right: 0; }
-  .acciones { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .btn { all: unset; cursor: pointer; padding: 11px 18px; border-radius: var(--radio-total); font-weight: 600; background: var(--superficie); border: 1px solid var(--linea); }
-  .btn.principal { background: var(--boton); color: #fff; border-color: var(--boton); }
+  /* preview */
+  .preview { position: sticky; top: 20px; align-self: start; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .formats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .formats button { all: unset; cursor: pointer; display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); min-width: 0; }
+  .formats button canvas { width: 34px; height: auto; border-radius: 4px; box-shadow: 0 0 0 1px var(--line); flex: none; }
+  .formats button b { display: block; font-weight: 600; font-size: 14px; }
+  .formats button small { display: block; color: var(--text-3); font-size: 12px; line-height: 1.35; }
+  .formats button small.networks { display: flex; gap: 6px; margin-top: 4px; }
+  .formats button small.networks svg { width: 14px; height: 14px; flex: none; }
+  .formats button[aria-pressed="true"] { border-color: var(--ui); box-shadow: 0 0 0 1px var(--ui); }
+  .formats button:focus-visible, .seg button:focus-visible, .btn:focus-visible { outline: 2px solid var(--ui); outline-offset: 2px; }
+  .stage { background: var(--stage) radial-gradient(circle, rgba(17,17,17,.10) 1px, transparent 1.2px) 0 0 / 18px 18px; border-radius: 22px; padding: 28px; display: grid; place-items: center; position: relative; }
+  .stage canvas.artboard { display: block; max-width: 100%; max-height: calc(100vh - 280px); width: auto; height: auto; border-radius: 10px; box-shadow: 0 1px 0 rgba(17,17,17,.04), 0 24px 60px -24px rgba(17,17,17,.45); cursor: default; touch-action: none; }
+  .stage canvas.artboard.draggable { cursor: grab; }
+  .stage .safe-zone { position: absolute; pointer-events: none; border: 2px dashed rgba(0,122,255,.55); border-left: 0; border-right: 0; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .btn { all: unset; cursor: pointer; padding: 11px 18px; border-radius: var(--radius-full); font-weight: 600; background: var(--surface); border: 1px solid var(--line); }
+  .btn.primary { background: var(--button); color: #fff; border-color: var(--button); }
   .btn[disabled] { opacity: .5; pointer-events: none; }
-  .aviso { color: var(--texto-2); font-size: 13px; }
+  .note { color: var(--text-2); font-size: 13px; }
 
-  /* formulario */
+  /* form */
   form.panel { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-  fieldset { border: 0; margin: 0; padding: 18px; background: var(--superficie); border-radius: 18px; box-shadow: 0 0 0 1px rgba(17,17,17,.05); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-  legend { float: left; width: 100%; font: 600 15px/1.2 "Inter Display", "Inter", sans-serif; color: var(--texto); margin: 0 0 4px; padding: 0; }
+  fieldset { border: 0; margin: 0; padding: 18px; background: var(--surface); border-radius: 18px; box-shadow: 0 0 0 1px rgba(17,17,17,.05); display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  legend { float: left; width: 100%; font: 600 15px/1.2 "Inter Display", "Inter", sans-serif; color: var(--text); margin: 0 0 4px; padding: 0; }
   legend + * { clear: both; }
-  label { display: flex; flex-direction: column; gap: 6px; font-weight: 500; font-size: 13px; color: var(--texto-2); }
-  label small { color: var(--texto-3); font-weight: 400; }
-  input[type="text"], textarea, select { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid transparent; background: var(--fondo); color: var(--texto); width: 100%; transition: background .15s, box-shadow .15s; }
+  label { display: flex; flex-direction: column; gap: 6px; font-weight: 500; font-size: 13px; color: var(--text-2); }
+  label small { color: var(--text-3); font-weight: 400; }
+  input[type="text"], textarea, select { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid transparent; background: var(--bg); color: var(--text); width: 100%; transition: background .15s, box-shadow .15s; }
   input[type="text"]:hover, textarea:hover { background: #F0F0F3; }
   textarea { min-height: 72px; resize: vertical; }
   textarea.mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px; min-height: 140px; }
-  input:focus, textarea:focus, select:focus { outline: 2px solid var(--interfaz); outline-offset: 0; border-color: transparent; }
-  .fila { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .fila > * { min-width: 0; }
+  input:focus, textarea:focus, select:focus { outline: 2px solid var(--ui); outline-offset: 0; border-color: transparent; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; gap: 0 10px; }
+  .row > * { min-width: 0; }
+  /* label, help and box on three shared rows: if only one field has help, both stay aligned */
+  .row > label { display: grid; grid-row: span 3; grid-template-rows: subgrid; gap: 0; }
+  .row > label > small { margin-top: 6px; }
+  .row > label > input, .row > label > textarea { grid-row: 3; margin-top: 6px; }
   .seg { display: flex; flex-wrap: wrap; gap: 6px; }
-  #piezas { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  #piezas button { justify-content: flex-start; border-radius: 12px; padding: 12px 14px; background: var(--fondo); border-color: transparent; }
-  #piezas button[aria-pressed="true"] { background: var(--texto); color: #fff; }
-  .seg button { all: unset; cursor: pointer; padding: 8px 14px; border-radius: var(--radio-total); background: var(--superficie); border: 1px solid var(--linea); font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
-  .seg button[aria-pressed="true"] { background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+  #pieces { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  #pieces button { justify-content: flex-start; border-radius: 12px; padding: 12px 14px; background: var(--bg); border-color: transparent; }
+  #pieces button[aria-pressed="true"] { background: var(--text); color: #fff; }
+  .seg button { all: unset; cursor: pointer; padding: 8px 14px; border-radius: var(--radius-full); background: var(--surface); border: 1px solid var(--line); font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+  .seg button[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
   .seg button i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-  .seg.tema { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; padding: 3px; background: var(--fondo); border-radius: 12px; }
-  .seg.tema button { justify-content: center; border: 0; border-radius: 9px; background: transparent; padding: 8px; }
-  .seg.tema button[aria-pressed="true"] { background: var(--superficie); color: var(--texto); box-shadow: 0 1px 3px rgba(17,17,17,.12); }
-  .rango { display: grid; grid-template-columns: 1fr auto; align-items: center; }
-  .rango input { grid-column: 1 / -1; width: 100%; accent-color: var(--interfaz); }
-  .rango output { color: var(--texto-3); font-variant-numeric: tabular-nums; }
-  .pegs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-  .pegs button { all: unset; box-sizing: border-box; cursor: pointer; height: 72px; border-radius: 14px; background: var(--fondo); border: 1px solid transparent; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
-  .pegs button img { display: block; width: 100%; height: 100%; object-fit: contain; }
-  .pegs button[aria-pressed="true"] { border-color: var(--interfaz); box-shadow: 0 0 0 1px var(--interfaz); background: #EEF5FF; }
-  .foto { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; }
-  .foto .mini { width: 64px; height: 64px; border-radius: 50%; background: var(--linea) center/cover; }
-  .foto .ctl { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-  .foto input[type="range"] { width: 100%; accent-color: var(--interfaz); }
-  .foto .botones { display: flex; gap: 8px; flex-wrap: wrap; }
-  .foto .botones label { all: unset; cursor: pointer; color: var(--boton); font-weight: 600; font-size: 14px; }
-  .foto .botones button { all: unset; cursor: pointer; color: var(--texto-3); font-size: 14px; }
-  .ayuda { color: var(--texto-3); font-size: 13px; margin: 0; }
-  .pie-form { display: flex; justify-content: space-between; gap: 10px; color: var(--texto-3); font-size: 13px; padding: 4px 6px; }
-  .pie-form button { all: unset; cursor: pointer; color: var(--texto-2); text-decoration: underline; }
+  .seg.switch { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; padding: 3px; background: var(--bg); border-radius: 12px; }
+  #theme { grid-template-columns: repeat(4, 1fr); }
+  .seg.switch button { justify-content: center; border: 0; border-radius: 9px; background: transparent; padding: 8px; }
+  .seg.switch button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(17,17,17,.12); }
+  .range { display: grid; grid-template-columns: 1fr auto; align-items: center; }
+  .range input { grid-column: 1 / -1; width: 100%; accent-color: var(--ui); }
+  .range output { color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .glyphs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .glyphs button { all: unset; box-sizing: border-box; cursor: pointer; height: 72px; border-radius: 14px; background: var(--bg); border: 1px solid transparent; display: flex; align-items: center; justify-content: center; padding: 10px; overflow: hidden; }
+  .glyphs button img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .glyphs button[aria-pressed="true"] { border-color: var(--ui); box-shadow: 0 0 0 1px var(--ui); background: #EEF5FF; }
+  .photo { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; }
+  .photo .mini { width: 64px; height: 64px; border-radius: 50%; background: var(--line) center/cover; }
+  .photo .ctl { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .photo input[type="range"] { width: 100%; accent-color: var(--ui); }
+  .photo .buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+  .photo .buttons label { all: unset; cursor: pointer; color: var(--button); font-weight: 600; font-size: 14px; }
+  .photo .buttons button { all: unset; cursor: pointer; color: var(--text-3); font-size: 14px; }
+  .help { color: var(--text-3); font-size: 13px; margin: 0; }
+  .seg-field { display: flex; flex-direction: column; gap: 6px; font-weight: 500; font-size: 13px; color: var(--text-2); }
+  .group { display: flex; flex-direction: column; gap: 12px; padding: 14px; border-radius: 14px; background: var(--bg); }
+  .group-title { margin: 0; font-weight: 600; font-size: 14px; color: var(--text); }
+  .group-title small { font-weight: 400; font-size: 13px; color: var(--text-3); }
+  .group input[type="text"] { background: var(--surface); }
+  .group input[type="text"]:hover { background: #FBFBFC; }
+  .form-footer { display: flex; justify-content: space-between; gap: 10px; color: var(--text-3); font-size: 13px; padding: 4px 6px; }
+  .form-footer button { all: unset; cursor: pointer; color: var(--text-2); text-decoration: underline; }
   [hidden] { display: none !important; }
   @media (max-width: 900px) {
     .hs { grid-template-columns: 1fr; padding: 16px 16px 48px; gap: 20px; }
-    .vista { position: static; }
-    .mesa { padding: 12px; }
-    .mesa canvas.lienzo { max-height: 36vh; }
-    .formatos button { flex-direction: column; gap: 6px; padding: 8px 4px; text-align: center; }
-    .formatos button small { display: none; }
-    .formatos button b { font-size: 12px; }
+    .preview { position: static; }
+    .stage { padding: 12px; }
+    .stage canvas.artboard { max-height: 36vh; }
+    .formats button { flex-direction: column; gap: 6px; padding: 8px 4px; text-align: center; }
+    .formats button small { display: none; }
+    .formats button b { font-size: 12px; }
   }
 </style>
 <div class="hs">
-  <header class="cab"><img src="assets/logo/hola-swift-horizontal-color.webp" alt="hola Swift" class="logo"><span class="sep" aria-hidden="true"></span><h1>Redes</h1><p>Elige una pieza, cambia los textos y descarga.</p></header>
+  <header class="masthead"><img src="assets/logo/hola-swift-horizontal-color.webp" alt="hola Swift" class="logo"><span class="sep" aria-hidden="true"></span><h1>Redes</h1><p>Elige una pieza y su fondo, añade textos y fotos, y descárgala en el tamaño de cada red.</p></header>
 
-  <section class="vista" aria-label="Vista previa">
-    <div class="formatos" role="group" aria-label="Formato"></div>
-    <div class="mesa"><canvas class="lienzo" aria-label="Vista previa de la pieza"></canvas><div class="seguro" hidden></div></div>
-    <div class="acciones">
-      <button type="button" class="btn principal" id="descargar">Descargar</button>
-      <button type="button" class="btn" id="todos">Los cuatro formatos</button>
-      <label class="aviso" style="flex-direction:row;align-items:center;gap:6px;font-weight:400"><input type="checkbox" id="verSeguro" checked> Zona segura en story</label>
+  <section class="preview" aria-label="Vista previa">
+    <div class="formats" role="group" aria-label="Formato"></div>
+    <div class="stage"><canvas class="artboard" aria-label="Vista previa de la pieza"></canvas><div class="safe-zone" hidden></div></div>
+    <div class="actions">
+      <button type="button" class="btn primary" id="download">Descargar</button>
+      <button type="button" class="btn" id="all-formats">Los cuatro formatos</button>
+      <label class="note" style="flex-direction:row;align-items:center;gap:6px;font-weight:400"><input type="checkbox" id="show-safe" checked> Zona segura en story</label>
     </div>
-    <p class="aviso" id="estado" role="status"></p>
+    <p class="note" id="status" role="status"></p>
   </section>
 
   <form class="panel" autocomplete="off" onsubmit="return false">
     <fieldset>
       <legend>Pieza</legend>
-      <div class="seg" id="piezas" role="group" aria-label="Pieza"></div>
-      <div class="seg tema" id="tema" role="group" aria-label="Tema">
-        <button type="button" data-v="claro">Claro</button><button type="button" data-v="oscuro">Oscuro</button><button type="button" data-v="color">Color</button></div>
-      <label class="rango">Tamaño del tubo <output id="escalaVal"></output><input type="range" id="escala" min="0.6" max="1.6" step="0.05"></label>
+      <div class="seg" id="pieces" role="group" aria-label="Pieza"></div>
     </fieldset>
-    <fieldset id="campos"><legend>Textos</legend></fieldset>
-    <fieldset id="fotos" hidden><legend>Fotos</legend><p class="ayuda">Arrastra la foto en la vista previa para encuadrarla.</p></fieldset>
-    <div class="pie-form"><span>No se guarda nada al cerrar.</span><button type="button" id="reset">Empezar de cero</button></div>
+    <fieldset>
+      <legend>Estilo</legend>
+      <div class="seg-field">Fondo
+      <div class="seg switch" id="theme" role="group" aria-label="Fondo">
+        <button type="button" data-v="light">Claro</button><button type="button" data-v="dark">Oscuro</button><button type="button" data-v="color">Color 1</button><button type="button" data-v="color2">Color 2</button></div></div>
+      <label class="range">Tamaño del tubo <output id="scale-value"></output><input type="range" id="scale" min="0.6" max="1.6" step="0.05"></label>
+    </fieldset>
+    <fieldset id="fields"><legend>Textos</legend></fieldset>
+    <div class="form-footer"><span>No se guarda nada al cerrar.</span><button type="button" id="reset">Empezar de cero</button></div>
   </form>
 </div>
-<script>/* hola Swift · Redes — motor de dibujo (canvas 2D, sin librerías).
-   window.HolaRedes = R. Cada pieza es una función que dibuja en un contexto de W×H a partir del estado.
-   Colores y tipografías: libro de marca de hola Swift (tokens). */
+<script>/* hola Swift · Redes: drawing engine (2D canvas, no libraries).
+   window.HolaSocial = R. Each piece is a function that draws on a W×H context from the state.
+   Colours and typefaces: hola Swift brand book (tokens). */
 (function () {
   const R = {};
 
-  // ── Marca ───────────────────────────────────────────────────────────────
-  R.TEMAS = {
-    claro:  { fondo: '#F7F7F7', superficie: '#FFFFFF', linea: '#E3E3E8', texto: '#111111', texto2: '#55555F', texto3: '#6E6E78', enlace: '#0066CC', logo: 'logoClaro' },
-    oscuro: { fondo: '#0C0B0B', superficie: '#17171A', linea: '#2A2A2F', texto: '#FFFFFF', texto2: '#B8B8C2', texto3: '#8C8C96', enlace: '#2997FF', logo: 'logoOscuro' },
+  // ── Brand ───────────────────────────────────────────────────────────────
+  R.THEMES = {
+    light: { bg: '#F7F7F7', surface: '#FFFFFF', line: '#E3E3E8', text: '#111111', text2: '#55555F', text3: '#6E6E78', link: '#0066CC', logo: 'logoLight' },
+    dark:  { bg: '#0C0B0B', surface: '#17171A', line: '#2A2A2F', text: '#FFFFFF', text2: '#B8B8C2', text3: '#8C8C96', link: '#2997FF', logo: 'logoDark' },
   };
-  // espectro hola: rellenos (texto encima: #111111, salvo violeta y azul: blanco)
-  R.ESPECTRO = {
-    lavanda: '#7586EC', verde: '#33C468', amarillo: '#FFB823', naranja: '#FF7039',
-    rosa: '#FF4F8B', magenta: '#D553D3', violeta: '#6D5FF0', azul: '#3772F0',
+  // hola spectrum
+  R.SPECTRUM = {
+    lavender: '#7586EC', green: '#33C468', yellow: '#FFB823', orange: '#FF7039',
+    pink: '#FF4F8B', magenta: '#D553D3', violet: '#6D5FF0', blue: '#3772F0',
   };
-  R.SOBRE = { violeta: '#FFFFFF', azul: '#FFFFFF' };          // el resto: #111111
-  R.BOTON = '#0071E3';
-  R.F = { titulos: '"Inter Display", "Inter", system-ui, sans-serif', texto: '"Inter", system-ui, sans-serif', codigo: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace' };
+  R.F = { display: '"Inter Display", "Inter", system-ui, sans-serif', text: '"Inter", system-ui, sans-serif', code: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace' };
 
-  R.FORMATOS = {
-    post:       { w: 1080, h: 1350, nombre: 'Post',       uso: 'Instagram, LinkedIn' },
-    story:      { w: 1080, h: 1920, nombre: 'Story',      uso: 'Instagram, WhatsApp', seguro: [250, 1640] },
-    cuadrado:   { w: 1080, h: 1080, nombre: 'Cuadrado',   uso: 'Instagram, LinkedIn' },
-    horizontal: { w: 1200, h: 675,  nombre: 'Horizontal', uso: 'X, LinkedIn, web' },
-  };
-
-  R.PIEZAS = {
-    charla:   { nombre: 'Charla mensual', acento: 'azul' },
-    persona:  { nombre: 'Embajador/a',    acento: 'verde' },
-    evento:   { nombre: 'Encuentro',      acento: 'naranja' },
-    codigo:   { nombre: 'Código',         acento: null },
-    pregunta: { nombre: 'Pregunta',       acento: 'rosa' },
+  // `file` is the slug in downloaded file names, which stay in Spanish
+  R.FORMATS = {
+    // networks: ours where that size shows uncropped (Mastodon and X crop portrait images to 16:9 in the timeline)
+    post:       { w: 1080, h: 1350, name: 'Post',       file: 'post',       networks: ['Instagram', 'Threads', 'LinkedIn', 'Bluesky'] },
+    story:      { w: 1080, h: 1920, name: 'Story',      file: 'story',      networks: ['Instagram'], safe: [250, 1640] },
+    square:     { w: 1080, h: 1080, name: 'Cuadrado',   file: 'cuadrado',   networks: ['X', 'Mastodon', 'Bluesky', 'LinkedIn', 'Instagram', 'Threads'] },
+    horizontal: { w: 1200, h: 675,  name: 'Horizontal', file: 'horizontal', networks: ['X', 'Mastodon', 'LinkedIn', 'Bluesky'] },
+    // event covers: only for what is announced as an event. Discord asks for 800×320 at least: this is double that.
+    linkedin:   { w: 1776, h: 444,  name: 'Evento LinkedIn', file: 'linkedin', networks: ['LinkedIn'], pieces: ['session', 'event'], banner: true },
+    discord:    { w: 1600, h: 640,  name: 'Evento Discord',  file: 'discord',  networks: ['Discord'],  pieces: ['session', 'event'], banner: true },
   };
 
-  R.PEGATINAS = ['llaves', 'codigo', 'enye', 'arroba', 'corazon', 'abre', 'pregunta', 'mano'];
-  R.NOMBRE_PEGATINA = { llaves: '{ }', codigo: '</>', enye: 'ñ', arroba: '@', corazon: '♥', abre: '¿', pregunta: '?', mano: 'Mano' };
-
-  // ── Recursos ────────────────────────────────────────────────────────────
-  // Rutas relativas; build.py las sustituye por data: URIs en la versión de un solo archivo.
-  R.RUTAS = {
-    hola: 'assets/tubo/hola.webp', holaBlanco: 'assets/tubo/hola-blanco.webp', bang: 'assets/tubo/bang.webp',
-    swift: 'assets/tubo/swift.webp', mano: 'assets/tubo/mano.webp',
-    logoClaro: 'assets/logo/hola-swift-horizontal-color.webp', logoOscuro: 'assets/logo/hola-swift-horizontal-color.webp',
-    logoNegro: 'assets/logo/hola-swift-horizontal-negro.webp', logoBlanco: 'assets/logo/hola-swift-horizontal-blanco.webp',
+  // In order of use: the monthly ones first. accent2 is the second combination of the colour theme ("Color 2").
+  // In the two-column grid no two equal or similar colours sit next to each other (in a row or a column).
+  // No yellow: in the colour theme the text is white and it cannot be read on it.
+  R.formatsFor = (piece) => Object.keys(R.FORMATS).filter((f) => !R.FORMATS[f].pieces || R.FORMATS[f].pieces.includes(piece));
+  R.PIECES = {
+    session:  { name: 'Sesión mensual', accent: 'blue',    accent2: 'orange',  file: 'sesion' },
+    event:    { name: 'Encuentro',      accent: 'orange',  accent2: 'violet',  file: 'evento' },
+    notice:   { name: 'Aviso',          accent: 'pink',    accent2: 'blue',    file: 'aviso' },
+    collage:  { name: 'Fotos',          accent: 'violet',  accent2: 'orange',  file: 'collage' },   // not 'photos': s.photos holds the uploaded photos
+    person:   { name: 'Embajador/a',    accent: 'green',   accent2: 'blue',    file: 'persona' },
+    question: { name: 'Pregunta',       accent: 'magenta', accent2: 'lavender', file: 'pregunta' },
+    resource: { name: 'Recurso',        accent: 'orange',  accent2: 'green',   file: 'recurso' },
+    sponsor:  { name: 'Patrocinador',   accent: 'blue',    accent2: 'magenta', file: 'patrocinador' },
+    code:     { name: 'Código',         accent: null,      accent2: 'pink',    file: 'codigo' },     // no accent: the dot is in ink; in colour, violet
+    logo:     { name: 'Logo',           accent: 'pink',    accent2: 'violet',  file: 'logo' },
   };
-  R.PEGATINAS.forEach((p) => (R.RUTAS['peg-' + p] = 'assets/pegatinas/' + p + '.webp'));
-  R.FUENTES = [
+  R.themeAccent = (piece, theme) => (theme === 'color2' ? R.PIECES[piece].accent2 : R.PIECES[piece].accent || 'violet');
+
+  // the website's 3D glyphs (without the sticker border), in the order they surround the logo: [key, label, file]
+  R.GLYPHS = [['at', '@', 'arroba'], ['question', '?', 'pregunta'], ['code', '</>', 'codigo'], ['heart', '♥', 'corazon'], ['enye', 'ñ', 'enye'], ['braces', '{ }', 'llaves'], ['hand', 'La mano', 'mano'], ['bang', '!', 'bang']];
+
+  // ── Assets ──────────────────────────────────────────────────────────────
+  // Relative paths; a single-file build can set window.HOLA_SOCIAL_DATA to data: URIs keyed by these paths.
+  R.PATHS = {
+    hola: 'assets/tubo/hola.webp', holaWhite: 'assets/tubo/hola-blanco.webp', bang: 'assets/tubo/bang.webp',
+    logoLight: 'assets/logo/hola-swift-horizontal-color.webp', logoDark: 'assets/logo/hola-swift-horizontal-color.webp',
+    logoWhite: 'assets/logo/hola-swift-horizontal-blanco.webp',
+    hColor: 'assets/logo/hola-swift-h-color.webp', hWhite: 'assets/logo/hola-swift-h-blanco.webp',
+    stackedColor: 'assets/logo/hola-swift-apilado-color.webp', stackedWhite: 'assets/logo/hola-swift-apilado-blanco.webp',
+    // 3D: renders from marca/holaSwift-logo-3d/generar-renders.py (the h was modelled with the same tube; the stacked one, without ¡ { !)
+    h3dColor: 'assets/logo/hola-swift-h-3d-color.webp', h3dWhite: 'assets/logo/hola-swift-h-3d-blanco.webp',
+    horizontal3dColor: 'assets/logo/hola-swift-horizontal-3d-color.webp', horizontal3dWhite: 'assets/logo/hola-swift-horizontal-3d-blanco.webp',
+    stacked3dColor: 'assets/logo/hola-swift-apilado-3d-color.webp', stacked3dWhite: 'assets/logo/hola-swift-apilado-3d-blanco.webp',
+  };
+  R.GLYPHS.forEach(([key, , file]) => (R.PATHS['glyph-' + key] = key === 'bang' ? R.PATHS.bang : 'assets/glifos/' + file + '.webp'));   // the ! is the one from the 3D logo
+  R.FONTS = [
     ['Inter Display', 'assets/fonts/InterDisplay-SemiBold.woff2', '600'],
     ['Inter Display', 'assets/fonts/InterDisplay-Bold.woff2', '700'],
     ['Inter', 'assets/fonts/Inter-Regular.woff2', '400'],
@@ -175,150 +209,80 @@
     ['Inter', 'assets/fonts/Inter-SemiBold.woff2', '600'],
   ];
   R.img = {};
-  R.cargar = async function () {
-    const urls = window.HOLA_REDES_DATOS || {};             // versión de un solo archivo
-    const fuentes = R.FUENTES.map(([fam, url, w]) => {
+  R.load = async function () {
+    const urls = window.HOLA_SOCIAL_DATA || {};
+    const fonts = R.FONTS.map(([fam, url, w]) => {
       const f = new FontFace(fam, `url(${urls[url] || url})`, { weight: w });
-      return f.load().then((ff) => document.fonts.add(ff)).catch(() => console.warn('No se pudo cargar', url));
+      return f.load().then((ff) => document.fonts.add(ff)).catch(() => console.warn('Could not load', url));
     });
-    const imgs = Object.entries(R.RUTAS).map(([k, url]) => new Promise((ok) => {
-      const im = new Image(); im.onload = () => { R.img[k] = im; ok(); }; im.onerror = () => { console.warn('Falta', url); ok(); };
+    const imgs = Object.entries(R.PATHS).map(([k, url]) => new Promise((ok) => {
+      const im = new Image(); im.onload = () => { R.img[k] = im; ok(); }; im.onerror = () => { console.warn('Missing', url); ok(); };
       im.src = urls[url] || url;
     }));
-    await Promise.all([...fuentes, ...imgs]);
+    await Promise.all([...fonts, ...imgs]);
   };
 
-  // ── Utilidades ──────────────────────────────────────────────────────────
+  // ── Utilities ───────────────────────────────────────────────────────────
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   R.clamp = clamp;
-  function fuente(ctx, fam, peso, px, track) {
-    ctx.font = `${peso} ${px}px ${R.F[fam]}`;
+  function font(ctx, fam, weight, px, track) {
+    ctx.font = `${weight} ${px}px ${R.F[fam]}`;
     ctx.letterSpacing = (track || 0) * px + 'px';
   }
-  function partir(ctx, texto, ancho) {                          // respeta saltos de línea manuales
+  function wrap(ctx, text, width) {                          // keeps manual line breaks
     const out = [];
-    String(texto || '').split('\n').forEach((par) => {
-      const pal = par.split(/\s+/).filter(Boolean); let l = '';
-      if (!pal.length) { out.push(''); return; }
-      pal.forEach((p) => { const t = l ? l + ' ' + p : p; if (ctx.measureText(t).width > ancho && l) { out.push(l); l = p; } else l = t; });
+    String(text || '').split('\n').forEach((par) => {
+      const words = par.split(/\s+/).filter(Boolean); let l = '';
+      if (!words.length) { out.push(''); return; }
+      words.forEach((p) => { const t = l ? l + ' ' + p : p; if (ctx.measureText(t).width > width && l) { out.push(l); l = p; } else l = t; });
       out.push(l);
     });
     return out;
   }
-  // texto que encoge hasta caber en maxLineas y ancho; devuelve {lineas, px, alto}
-  function ajustar(ctx, texto, { fam = 'titulos', peso = 700, px, min, ancho, maxLineas = 3, inter = 1.06, track = -0.02 }) {
+  // text that shrinks until it fits in maxLines and width; returns {lines, px, height}
+  function fit(ctx, text, { fam = 'display', weight = 700, px, min, width, maxLines = 3, leading = 1.06, track = -0.02 }) {
     let s = px;
     for (; s >= min; s -= 2) {
-      fuente(ctx, fam, peso, s, track);
-      const ls = partir(ctx, texto, ancho);
-      if (ls.length <= maxLineas && ls.every((l) => ctx.measureText(l).width <= ancho)) return { lineas: ls, px: s, alto: ls.length * s * inter, fam, peso, inter, track };
+      font(ctx, fam, weight, s, track);
+      const ls = wrap(ctx, text, width);
+      if (ls.length <= maxLines && ls.every((l) => ctx.measureText(l).width <= width)) return { lines: ls, px: s, height: ls.length * s * leading, fam, weight, leading, track };
     }
-    fuente(ctx, fam, peso, min, track);
-    const ls = partir(ctx, texto, ancho).slice(0, maxLineas);
-    return { lineas: ls, px: min, alto: ls.length * min * inter, fam, peso, inter, track };
+    font(ctx, fam, weight, min, track);
+    const ls = wrap(ctx, text, width).slice(0, maxLines);
+    return { lines: ls, px: min, height: ls.length * min * leading, fam, weight, leading, track };
   }
-  function pintarTexto(ctx, b, x, y, color, alinear = 'left') {
-    fuente(ctx, b.fam, b.peso, b.px, b.track); ctx.fillStyle = color; ctx.textAlign = alinear; ctx.textBaseline = 'alphabetic';
-    b.lineas.forEach((l, i) => ctx.fillText(l, x, y + b.px * 0.92 + i * b.px * b.inter));
+  function drawText(ctx, b, x, y, color, align = 'left') {
+    font(ctx, b.fam, b.weight, b.px, b.track); ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'alphabetic';
+    b.lines.forEach((l, i) => ctx.fillText(l, x, y + b.px * 0.92 + i * b.px * b.leading));
     ctx.textAlign = 'left';
   }
-  function redondo(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, Math.min(r, w / 2, h / 2)); }
-  // cubrir: object-fit cover + punto de foco (fx, fy en 0..1) + zoom
-  function cubrir(ctx, im, x, y, w, h, fx = 0.5, fy = 0.4, zoom = 1) {
+  function rounded(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, Math.min(r, w / 2, h / 2)); }
+  // cover: object-fit cover + focus point (fx, fy in 0..1) + zoom
+  function cover(ctx, im, x, y, w, h, fx = 0.5, fy = 0.4, zoom = 1) {
     const k = Math.max(w / im.width, h / im.height) * zoom, sw = im.width * k, sh = im.height * k;
     ctx.drawImage(im, x - (sw - w) * fx, y - (sh - h) * fy, sw, sh);
   }
-  R.cubrir = cubrir;
-  function colorAcento(nombre) { return R.ESPECTRO[nombre]; }
-  function tintaSobre(nombre) { return R.SOBRE[nombre] || '#111111'; }
-  // imagen con sombra suave (pegatinas y tubos)
-  function conSombra(ctx, fn, u, fuerza = 1) {
-    ctx.save(); ctx.shadowColor = `rgba(17,17,17,${0.16 * fuerza})`; ctx.shadowBlur = 36 * u; ctx.shadowOffsetY = 14 * u; fn(); ctx.restore();
+  // ── Frame and background ──────────────────────────────────────────────────
+  function frame(f) {
+    const F = R.FORMATS[f], W = F.w, H = F.h, horiz = f === 'horizontal' || !!F.banner;
+    // the covers, shorter than horizontal, scale by their height so everything fits
+    const u = F.banner ? 0.92 * H / 675 : horiz ? 0.92 : W / 1080;
+    const m = F.banner ? 52 * H / 675 : horiz ? 52 : 80 * u;
+    const top = F.safe ? F.safe[0] : m, bottom = F.safe ? F.safe[1] : H - m;
+    return { F, W, H, u, m, top, bottom, horiz, banner: !!F.banner, story: f === 'story', width: W - 2 * m, k: f === 'story' ? 1.12 : F.banner ? 1.3 : 1 };
   }
-  function pegatina(ctx, nombre, cx, cy, alto, rot, u) {
-    const im = R.img['peg-' + nombre]; if (!im) return;
-    const w = im.width * alto / im.height;
-    ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot * Math.PI / 180); ctx.drawImage(im, -w / 2, -alto / 2, w, alto); ctx.restore();
-  }
-  // ── El bloque "hola + X!" (sin "¡": la marca solo usa el "!" de cierre, el force unwrap de Swift) ──
-  // El "hola" es el tubo 3D (no se redibuja); X va en Inter Display Bold en `texto`. Medidas relativas al alto del tubo.
-  const HOLA = { base: 0.90, ojo: 0.52 };                     // línea base y altura de la "o" como fracción del alto del png
-  function medirHola(ctx, X, alto, signos) {
-    const ih = R.img.hola, ib = R.img.bang;
-    const wHola = ih ? ih.width * alto / ih.height : alto * 2.66;
-    const altoSigno = alto * 0.86, wB = ib ? ib.width * altoSigno / ib.height : alto * 0.2;
-    const px = alto * 0.78;                                    // mayúscula de X ≈ 0,57 del alto del tubo (Inter: 0,727 em)
-    fuente(ctx, 'titulos', 700, px, -0.025);
-    const wX = X ? ctx.measureText(X).width : 0;
-    const gap = alto * 0.07;
-    const linea1 = wHola;
-    const linea2 = X ? wX + (signos ? gap * 0.6 + wB : 0) : 0;
-    return { wHola, wB, wX, px, gap, altoSigno, linea1, linea2, una: linea1 + (X ? gap * 1.6 + linea2 : (signos ? gap + wB : 0)) };
-  }
-  // dibuja y devuelve el alto ocupado. modo: 'auto' | 'una' | 'dos'
-  function bloqueHola(ctx, X, x, y, anchoMax, altoPref, altoMin, color, { signos = true, modo = 'auto', alinear = 'left', brillo = false } = {}) {
-    X = (X || '').trim();
-    let alto = altoPref, m = medirHola(ctx, X, alto, signos), dos = modo === 'dos';
-    if (modo === 'auto') {
-      if (m.una > anchoMax) { const k = anchoMax / m.una; if (k >= 0.8 || !X) { alto *= k; } else dos = true; }   // antes partir en dos líneas que encoger mucho
-    } else if (modo === 'una' && m.una > anchoMax) alto *= anchoMax / m.una;
-    m = medirHola(ctx, X, alto, signos);
-    if (dos) { const w = Math.max(m.linea1, m.linea2); if (w > anchoMax) { alto *= anchoMax / w; m = medirHola(ctx, X, alto, signos); } }
-    const base1 = y + alto * HOLA.base;
-    const anchoTotal = dos ? Math.max(m.linea1, m.linea2) : m.una;
-    let cx = alinear === 'center' ? x + (anchoMax - anchoTotal) / 2 : x;
-    const dibSigno = (im, wx, base, w) => { if (im) ctx.drawImage(im, wx, base - m.altoSigno * 0.98, w, m.altoSigno); };
-    let px1 = cx;
-    if (brillo && R.img.hola) {                                 // en oscuro, el tubo brilla (como el "hello" de keynote)
-      ctx.save(); ctx.filter = `blur(${alto * 0.14}px)`; ctx.globalAlpha = 0.6;
-      ctx.drawImage(R.img.hola, px1, y, m.wHola, alto); ctx.restore();
+  // background: flat in light/dark; in "color", a soft gradient of the piece colour with its spectrum neighbours
+  function background(ctx, M, T) {
+    ctx.fillStyle = T.bg; ctx.fillRect(0, 0, M.W, M.H);
+    if (T.blobs) {
+      T.blobs.forEach(([c, x, y, r]) => dither(ctx, M, c, x, y, r));
     }
-    ctx.save(); ctx.shadowColor = brillo ? 'rgba(0,0,0,0)' : 'rgba(17,17,17,0.10)'; ctx.shadowBlur = 24 * alto / 300; ctx.shadowOffsetY = 10 * alto / 300;
-    if (R.img.hola) ctx.drawImage(R.img.hola, px1, y, m.wHola, alto);
-    ctx.restore();
-    let fin;
-    if (!X) {
-      if (signos) dibSigno(R.img.bang, px1 + m.wHola + m.gap, base1, m.wB);
-      fin = y + alto;
-    } else if (!dos) {
-      let px2 = px1 + m.wHola + m.gap * 1.6;
-      fuente(ctx, 'titulos', 700, m.px, -0.025); ctx.fillStyle = color; ctx.fillText(X, px2, base1);
-      if (signos) dibSigno(R.img.bang, px2 + m.wX + m.gap * 0.6, base1, m.wB);
-      fin = y + alto;
-    } else {
-      const base2 = base1 + m.px * 1.02;
-      let px2 = alinear === 'center' ? x + (anchoMax - m.linea2) / 2 : cx + alto * 0.35;
-      if (px2 + m.linea2 > x + anchoMax) px2 = x + anchoMax - m.linea2;
-      fuente(ctx, 'titulos', 700, m.px, -0.025); ctx.fillStyle = color; ctx.fillText(X, px2, base2);
-      if (signos) dibSigno(R.img.bang, px2 + m.wX + m.gap * 0.6, base2, m.wB);
-      fin = base2 + m.px * 0.12;
-    }
-    return fin - y;
+    const step = 30 * M.u, rp = 1.9 * M.u;
+    ctx.fillStyle = T.dots || (isDark(T) ? 'rgba(255,255,255,0.13)' : 'rgba(17,17,17,0.14)');
+    for (let y = step / 2; y < M.H; y += step) for (let x = step / 2; x < M.W; x += step) { ctx.beginPath(); ctx.arc(x, y, rp, 0, 7); ctx.fill(); }
   }
-  R.bloqueHola = bloqueHola;
-
-  // ── Marco, cabecera y pie ─────────────────────────────────────────────────
-  // Estilo: invitación de keynote. El tubo manda, centrado y grande; arriba el logo pequeño y la categoría; debajo, lo justo.
-  function marco(f) {
-    const F = R.FORMATOS[f], W = F.w, H = F.h, horiz = f === 'horizontal';
-    const u = horiz ? 0.92 : W / 1080;
-    const m = horiz ? 52 : 80 * u;
-    const top = F.seguro ? F.seguro[0] : m, bottom = F.seguro ? F.seguro[1] : H - m;
-    return { F, W, H, u, m, top, bottom, horiz, story: f === 'story', ancho: W - 2 * m, k: f === 'story' ? 1.12 : 1 };
-  }
-  // fondo: plano en claro/oscuro; en "color", un degradado suave del color de la pieza con sus vecinos del espectro
-  function fondo(ctx, M, T) {
-    ctx.fillStyle = T.fondo; ctx.fillRect(0, 0, M.W, M.H);
-    if (T.mancha) {
-      T.mancha.forEach(([c, x, y, r]) => tramado(ctx, M, c, x, y, r));
-    }
-    // retícula de puntos, como papel de cuaderno
-    const paso = 30 * M.u, rp = 1.9 * M.u;
-    ctx.fillStyle = T.puntos || (OSC(T) ? 'rgba(255,255,255,0.13)' : 'rgba(17,17,17,0.14)');
-    for (let y = paso / 2; y < M.H; y += paso) for (let x = paso / 2; x < M.W; x += paso) { ctx.beginPath(); ctx.arc(x, y, rp, 0, 7); ctx.fill(); }
-  }
-  // mancha de color con borde punteado (tramado), como un degradado impreso con grano grueso
-  function tramado(ctx, M, color, fx, fy, r) {
+  // colour blob with a dotted (dithered) edge, like a gradient printed with coarse grain
+  function dither(ctx, M, color, fx, fy, r) {
     const k = 0.5, w = Math.ceil(M.W * k), h = Math.ceil(M.H * k), D = Math.max(w, h) * r;
     const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d');
     const gr = g.createRadialGradient(w * fx, h * fy, 0, w * fx, h * fy, D);
@@ -329,515 +293,756 @@
     g.putImageData(im, 0, 0);
     ctx.save(); ctx.imageSmoothingEnabled = false; ctx.drawImage(c, 0, 0, M.W, M.H); ctx.restore();
   }
-  // grano de película sobre toda la pieza
-  let RUIDO = null;
-  function grano(ctx, M, T) {
-    if (!RUIDO) {
-      RUIDO = document.createElement('canvas'); RUIDO.width = RUIDO.height = 256;
-      const g = RUIDO.getContext('2d'), im = g.createImageData(256, 256);
+  let NOISE = null;
+  function grain(ctx, M, T) {
+    if (!NOISE) {
+      NOISE = document.createElement('canvas'); NOISE.width = NOISE.height = 256;
+      const g = NOISE.getContext('2d'), im = g.createImageData(256, 256);
       for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255; }
       g.putImageData(im, 0, 0);
     }
-    ctx.save(); ctx.globalAlpha = OSC(T) ? 0.06 : T.mancha ? 0.09 : 0.05; ctx.globalCompositeOperation = 'overlay';
-    ctx.fillStyle = ctx.createPattern(RUIDO, 'repeat'); ctx.fillRect(0, 0, M.W, M.H);
+    ctx.save(); ctx.globalAlpha = isDark(T) ? 0.06 : T.blobs ? 0.09 : 0.05; ctx.globalCompositeOperation = 'overlay';
+    ctx.fillStyle = ctx.createPattern(NOISE, 'repeat'); ctx.fillRect(0, 0, M.W, M.H);
     ctx.restore();
   }
-  // tema "color": fondo del color de la pieza
-  const VECINOS = { azul: ['lavanda', 'violeta'], verde: ['amarillo', 'lavanda'], naranja: ['amarillo', 'rosa'], rosa: ['naranja', 'magenta'], violeta: ['magenta', 'azul'] };
-  function temaColor(acento) {
-    const c = R.ESPECTRO[acento], [v1, v2] = VECINOS[acento];
+  const NEIGHBOURS = { blue: ['lavender', 'violet'], green: ['yellow', 'lavender'], orange: ['yellow', 'pink'], pink: ['orange', 'magenta'], magenta: ['pink', 'violet'], lavender: ['blue', 'green'], violet: ['magenta', 'blue'] };
+  function colorTheme(accent) {
+    const c = R.SPECTRUM[accent], [v1, v2] = NEIGHBOURS[accent];
     return {
-      fondo: c, superficie: '#FFFFFF', linea: 'rgba(255,255,255,0.22)',
-      texto: '#FFFFFF', texto2: 'rgba(255,255,255,0.86)', texto3: 'rgba(255,255,255,0.72)',
-      logo: 'logoBlanco', color: acento, puntos: 'rgba(255,255,255,0.26)',
-      mancha: [[R.ESPECTRO[v1], 1.0, 0.0, 0.55], [R.ESPECTRO[v2], 0.0, 1.0, 0.6]],
+      bg: c, surface: '#FFFFFF', line: 'rgba(255,255,255,0.22)',
+      text: '#FFFFFF', text2: 'rgba(255,255,255,0.86)', text3: 'rgba(255,255,255,0.72)',
+      logo: 'logoWhite', color: accent, dots: 'rgba(255,255,255,0.26)',
+      blobs: [[R.SPECTRUM[v1], 1.0, 0.0, 0.55], [R.SPECTRUM[v2], 0.0, 1.0, 0.6]],
     };
   }
 
-  function cabecera(ctx, M, T, etiqueta, acento) {
-    const alto = 42 * M.u, y = M.top, lg = R.img[T.logo];
-    if (lg) ctx.drawImage(lg, M.m, y, lg.width * alto / lg.height, alto);
-    if (etiqueta) {
-      const px = 27 * M.u, by = y + alto * 0.64, tx = M.W - M.m;
-      fuente(ctx, 'texto', 500, px, 0.005); ctx.fillStyle = T.texto2; ctx.textAlign = 'right'; ctx.fillText(etiqueta, tx, by); ctx.textAlign = 'left';
-      if (acento) { const w = ctx.measureText(etiqueta).width; ctx.beginPath(); ctx.arc(tx - w - px * 0.75, by - px * 0.34, px * 0.26, 0, 7); ctx.fillStyle = R.ESPECTRO[acento]; ctx.fill(); }
-    }
-    return alto;
-  }
-  function pieWeb(ctx, M, T, s) {
-    const txt = [s.web, s.cuenta].filter(Boolean).join('   ·   '); if (!txt) return 0;
-    const px = 24 * M.u; fuente(ctx, 'texto', 500, px, 0.01); ctx.fillStyle = T.texto3; ctx.textAlign = 'center'; ctx.fillText(txt, M.W / 2, M.bottom - px * 0.2); ctx.textAlign = 'left';
-    return px * 1.2;
-  }
-  const centro = (ctx, b, M, y, color) => pintarTexto(ctx, b, M.W / 2, y, color, 'center');
-  // el alto de tubo más grande (≤ pref) con el que el bloque hola + X! cabe en altoMax
-  const PRUEBA = document.createElement('canvas').getContext('2d');
-  function holaQueCabe(X, ancho, altoMax, pref, opts) {
-    let alto = pref, h;
-    for (let i = 0; i < 30; i++, alto *= 0.95) { h = bloqueHola(PRUEBA, X, 0, 0, ancho, alto, alto, '#000', opts); if (h <= altoMax) break; }
-    return { alto, h };
-  }
-  function pad(n) { n = String(n || '').trim(); return /^\d$/.test(n) ? '0' + n : n; }
-  // foto redonda o rectangular, con borde fino y sombra suave
-  function foto(ctx, f, x, y, w, h, r, T, u, zonas, id, borde = 0, nombre = '') {
+  function photo(ctx, f, x, y, w, h, r, T, u, zones, id, border = 0, name = '') {
     ctx.save(); ctx.shadowColor = 'rgba(17,17,17,0.18)'; ctx.shadowBlur = 30 * u; ctx.shadowOffsetY = 10 * u;
-    redondo(ctx, x - borde, y - borde, w + 2 * borde, h + 2 * borde, r + borde); ctx.fillStyle = borde ? '#FFFFFF' : T.superficie; ctx.fill(); ctx.restore();
-    ctx.save(); redondo(ctx, x, y, w, h, r); ctx.clip();
-    if (f && f.im) cubrir(ctx, f.im, x, y, w, h, f.fx, f.fy, f.zoom);
-    else {                                                     // sin foto: la inicial sobre el verde de personas
-      const ini = (String(nombre).trim().match(/\p{L}/u) || ['¡'])[0].toUpperCase(), c = Math.min(w, h), grande = c > 300 * u;
-      // en pequeño (ponentes) un círculo verde con la inicial; en grande, hueco neutro para no gritar
-      ctx.fillStyle = grande ? T.superficie : R.ESPECTRO.verde; ctx.fillRect(x, y, w, h);
-      fuente(ctx, 'titulos', 700, c * (grande ? 0.36 : 0.5), -0.02); ctx.fillStyle = grande ? (T.mancha ? '#E3E3E8' : T.linea) : '#111111'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText(ini, x + w / 2, y + h / 2 + c * 0.02); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    rounded(ctx, x - border, y - border, w + 2 * border, h + 2 * border, r + border); ctx.fillStyle = border ? '#FFFFFF' : T.surface; ctx.fill(); ctx.restore();
+    ctx.save(); rounded(ctx, x, y, w, h, r); ctx.clip();
+    if (f && f.im) cover(ctx, f.im, x, y, w, h, f.fx, f.fy, f.zoom);
+    else {
+      const initial = (String(name).trim().match(/\p{L}/u) || [''])[0].toUpperCase(), c = Math.min(w, h), big = border > 0 || c > 300 * u;   // bordered prints are never the speaker circle
+      // small (speakers): a green circle with the initial; big: a neutral placeholder so it does not shout
+      ctx.fillStyle = big ? (border ? '#E9E9EE' : T.surface) : R.SPECTRUM.green; ctx.fillRect(x, y, w, h);
+      font(ctx, 'display', 700, c * (big ? 0.36 : 0.5), -0.02); ctx.fillStyle = big ? (T.blobs ? '#E3E3E8' : T.line) : '#111111'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(initial, x + w / 2, y + h / 2 + c * 0.02); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     }
-    ctx.restore(); if (zonas) zonas.push({ id, x, y, w, h });
-  }
-  function boton(ctx, texto, cx, y, px) {
-    fuente(ctx, 'texto', 600, px, 0);
-    const w = ctx.measureText(texto).width + px * 2, h = px * 2.4, x = cx - w / 2;
-    redondo(ctx, x, y, w, h, h / 2); ctx.fillStyle = R.BOTON; ctx.fill();
-    ctx.fillStyle = '#FFFFFF'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center'; ctx.fillText(texto, cx, y + h / 2 + px * 0.04); ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
-    return h;
-  }
-  // grupo de bloques centrado en vertical entre y0 e y1
-  function centrarGrupo(bloques, y0, y1) {
-    const total = bloques.reduce((s, b) => s + b.h + (b.antes || 0), 0);
-    let y = y0 + Math.max(0, (y1 - y0 - total) / 2);
-    bloques.forEach((b) => { y += b.antes || 0; b.y = y; y += b.h; });
-    return total <= y1 - y0 + 1;
+    ctx.restore(); if (zones) zones.push({ id, x, y, w, h });
   }
 
-  // ── Piezas ────────────────────────────────────────────────────────────────
-  // Lenguaje común (el de la pieza de pregunta): solo el logo arriba, titular grande a la izquierda,
-  // un tubo enorme que se sale del lienzo y la información pequeña abajo. Sin etiquetas ni pie de web.
+  // ── Pieces ────────────────────────────────────────────────────────────────
   const P = {};
-  const OSC = (T) => T.fondo === R.TEMAS.oscuro.fondo;
-  function logo(ctx, M, T) { const alto = (M.horiz ? 50 : 54) * M.u, lg = R.img[T.logo]; if (lg) ctx.drawImage(lg, M.m, M.top, lg.width * alto / lg.height, alto); return alto; }
-  // un tubo grande (con halo en oscuro); puede salirse del lienzo
-  function tubo(ctx, im, x, y, h, T, rot = 0) {
+  const isDark = (T) => T.bg === R.THEMES.dark.bg;
+  function logo(ctx, M, T) { const height = (M.horiz ? 50 : 54) * M.u, lg = R.img[T.logo]; if (lg) ctx.drawImage(lg, M.m, M.top, lg.width * height / lg.height, height); return height; }
+  // a big tube (with a halo in dark); it may bleed off the canvas
+  function tube(ctx, im, x, y, h, T, rot = 0) {
     if (!im) return 0; const w = im.width * h / im.height;
     ctx.save(); ctx.translate(x + w / 2, y + h / 2); ctx.rotate(rot * Math.PI / 180);
-    if (OSC(T)) { ctx.save(); ctx.filter = `blur(${h * 0.09}px)`; ctx.globalAlpha = 0.55; ctx.drawImage(im, -w / 2, -h / 2, w, h); ctx.restore(); }
+    if (isDark(T)) { ctx.save(); ctx.filter = `blur(${h * 0.09}px)`; ctx.globalAlpha = 0.55; ctx.drawImage(im, -w / 2, -h / 2, w, h); ctx.restore(); }
     ctx.drawImage(im, -w / 2, -h / 2, w, h); ctx.restore(); return w;
   }
-  // titular de una línea que llena el ancho (hasta un máximo)
-  function titularLinea(ctx, texto, ancho, max, min) {
-    let px = max; fuente(ctx, 'titulos', 700, px, -0.035);
-    const w = ctx.measureText(texto).width; if (w > ancho) px = Math.max(min, px * ancho / w);
-    fuente(ctx, 'titulos', 700, px, -0.035); return px;
+  function headlineLine(ctx, text, width, max, min) {
+    let px = max; font(ctx, 'display', 700, px, -0.035);
+    const w = ctx.measureText(text).width; if (w > width) px = Math.max(min, px * width / w);
+    font(ctx, 'display', 700, px, -0.035); return px;
   }
-  // bloque de información abajo a la izquierda: [texto fuerte, texto secundario...]; devuelve su y superior
-  function info(ctx, M, T, lineas, ancho, abajo, medir, x0) {
-    const u = M.u, k = M.k, bloques = [];
-    lineas.filter((l) => l && l.t).forEach((l) => bloques.push(ajustar(ctx, l.t, l.fuerte
-      ? { fam: 'titulos', peso: 600, px: (l.px || 44) * u * k, min: 28 * u, ancho, maxLineas: l.max || 3, inter: 1.12, track: -0.015 }
-      : { fam: 'texto', peso: 400, px: 28 * u * k, min: 20 * u, ancho, maxLineas: 2, inter: 1.35, track: 0 })));
-    const gap = 16 * u, total = bloques.reduce((s, b) => s + b.alto, 0) + gap * (bloques.length - 1);
-    if (medir) return total;
-    let y = abajo - total; const y0 = y;
-    bloques.forEach((b, i) => { pintarTexto(ctx, b, x0 == null ? M.m : x0, y, i === 0 && lineas[0].fuerte ? T.texto : T.texto2); y += b.alto + gap; });
+  // info block at the bottom left: [strong text, secondary text...]; returns its top y
+  function info(ctx, M, T, lines, width, bottom, measure, x0) {
+    const u = M.u, k = M.k, ls = lines.filter((l) => l && l.t);
+    const blocks = ls.map((l) => fit(ctx, l.t, l.strong
+      ? { fam: 'display', weight: 600, px: (l.px || 44) * u * k, min: 28 * u, width, maxLines: l.max || 3, leading: 1.12, track: -0.015 }
+      : { fam: 'text', weight: 400, px: 28 * u * k, min: 20 * u, width, maxLines: 2, leading: 1.35, track: 0 }));
+    // `joined`: a secondary line read together with the previous one, with the spacing of a line and not of a paragraph
+    const gaps = ls.map((l, i) => (i === 0 ? 0 : l.joined && !ls[i - 1].strong ? 4 * u : 16 * u));
+    const total = blocks.reduce((t, b, i) => t + b.height + gaps[i], 0);
+    if (measure) return total;
+    let y = bottom - total; const y0 = y;
+    blocks.forEach((b, i) => { y += gaps[i]; drawText(ctx, b, x0 == null ? M.m : x0, y, i === 0 && ls[0].strong ? T.text : T.text2); y += b.height; });
     return y0;
   }
 
-  // Héroe: el "hola" entero y grande + una palabra enorme debajo; info abajo; opcionalmente ponentes a la derecha.
-  // Las palabras del tubo se leen siempre completas: aquí no se sale del marco.
-  function heroe(ctx, M, T, o) {
-    const u = M.u, ih = T.mancha ? R.img.holaBlanco : R.img.hola;
-    const ratio = ih ? ih.width / ih.height : 2.4;             // ancho del tubo por unidad de alto
+  // Hero: the whole "hola", big, + a huge word below; info at the bottom; optionally speakers on the right.
+  // The tube words are always read whole: here it does not bleed off the frame.
+  function hero(ctx, M, T, o) {
+    const u = M.u, ih = T.blobs ? R.img.holaWhite : R.img.hola;
+    const ratio = ih ? ih.width / ih.height : 2.4;             // tube width per unit of height
     const logoH = logo(ctx, M, T);
-    const pB = o.ponentes ? o.ponentes(true) : 0;              // alto del bloque de ponentes
-    const pinta = (yH, hH, px) => {
-      tubo(ctx, ih, M.m, yH, hH, T);
-      fuente(ctx, 'titulos', 700, px, -0.035); ctx.fillStyle = T.texto; ctx.fillText(o.X, M.m - px * 0.04, yH + hH + px * 0.8);
+    const spH = o.speakers ? o.speakers(true) : 0;
+    const paint = (yH, hH, px) => {
+      tube(ctx, ih, M.m, yH, hH, T);
+      font(ctx, 'display', 700, px, -0.035); ctx.fillStyle = T.text; ctx.fillText(o.X, M.m - px * 0.04, yH + hH + px * 0.8);
     };
-    const encaja = (anchoH, avail) => {
-      let hH = anchoH / ratio * o.escala, px = titularLinea(ctx, o.X, anchoH, 250 * u, 60 * u);
-      if (o.escala <= 1) { const g = hH + px * 0.84; if (g > avail) { hH *= avail / g; px *= avail / g; } }
+    const fitHero = (heroW, avail) => {
+      let hH = heroW / ratio * o.scale, px = headlineLine(ctx, o.X, heroW, 250 * u, 60 * u);
+      if (o.scale <= 1) { const g = hH + px * 0.84; if (g > avail) { hH *= avail / g; px *= avail / g; } }
       else { px = Math.min(px, (avail - hH) / 0.84); if (px < 60 * u) { px = 60 * u; hH = avail - px * 0.84; } }
       return [hH, px];
     };
     if (M.horiz) {
-      // hola + palabra a toda altura en la columna izquierda; ponentes arriba a la derecha; info abajo a la derecha
-      const colD = M.W * 0.3, xD = M.W - M.m - colD;
+      // hola + word at full height in the left column; speakers top right; info bottom right
+      const colR = M.W * 0.3, xR = M.W - M.m - colR;
       const y0 = M.top + logoH + 34, avail = M.bottom - y0;
-      const [hH, px] = encaja(xD - M.m - 80, avail);
-      pinta(y0 + (avail - (hH + px * 0.84)) * 0.5, hH, px);
-      info(ctx, M, T, o.info, colD, M.bottom, false, xD);
-      if (o.ponentes) o.ponentes(false, M.top + pB);
+      const [hH, px] = fitHero(xR - M.m - 80, avail);
+      paint(y0 + (avail - (hH + px * 0.84)) * 0.5, hH, px);
+      if (M.banner) {
+        // on the covers the "hola" is limited by the height and there is width to spare: the info goes right after it, not against the edge
+        font(ctx, 'display', 700, px, -0.035);
+        const xi = M.m + Math.max(hH * ratio, ctx.measureText(o.X).width) + 90 * u, rest = M.W - M.m - xi;
+        if (o.row) {                                           // speakers in a row on top and the info below, aligned
+          o.row(xi, M.top, rest);
+          info(ctx, M, T, o.info, rest, M.bottom, false, xi);
+        } else info(ctx, M, T, o.info, Math.min(rest, M.W * 0.36), M.bottom, false, xi);
+      } else info(ctx, M, T, o.info, colR, M.bottom, false, xR);
+      if (o.speakers && !(M.banner && o.row)) o.speakers(false, M.top + spH);
       return;
     }
-    // vertical: el héroe y la info van juntos, como un bloque, para que no quede aire muerto en story
-    const anchoInfo = o.ponentes ? M.ancho * 0.6 : M.ancho * 0.86;
-    const hi = info(ctx, M, T, o.info, anchoInfo, M.bottom, true), hb = Math.max(hi, pB);
+    // portrait: hero and info go together, as one block, so there is no dead air in story
+    const infoW = o.speakers ? M.width * 0.6 : M.width * 0.86;
+    const hi = info(ctx, M, T, o.info, infoW, M.bottom, true), hb = Math.max(hi, spH);
     const y0 = M.top + logoH + 60 * u, sep = (M.story ? 110 : 70) * u;
-    const [hH, px] = encaja(M.ancho, M.bottom - hb - sep - y0);
+    const [hH, px] = fitHero(M.width, M.bottom - hb - sep - y0);
     const total = hH + px * 0.84 + sep + hb;
     const yH = y0 + (M.bottom - y0 - total) * (M.story ? 0.42 : 0.3);
-    pinta(yH, hH, px);
-    const abajo = yH + total;
-    info(ctx, M, T, o.info, anchoInfo, abajo);
-    if (o.ponentes) o.ponentes(false, abajo);
+    paint(yH, hH, px);
+    const bottom = yH + total;
+    info(ctx, M, T, o.info, infoW, bottom);
+    if (o.speakers) o.speakers(false, bottom);
   }
 
 
-  P.charla = function (ctx, M, T, s, fotos, zonas) {
-    const d = s.charla, u = M.u;
-    const lista = [0, 1].filter((i) => i === 0 || (d['ponente' + i] || '').trim());
-    const dp = (M.horiz ? 110 : 170) * u * (lista.length > 1 ? 0.8 : 1) * M.k;
-    const pn = 26 * u * M.k, pr = 22 * u * M.k, xr = M.W - M.m;
-    const rol = lista.length === 1 && d.rol0;
-    const altoP = dp + 18 * u + pn * 1.1 + (rol ? pr * 1.45 : 0);
-    const ponentes = (medir, abajo = M.bottom) => {
-      if (medir) return altoP;
-      const yP = abajo - altoP;
-      lista.forEach((i, n) => foto(ctx, fotos['ponente' + i], xr - dp - n * dp * 0.72, yP, dp, dp, dp / 2, T, u, zonas, 'ponente' + i, 0, d['ponente' + i]));
-      const nombres = lista.map((i) => d['ponente' + i]).filter(Boolean).join(' y ');
-      fuente(ctx, 'texto', 600, pn, 0); ctx.fillStyle = T.texto; ctx.textAlign = 'right'; ctx.fillText(nombres || 'Nombre', xr, yP + dp + 18 * u + pn);
-      if (rol) { fuente(ctx, 'texto', 400, pr, 0); ctx.fillStyle = T.texto2; ctx.fillText(d.rol0, xr, yP + dp + 18 * u + pn + pr * 1.4); }
+  P.session = function (ctx, M, T, s, photos, zones) {
+    const d = s.session, u = M.u, k = M.k;
+    const list = [0, 1, 2].filter((i) => i === 0 || (d['speaker' + i] || '').trim());
+    const dp = (M.horiz ? 110 : 170) * u * [1, 0.8, 0.68][list.length - 1] * k;
+    const pn = 26 * u * k, pr = 22 * u * k, xr = M.W - M.m, sep = 12 * u;
+    const maxW = M.horiz ? M.W * 0.3 : M.width * 0.38;            // the column the info leaves free
+    // one line per speaker, with their role: two or three names in a row do not fit next to the info
+    const rows = list.map((i) => ({ name: (d['speaker' + i] || '').trim() || 'Nombre', role: (d['role' + i] || '').trim() }));
+    const rowHeight = (f) => pn * 1.25 + (f.role ? pr * 1.35 : 0);
+    const speakersH = dp + 18 * u + rows.reduce((t, f) => t + rowHeight(f), 0) + sep * (rows.length - 1);
+    const line = (text, weight, px, color, y) => {
+      font(ctx, 'text', weight, px, 0); const w = ctx.measureText(text).width;
+      if (w > maxW) font(ctx, 'text', weight, px * maxW / w, 0);
+      ctx.fillStyle = color; ctx.fillText(text, xr, y);
+    };
+    const speakers = (measure, bottom = M.bottom) => {
+      if (measure) return speakersH;
+      const yP = bottom - speakersH;
+      // left to right in the order of the names, with the first on top: drawn from last to first
+      [...list].reverse().forEach((i) => { const n = list.indexOf(i);
+        photo(ctx, photos['speaker' + i], xr - dp - (list.length - 1 - n) * dp * 0.72, yP, dp, dp, dp / 2, T, u, zones, 'speaker' + i, 0, d['speaker' + i]); });
+      ctx.textAlign = 'right'; let y = yP + dp + 18 * u;
+      rows.forEach((f) => {
+        line(f.name, 600, pn, T.text, y + pn); y += pn * 1.25;
+        if (f.role) { line(f.role, 400, pr, T.text2, y + pr); y += pr * 1.35; }
+        y += sep;
+      });
       ctx.textAlign = 'left';
     };
-    heroe(ctx, M, T, {
-      escala: s.escala || 1, X: d.tema || '', ponentes,
-      info: [{ t: d.titulo, fuerte: true, px: M.horiz ? 36 : 46, max: 3 }, { t: [d.numero ? 'Charla ' + pad(d.numero) : '', d.fecha, d.hora, d.lugar].filter(Boolean).join(' · ') }],
+    // on the covers: each speaker in their own column, with the photo and their name and role below, centred. The row sits
+    // against the right margin, like the speakers in the other sizes; each column is as wide as its text, so the last one meets the edge.
+    const row = (x, y, width) => {
+      const gap = 36 * u * k, maxCol = Math.min((width - gap * (rows.length - 1)) / rows.length, 280 * u * k), photo2 = Math.min(maxCol * 0.62, 130 * u * k);
+      const widthOf = (t, weight, px) => { if (!t) return 0; font(ctx, 'text', weight, px, 0); return ctx.measureText(t).width; };
+      const cols = rows.map((f) => clamp(Math.max(widthOf(f.name, 600, pn), widthOf(f.role, 400, pr)), photo2, maxCol));
+      let xr2 = x + width;
+      const cx = []; for (let n = rows.length - 1; n >= 0; n--) { cx[n] = xr2 - cols[n] / 2; xr2 -= cols[n] + gap; }
+      list.forEach((i, n) => {
+        const f = rows[n], col = cols[n];
+        photo(ctx, photos['speaker' + i], cx[n] - photo2 / 2, y, photo2, photo2, photo2 / 2, T, u, zones, 'speaker' + i, 0, d['speaker' + i]);
+        // a long name drops to a second line rather than shrinking
+        const box = (text, weight, px) => fit(ctx, text, { fam: 'text', weight, px, min: px * 0.8, width: col, maxLines: 2, leading: 1.2, track: 0 });
+        const nb = box(f.name, 600, pn), yy = y + photo2 + 16 * u;
+        drawText(ctx, nb, cx[n], yy, T.text, 'center');
+        if (f.role) drawText(ctx, box(f.role, 400, pr), cx[n], yy + nb.height + 4 * u, T.text2, 'center');
+      });
+    };
+    hero(ctx, M, T, {
+      scale: s.scale || 1, X: d.word || '', speakers, row,
+      info: [
+        { t: d.title, strong: true, px: M.horiz ? 36 : 46, max: 3 },
+        { t: d.month },
+        { t: [d.date, d.time].filter(Boolean).join(', '), joined: true },
+        { t: d.place, joined: true },
+      ],
     });
   };
 
-  P.persona = function (ctx, M, T, s, fotos, zonas) {
-    const d = s.persona, u = M.u, k = M.k;
+  P.person = function (ctx, M, T, s, photos, zones) {
+    const d = s.person, u = M.u, k = M.k;
     const logoH = logo(ctx, M, T);
-    const frase = d.frase ? '“' + d.frase + '”' : '';
-    const eti = [d.etiqueta, d.ciudad].filter(Boolean).join(' · ');
+    const quote = d.quote ? '“' + d.quote + '”' : '';
+    const tag = [d.label, d.city].map((t) => (t || '').trim()).filter(Boolean).join(' de ');
     if (M.horiz) {
-      const fx = M.W * 0.5, fw = M.W - fx, fh = M.H;            // foto a sangre en la mitad derecha
-      foto(ctx, fotos.persona, fx, 0, fw, fh, 0, T, u, zonas, 'persona', 0, d.nombre);
-      const ancho = fx - M.m - 40;
-      const n = ajustar(ctx, d.nombre, { px: 84, min: 44, ancho, maxLineas: 2, inter: 0.98, track: -0.035 });
-      pintarTexto(ctx, n, M.m, M.top + logoH + 60, T.texto);
-      info(ctx, M, T, [{ t: frase, fuerte: true, px: 30, max: 3 }, { t: eti }], ancho, M.bottom);
+      const fx = M.W * 0.5, fw = M.W - fx, fh = M.H;            // full-bleed photo on the right half
+      photo(ctx, photos.person, fx, 0, fw, fh, 0, T, u, zones, 'person', 0, d.name);
+      const width = fx - M.m - 40;
+      const n = fit(ctx, d.name, { px: 84, min: 44, width, maxLines: 2, leading: 0.98, track: -0.035 });
+      drawText(ctx, n, M.m, M.top + logoH + 60, T.text);
+      info(ctx, M, T, [{ t: quote, strong: true, px: 30, max: 3 }, { t: tag }], width, M.bottom);
       return;
     }
-    // foto grande arriba; nombre enorme debajo; frase y datos abajo
-    const lineas = [{ t: frase, fuerte: true, px: 40, max: 3 }, { t: eti }];
-    const hi = info(ctx, M, T, lineas, M.ancho * 0.9, M.bottom, true);
-    const n = ajustar(ctx, d.nombre, { px: 130 * u * k, min: 64 * u, ancho: M.ancho, maxLineas: 2, inter: 0.94, track: -0.04 });
+    // big photo on top; huge name below; quote and details at the bottom
+    const lines = [{ t: quote, strong: true, px: 40, max: 3 }, { t: tag }];
+    const hi = info(ctx, M, T, lines, M.width * 0.9, M.bottom, true);
+    const n = fit(ctx, d.name, { px: 130 * u * k, min: 64 * u, width: M.width, maxLines: 2, leading: 0.94, track: -0.04 });
     const fy = M.top + logoH + 40 * u;
-    const fh = Math.min(M.ancho * 1.05, M.bottom - hi - 44 * u - n.alto - 36 * u - fy);
-    foto(ctx, fotos.persona, M.m, fy, M.ancho, fh, 28 * u, T, u, zonas, 'persona', 0, d.nombre);
-    pintarTexto(ctx, n, M.m - n.px * 0.03, fy + fh + 36 * u, T.texto);
-    info(ctx, M, T, lineas, M.ancho * 0.9, M.bottom);
+    const fh = Math.min(M.width * 1.05, M.bottom - hi - 44 * u - n.height - 36 * u - fy);
+    photo(ctx, photos.person, M.m, fy, M.width, fh, 28 * u, T, u, zones, 'person', 0, d.name);
+    drawText(ctx, n, M.m - n.px * 0.03, fy + fh + 36 * u, T.text);
+    info(ctx, M, T, lines, M.width * 0.9, M.bottom);
   };
 
-  P.evento = function (ctx, M, T, s) {
-    const d = s.evento;
-    heroe(ctx, M, T, {
-      escala: s.escala || 1, X: d.ciudad || '',
-      info: [{ t: d.fecha, fuerte: true, px: M.horiz ? 44 : 60, max: 2 }, { t: [d.lugar, d.boton].filter(Boolean).join(' · ') }],
+  P.event = function (ctx, M, T, s) {
+    const d = s.event;
+    hero(ctx, M, T, {
+      scale: s.scale || 1, X: d.word || '',
+      info: [{ t: d.date, strong: true, px: M.horiz ? 44 : 60, max: 2 }, { t: d.place }, { t: d.city, joined: true }, { t: d.lastLine, joined: true }],
     });
   };
 
-  // Código: resaltado sencillo de Swift con colores del espectro (todos ≥ 5:1 sobre la superficie oscura).
-  const COD = { clave: R.ESPECTRO.rosa, cadena: R.ESPECTRO.naranja, numero: R.ESPECTRO.amarillo, tipo: R.ESPECTRO.lavanda, llamada: R.ESPECTRO.verde, comentario: '#8C8C96', normal: '#FFFFFF', signo: '#B8B8C2' };
-  const CLAVES = new Set('let var func if else guard return struct class enum protocol extension import for in while switch case default break continue true false nil self Self some any async await throws try catch do where init deinit static private public internal fileprivate final override mutating inout typealias associatedtype weak lazy defer repeat'.split(' '));
-  function tokens(linea) {
+  // Photos: one to three printed copies, scattered like cards on the table; all are seen whole or nearly
+  // centre (fraction of the area) and rotation of each print, depending on how many there are
+  const SPREAD = {
+    1: [[0.5, 0.5, -3]],
+    2: [[0.28, 0.36, -6], [0.72, 0.64, 5]],
+    3: [[0.26, 0.3, -7], [0.74, 0.38, 6], [0.5, 0.72, -2]],
+  };
+  // each print has the shape of its photo (portrait or landscape); without a photo, whichever fills the area best.
+  // They all cover roughly the same surface, so a landscape one does not look smaller than a portrait one.
+  function prints(n, x, y, w, h, shapes) {
+    const side = Math.min(w, h) * [0, 0.9, 0.68, 0.58][n], fallback = w > h * 1.15 ? 4 / 3 : 4 / 5;
+    return SPREAD[n].map(([fx, fy, turn], i) => {
+      const r = shapes[i] || fallback;
+      let cw = side * Math.sqrt(r), ch = side / Math.sqrt(r);
+      const k = Math.min(1, w * 0.92 / cw, h * 0.92 / ch); cw *= k; ch *= k;
+      return { cx: clamp(x + w * fx, x + cw / 2, x + w - cw / 2), cy: clamp(y + h * fy, y + ch / 2, y + h - ch / 2), cw, ch, turn };
+    });
+  }
+  P.collage = function (ctx, M, T, s, photos, zones) {
+    const d = s.collage, u = M.u, n = clamp(+d.count || 1, 1, 3);
+    const logoH = logo(ctx, M, T), text = (d.text || '').trim();
+    const lines = [{ t: text, strong: true, px: M.horiz ? 32 : 40, max: 3 }];
+    let x = M.m, y = M.top + logoH + 40 * u, w = M.width, h;
+    if (M.horiz && text) {
+      const col = M.W * 0.32;
+      info(ctx, M, T, lines, col - 40 * u, M.bottom);
+      x = M.m + col; y = M.top; w = M.width - col; h = M.bottom - M.top;
+    } else {
+      const hi = text ? info(ctx, M, T, lines, M.width * 0.9, M.bottom, true) + 40 * u : 0;
+      h = M.bottom - hi - y;
+      if (text) info(ctx, M, T, lines, M.width * 0.9, M.bottom);
+    }
+    // from 3:4 to 3:2: a panorama does not end up as a strip
+    const shapes = [0, 1, 2].map((i) => { const f = photos['photo' + i]; return f && f.im ? clamp(f.im.width / f.im.height, 0.75, 1.5) : 0; });
+    prints(n, x, y, w, h, shapes).forEach(({ cx, cy, cw, ch, turn }, i) => {
+      const b = cw * 0.04, iw = cw - 2 * b, ih = ch - 2 * b;
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(turn * Math.PI / 180);
+      photo(ctx, photos['photo' + i], -iw / 2, -ih / 2, iw, ih, 6 * u, T, u, null, 'photo' + i, b);
+      ctx.restore();
+      // the drag zone is not rotated: the framing is computed with the real size of the photo
+      zones.push({ id: 'photo' + i, x: cx - iw / 2, y: cy - ih / 2, w: iw, h: ih });
+    });
+  };
+
+  // Logo: the h, the horizontal or the stacked one, alone and centred; in colour it is white, like the tube
+  P.logo = function (ctx, M, T, s) {
+    const d = s.logo, avail = M.bottom - M.top, shortSide = Math.min(M.W, avail), is3d = d.finish === '3d';
+    const IMAGES = {                                          // [in light and dark, in colour]
+      h:          { '2d': ['hColor', 'hWhite'],             '3d': ['h3dColor', 'h3dWhite'] },
+      horizontal: { '2d': ['logoLight', 'logoWhite'],       '3d': ['horizontal3dColor', 'horizontal3dWhite'] },
+      stacked:    { '2d': ['stackedColor', 'stackedWhite'], '3d': ['stacked3dColor', 'stacked3dWhite'] },
+    };
+    const [color, white] = (IMAGES[d.shape] || IMAGES.h)[is3d ? '3d' : '2d'];
+    const im = R.img[T.blobs ? white : color]; if (!im) return;
+    // every logo file has the same transparent margin (22/414 of the shorter visible side, the one the horizontal 2D
+    // always had), so 2D and 3D come out the same size
+    const [cw, ch] = d.shape === 'horizontal' ? [M.width * 0.78, avail * 0.5] : d.shape === 'stacked' ? [M.width * 0.725, avail * 0.625] : [shortSide * 0.55, shortSide * 0.605];
+    const u = M.u, text = (d.description || '').trim(), gap = (M.horiz ? 36 : 64) * u;
+    // each line of the text is one line in the image: it does not wrap on its own, it shrinks to fit (only Enter makes another)
+    let t = null;
+    if (text) {
+      const lines = text.split('\n').map((l) => l.trim()), px0 = (M.horiz ? 44 : 64) * u * M.k, width = M.width * 0.9;
+      font(ctx, 'display', 700, px0, -0.02);
+      const px = Math.min(px0, px0 * width / Math.max(...lines.map((l) => ctx.measureText(l).width), 1));
+      t = { lines, px, height: lines.length * px * 1.1, fam: 'display', weight: 700, leading: 1.1, track: -0.02 };
+    }
+    // The text always sits at the bottom, at the same height, and grows upwards. The logo, centred as without text, gives way if it does not fit.
+    const textTop = t ? M.bottom - avail * (M.horiz ? 0.04 : 0.08) - t.height : M.bottom;
+    let k = Math.min(cw / im.width, ch / im.height) * (s.scale || 1), w = im.width * k, h = im.height * k, y = M.top + (avail - h) / 2;
+    if (t && y + h > textTop - gap) {
+      // first it moves up; only if it still does not fit, it shrinks (never grows)
+      const room = textTop - gap - M.top;
+      if (h > room) { k *= room / h; w = im.width * k; h = im.height * k; }
+      y = Math.max(M.top, textTop - gap - h);
+    }
+    ctx.drawImage(im, (M.W - w) / 2, y, w, h);
+    if (t) drawText(ctx, t, M.W / 2, textTop, T.text, 'center');
+  };
+
+  // pill label, in ink on the background (in colour, white with the text in the piece colour); returns its height
+  function chip(ctx, text, x, y, px, T) {
+    font(ctx, 'text', 600, px, 0.01);
+    const w = ctx.measureText(text).width + px * 1.6, h = px * 2;
+    rounded(ctx, x, y, w, h, h / 2); ctx.fillStyle = T.text; ctx.fill();
+    ctx.fillStyle = T.bg; ctx.textBaseline = 'middle'; ctx.fillText(text, x + px * 0.8, y + h / 2 + px * 0.05); ctx.textBaseline = 'alphabetic';
+    return h;
+  }
+  // white card (or the dark surface) with the shadow of the code window
+  function card(ctx, x, y, w, h, u, dark) {
+    ctx.save(); ctx.shadowColor = dark ? 'rgba(0,0,0,0.7)' : 'rgba(17,17,17,0.14)'; ctx.shadowBlur = 80 * u; ctx.shadowOffsetY = 30 * u;
+    rounded(ctx, x, y, w, h, 30 * u); ctx.fillStyle = dark ? '#1C1C20' : '#FFFFFF'; ctx.fill(); ctx.restore();
+  }
+
+  // Notice: label, big headline and one line; a big 3D glyph peeks in from the edge, like the tube in the question
+  P.notice = function (ctx, M, T, s) {
+    const d = s.notice, u = M.u, k = M.k, im = R.img['glyph-' + d.glyph];
+    if (im) {
+      const h = (M.horiz ? M.H * 0.78 : M.H * (M.story ? 0.3 : 0.38)) * (s.scale || 1), w = im.width * h / im.height;
+      tube(ctx, im, M.W - w * (M.horiz ? 0.8 : 0.78), M.horiz ? (M.H - h) / 2 + 30 * u : M.bottom - h * 0.9, h, T, -12);
+    }
+    const logoH = logo(ctx, M, T), width = M.horiz ? M.width * 0.6 : M.width * 0.92;
+    let y = M.top + logoH + (M.horiz ? 50 : 110) * u;
+    if ((d.label || '').trim()) y += chip(ctx, d.label.trim(), M.m, y, (M.horiz ? 22 : 28) * u * k, T) + 30 * u;
+    const t = fit(ctx, d.headline, { px: (M.horiz ? 66 : 104) * u * k, min: 44 * u, width, maxLines: M.story ? 5 : 4, leading: 1.0, track: -0.03 });
+    drawText(ctx, t, M.m, y, T.text); y += t.height + 34 * u;
+    if ((d.line || '').trim()) drawText(ctx, fit(ctx, d.line, { fam: 'text', weight: 400, px: (M.horiz ? 32 : 44) * u * k, min: 24 * u, width, maxLines: 2, leading: 1.3, track: -0.01 }), M.m, y, T.text2);
+  };
+
+  // Sponsor: their logo on a white card (logos are designed for white), and below it the label and the thanks
+  P.sponsor = function (ctx, M, T, s, photos) {
+    const d = s.sponsor, u = M.u, k = M.k, tag = (d.label || '').trim();
+    const logoH = logo(ctx, M, T), lines = [{ t: d.title, strong: true, px: M.horiz ? 40 : 56, max: 4 }, { t: d.line }];
+    const chipPx = (M.horiz ? 22 : 28) * u * k, chipH = tag ? chipPx * 2 + 24 * u : 0;
+    let cx, cy, cw, ch, width, bottom = M.bottom;
+    if (M.horiz) {
+      width = M.width * 0.44; cw = M.width * 0.5; cx = M.W - M.m - cw; cy = M.top; ch = M.bottom - M.top;
+    } else {
+      width = M.width; cx = M.m; cw = M.width; cy = M.top + logoH + 50 * u;
+      ch = Math.min(cw * 0.75, M.bottom - info(ctx, M, T, lines, width, M.bottom, true) - chipH - 60 * u - cy);
+    }
+    card(ctx, cx, cy, cw, ch, u, false);
+    const f = photos.sponsor, pad = Math.min(cw, ch) * 0.14;
+    if (f && f.im) {
+      const kk = Math.min((cw - 2 * pad) / f.im.width, (ch - 2 * pad) / f.im.height) * (f.zoom || 1), w = f.im.width * kk, h = f.im.height * kk;
+      ctx.save(); rounded(ctx, cx, cy, cw, ch, 30 * u); ctx.clip(); ctx.drawImage(f.im, cx + (cw - w) / 2, cy + (ch - h) / 2, w, h); ctx.restore();
+    } else {                                                   // no logo: the name, as if it were their wordmark
+      const n = fit(ctx, d.company || 'Empresa', { px: 96 * u, min: 40 * u, width: cw - 2 * pad, maxLines: 2, leading: 1.0, track: -0.03 });
+      ctx.save(); ctx.textAlign = 'center'; drawText(ctx, n, cx + cw / 2, cy + (ch - n.height) / 2, '#111111', 'center'); ctx.restore();
+    }
+    const x0 = M.horiz ? M.m : null, y0 = info(ctx, M, T, lines, width, bottom, false, x0);
+    if (tag) chip(ctx, tag, M.m, y0 - chipH, chipPx, T);
+  };
+
+  // Resource: why we share it on top, and the resource as a link preview (optional image, title, source, link)
+  P.resource = function (ctx, M, T, s, photos, zones) {
+    const d = s.resource, u = M.u, k = M.k, dark = isDark(T), tag = (d.label || '').trim(), f = photos.resource;
+    const logoH = logo(ctx, M, T), textW = M.horiz ? M.width * 0.42 : M.width;
+    let y = M.top + logoH + (M.horiz ? 50 : 80) * u;
+    if (tag) y += chip(ctx, tag, M.m, y, (M.horiz ? 22 : 28) * u * k, T) + 30 * u;
+    if ((d.why || '').trim()) {
+      const fr = fit(ctx, d.why, { px: (M.horiz ? 46 : 68) * u * k, min: 34 * u, width: textW, maxLines: 4, leading: 1.05, track: -0.025 });
+      drawText(ctx, fr, M.m, y, T.text); y += fr.height;
+    }
+    const cw = M.horiz ? M.width * 0.52 : M.width, cx = M.W - M.m - cw, pad = 34 * u, inner = cw - 2 * pad;
+    const title = fit(ctx, d.title, { px: (M.horiz ? 36 : 58) * u * k, min: 26 * u, width: inner, maxLines: 3, leading: 1.1, track: -0.015 });
+    const src = fit(ctx, d.source, { fam: 'text', weight: 400, px: (M.horiz ? 24 : 32) * u * k, min: 18 * u, width: inner, maxLines: 1, leading: 1.3, track: 0 });
+    const link = fit(ctx, (d.link || '').trim() ? d.link.trim() + ' →' : '', { fam: 'text', weight: 500, px: (M.horiz ? 24 : 32) * u * k, min: 18 * u, width: inner, maxLines: 1, leading: 1.3, track: 0 });
+    const textH = title.height + (d.source ? 14 * u + src.height : 0) + (link.lines[0] ? 10 * u + link.height : 0);
+    const zoneY = M.horiz ? M.top : y + 60 * u, zoneH = M.bottom - zoneY;
+    // the image takes what is left, up to 16:9
+    const imgH = f && f.im ? Math.max(0, Math.min(inner * 9 / 16, zoneH - textH - 2 * pad - 28 * u)) : 0;
+    // in portrait and without an image, the card goes at the bottom, like the info of the other pieces: centred it looked like it was floating
+    const chh = pad + (imgH ? imgH + 28 * u : 0) + textH + pad, cy = !M.horiz && !imgH ? M.bottom - chh : zoneY + Math.max(0, (zoneH - chh) / 2);
+    card(ctx, cx, cy, cw, chh, u, dark);
+    let yy = cy + pad;
+    if (imgH) { photo(ctx, f, cx + pad, yy, inner, imgH, 18 * u, T, u, zones, 'resource'); yy += imgH + 28 * u; }
+    drawText(ctx, title, cx + pad, yy, dark ? '#FFFFFF' : '#111111'); yy += title.height;
+    if (d.source) { yy += 14 * u; drawText(ctx, src, cx + pad, yy, dark ? '#B8B8C2' : '#55555F'); yy += src.height; }
+    if (link.lines[0]) { yy += 10 * u; drawText(ctx, link, cx + pad, yy, dark ? '#2997FF' : '#0066CC'); }
+  };
+
+  // Code: simple Swift highlighting with spectrum colours (all ≥ 5:1 on the dark surface).
+  const CODE_COLORS = { keyword: R.SPECTRUM.pink, string: R.SPECTRUM.orange, number: R.SPECTRUM.yellow, type: R.SPECTRUM.lavender, call: R.SPECTRUM.green, comment: '#8C8C96', plain: '#FFFFFF', punct: '#B8B8C2' };
+  const KEYWORDS = new Set('let var func if else guard return struct class enum protocol extension import for in while switch case default break continue true false nil self Self some any async await throws try catch do where init deinit static private public internal fileprivate final override mutating inout typealias associatedtype weak lazy defer repeat'.split(' '));
+  function tokens(line) {
     const out = []; let i = 0;
     const re = /(\/\/.*$)|("(?:[^"\\]|\\.)*"?)|(\b\d+(?:\.\d+)?\b)|([A-Za-zÁÉÍÓÚáéíóúñÑ_][\wÁÉÍÓÚáéíóúñÑ]*)|(\s+)|(.)/gu;
     let m;
-    while ((m = re.exec(linea))) {
-      const [t, com, str, num, id, esp] = m;
-      let k = 'signo';
-      if (com) k = 'comentario'; else if (str) k = 'cadena'; else if (num) k = 'numero'; else if (esp) k = 'normal';
-      else if (id) { const sig = linea.slice(re.lastIndex).trimStart()[0]; k = CLAVES.has(id) ? 'clave' : /^[A-Z]/.test(id) ? 'tipo' : sig === '(' ? 'llamada' : 'normal'; }
-      out.push([t, COD[k]]);
+    while ((m = re.exec(line))) {
+      const [t, com, str, num, id, ws] = m;
+      let k = 'punct';
+      if (com) k = 'comment'; else if (str) k = 'string'; else if (num) k = 'number'; else if (ws) k = 'plain';
+      else if (id) { const next = line.slice(re.lastIndex).trimStart()[0]; k = KEYWORDS.has(id) ? 'keyword' : /^[A-Z]/.test(id) ? 'type' : next === '(' ? 'call' : 'plain'; }
+      out.push([t, CODE_COLORS[k]]);
     }
     return out;
   }
-  // Código: la frase grande arriba (como la pregunta) y una ventana de Mac enorme que se sale por abajo y por la derecha
-  P.codigo = function (ctx, M, T, s) {
-    const d = s.codigo, u = M.u, k = M.k, osc = OSC(T), esc = s.escala || 1;
+  // Code: the big sentence on top (like the question) and a huge Mac window that bleeds off the bottom and the right
+  P.code = function (ctx, M, T, s) {
+    const d = s.code, u = M.u, k = M.k, dark = isDark(T), scale = s.scale || 1;
     const logoH = logo(ctx, M, T);
-    const lineas = String(d.codigo || '').replace(/\t/g, '    ').split('\n').slice(0, 12);
-    const capAncho = M.horiz ? M.W * 0.36 : M.ancho * 0.92;
-    const cap = ajustar(ctx, d.texto, { px: (M.horiz ? 64 : 104) * u * k, min: 40 * u, ancho: capAncho, maxLineas: M.horiz ? 4 : 3, inter: 1.0, track: -0.03 });
+    const lines = String(d.code || '').replace(/\t/g, '    ').split('\n').slice(0, 12);
+    const capW = M.horiz ? M.W * 0.36 : M.width * 0.92;
+    const cap = fit(ctx, d.text, { px: (M.horiz ? 64 : 104) * u * k, min: 40 * u, width: capW, maxLines: M.horiz ? 4 : 3, leading: 1.0, track: -0.03 });
     const yCap = M.top + logoH + (M.horiz ? 50 : 110 * u);
-    pintarTexto(ctx, cap, M.m, yCap, T.texto);
-    // ventana
-    let px = (M.horiz ? 38 : 54) * u * k * esc;
+    drawText(ctx, cap, M.m, yCap, T.text);
+    let px = (M.horiz ? 38 : 54) * u * k * scale;
     let vx, vy;
-    if (M.horiz) { vx = M.m + capAncho + 60; vy = M.top + 40; }
-    else { vx = M.m; vy = yCap + cap.alto + (M.story ? 90 : 70) * u; }
-    const vw = M.W - vx + 300, vh = M.H - vy + 300;               // se sale del lienzo
-    const inter = px * 1.6, barra = px * 2.4, pad = px * 1.4;
-    // que las líneas quepan en el hueco visible (y dentro de la zona segura en story)
-    const limite = (M.story ? M.bottom : M.H - 30 * u) - vy - barra - pad;
-    if (lineas.length * inter > limite) { px *= limite / (lineas.length * inter); }
-    // y que la línea más larga se lea entera dentro del lienzo
+    if (M.horiz) { vx = M.m + capW + 60; vy = M.top + 40; }
+    else { vx = M.m; vy = yCap + cap.height + (M.story ? 90 : 70) * u; }
+    const vw = M.W - vx + 300, vh = M.H - vy + 300;               // bleeds off the canvas
+    const leading = px * 1.6, bar = px * 2.4, pad = px * 1.4;
+    // the lines must fit in the visible gap (and inside the safe zone in story)
+    const limit = (M.story ? M.bottom : M.H - 30 * u) - vy - bar - pad;
+    if (lines.length * leading > limit) { px *= limit / (lines.length * leading); }
+    // and the longest line must be read whole inside the canvas
     const maxW = M.W - vx - M.m * 0.6;
-    const anchoCod = (p) => { fuente(ctx, 'codigo', 400, p, 0); return Math.max(...lineas.map((l) => ctx.measureText(l).width)) + ctx.measureText(String(lineas.length)).width + p * 3.0; };
-    while (px > 14 && anchoCod(px) > maxW) px -= 1;
+    const codeWidth = (p) => { font(ctx, 'code', 400, p, 0); return Math.max(...lines.map((l) => ctx.measureText(l).width)) + ctx.measureText(String(lines.length)).width + p * 3.0; };
+    while (px > 14 && codeWidth(px) > maxW) px -= 1;
     const I = px * 1.6, B = px * 2.4, Pd = px * 1.4;
-    const sup = osc ? '#1C1C20' : '#FFFFFF', borde = osc ? '#2E2E34' : T.mancha ? 'rgba(17,17,17,0.12)' : '#E3E3E8';
-    ctx.save(); ctx.shadowColor = osc ? 'rgba(0,0,0,0.7)' : 'rgba(17,17,17,0.14)'; ctx.shadowBlur = 80 * u; ctx.shadowOffsetY = 30 * u;
-    redondo(ctx, vx, vy, vw, vh, 30 * u); ctx.fillStyle = sup; ctx.fill(); ctx.restore();
-    redondo(ctx, vx + 0.5, vy + 0.5, vw - 1, vh - 1, 30 * u); ctx.strokeStyle = borde; ctx.lineWidth = Math.max(1, 1.5 * u); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(vx, vy + B); ctx.lineTo(M.W, vy + B); ctx.strokeStyle = borde; ctx.stroke();
+    const surf = dark ? '#1C1C20' : '#FFFFFF', border = dark ? '#2E2E34' : T.blobs ? 'rgba(17,17,17,0.12)' : '#E3E3E8';
+    ctx.save(); ctx.shadowColor = dark ? 'rgba(0,0,0,0.7)' : 'rgba(17,17,17,0.14)'; ctx.shadowBlur = 80 * u; ctx.shadowOffsetY = 30 * u;
+    rounded(ctx, vx, vy, vw, vh, 30 * u); ctx.fillStyle = surf; ctx.fill(); ctx.restore();
+    rounded(ctx, vx + 0.5, vy + 0.5, vw - 1, vh - 1, 30 * u); ctx.strokeStyle = border; ctx.lineWidth = Math.max(1, 1.5 * u); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(vx, vy + B); ctx.lineTo(M.W, vy + B); ctx.strokeStyle = border; ctx.stroke();
     ['#FF5F57', '#FEBC2E', '#28C840'].forEach((c, i) => { ctx.beginPath(); ctx.arc(vx + Pd + i * px * 0.95, vy + B / 2, px * 0.26, 0, 7); ctx.fillStyle = c; ctx.fill(); });
-    if (d.archivo) { fuente(ctx, 'texto', 500, px * 0.62, 0); ctx.fillStyle = T.texto3; ctx.fillText(d.archivo, vx + Pd + px * 3.4, vy + B / 2 + px * 0.22); }
-    fuente(ctx, 'codigo', 400, px, 0);
-    const nw = ctx.measureText(String(lineas.length)).width + px * 1.6;
-    lineas.forEach((l, i) => {
+    if (d.file) { font(ctx, 'text', 500, px * 0.62, 0); ctx.fillStyle = dark ? '#8C8C96' : '#6E6E78'; /* the window grey: the theme's one is white in colour */ ctx.fillText(d.file, vx + Pd + px * 3.4, vy + B / 2 + px * 0.22); }
+    font(ctx, 'code', 400, px, 0);
+    const nw = ctx.measureText(String(lines.length)).width + px * 1.6;
+    lines.forEach((l, i) => {
       const yy = vy + B + Pd * 0.9 + i * I + px;
-      ctx.fillStyle = osc ? '#5C5C66' : '#B0B0B8'; ctx.textAlign = 'right'; ctx.fillText(String(i + 1), vx + Pd + nw - px, yy); ctx.textAlign = 'left';
+      ctx.fillStyle = dark ? '#5C5C66' : '#B0B0B8'; ctx.textAlign = 'right'; ctx.fillText(String(i + 1), vx + Pd + nw - px, yy); ctx.textAlign = 'left';
       let x = vx + Pd + nw;
-      tokens(l).forEach(([tk, c]) => { ctx.fillStyle = osc ? c : oscurecer(c); ctx.fillText(tk, x, yy); x += ctx.measureText(tk).width; });
+      tokens(l).forEach(([tk, c]) => { ctx.fillStyle = dark ? c : darken(c); ctx.fillText(tk, x, yy); x += ctx.measureText(tk).width; });
     });
   };
 
 
-  // en claro, los colores del código se oscurecen para leerse sobre papel
-  function oscurecer(c) {
+  // in light, the code colours are darkened so they read on paper
+  function darken(c) {
     if (c === '#FFFFFF') return '#111111'; if (c === '#B8B8C2') return '#55555F';
     const n = parseInt(c.slice(1), 16), f = 0.58;
     return `rgb(${Math.round((n >> 16) * f)},${Math.round(((n >> 8) & 255) * f)},${Math.round((n & 255) * f)})`;
   }
 
-  // Pregunta: el "hola" en macro, recortado y saliéndose del marco
-  P.pregunta = function (ctx, M, T, s) {
-    const d = s.pregunta, u = M.u, k = M.k;
-    const ih = T.mancha ? R.img.holaBlanco : R.img.hola;
+  // Question: the "hola" in macro, cropped and bleeding off the frame
+  P.question = function (ctx, M, T, s) {
+    const d = s.question, u = M.u, k = M.k;
+    const ih = T.blobs ? R.img.holaWhite : R.img.hola;
     if (ih) {
-      const h = (M.horiz ? M.H * 1.05 : M.H * (M.story ? 0.5 : 0.62)) * (s.escala || 1);
+      const h = (M.horiz ? M.H * 1.05 : M.H * (M.story ? 0.5 : 0.62)) * (s.scale || 1);
       const x = M.horiz ? M.W * 0.42 : M.W * 0.14, y = M.horiz ? M.H * 0.28 : M.H - h * (M.story ? 0.82 : 0.78), w = ih.width * h / ih.height;
-      tubo(ctx, ih, x, y, h, T);
+      tube(ctx, ih, x, y, h, T);
     }
     logo(ctx, M, T);
-    const ancho = M.horiz ? M.ancho * 0.56 : M.ancho * 0.92;
-    const q = ajustar(ctx, d.pregunta, { px: (M.horiz ? 66 : 104) * u * k, min: 44 * u, ancho, maxLineas: M.story ? 5 : 4, inter: 1.0, track: -0.03 });
-    const sub = ajustar(ctx, d.texto, { fam: 'texto', peso: 400, px: (M.horiz ? 32 : 44) * u * k, min: 24 * u, ancho, maxLineas: 3, inter: 1.3, track: -0.01 });
+    const width = M.horiz ? M.width * 0.56 : M.width * 0.92;
+    const q = fit(ctx, d.question, { px: (M.horiz ? 66 : 104) * u * k, min: 44 * u, width, maxLines: M.story ? 5 : 4, leading: 1.0, track: -0.03 });
+    const sub = fit(ctx, d.text, { fam: 'text', weight: 400, px: (M.horiz ? 32 : 44) * u * k, min: 24 * u, width, maxLines: 3, leading: 1.3, track: -0.01 });
     let y = M.top + 54 * u + (M.horiz ? 50 : 110 * u);
-    pintarTexto(ctx, q, M.m, y, T.texto); y += q.alto + 34 * u;
-    if (d.texto) pintarTexto(ctx, sub, M.m, y, T.texto2);
+    drawText(ctx, q, M.m, y, T.text); y += q.height + 34 * u;
+    if (d.text) drawText(ctx, sub, M.m, y, T.text2);
   };
 
-  // ── Entrada pública ─────────────────────────────────────────────────────
-  R.componer = function (canvas, formato, s, fotos) {
-    R.aviso = '';
-    const M = marco(formato), ctx = canvas.getContext('2d');
+  // ── Public entry point ──────────────────────────────────────────────────
+  R.compose = function (canvas, format, s, photos) {
+    R.message = '';
+    const M = frame(format), ctx = canvas.getContext('2d');
     canvas.width = M.W; canvas.height = M.H;
-    const T = s.tema === 'color' ? temaColor(R.PIEZAS[s.pieza].acento || 'violeta') : (R.TEMAS[s.tema] || R.TEMAS.claro);
-    fondo(ctx, M, T);
-    const zonas = [];
-    P[s.pieza](ctx, M, T, s, fotos || {}, zonas);
-    grano(ctx, M, T);
-    return zonas;
+    const T = s.theme === 'color' || s.theme === 'color2' ? colorTheme(R.themeAccent(s.piece, s.theme)) : (R.THEMES[s.theme] || R.THEMES.light);
+    background(ctx, M, T);
+    const zones = [];
+    P[s.piece](ctx, M, T, s, photos || {}, zones);
+    grain(ctx, M, T);
+    return zones;
   };
   R.BASE = {
-    pieza: 'charla', formato: 'post', tema: 'claro', escala: 1, temaCodigo: 'oscuro',     charla:   { numero: '1', tema: 'SwiftUI', titulo: 'Animaciones que se sienten nativas', fecha: 'Miércoles 20 de enero', hora: '19:00 (España)', lugar: 'Online', ponente0: 'Nombre Apellido', rol0: 'iOS developer en Empresa', ponente1: '', rol1: '' },
-    persona:  { etiqueta: 'Embajadora', nombre: 'Nombre Apellido', ciudad: 'Bogotá', frase: 'Empecé con Swift sola. Aquí ya no lo estoy.' },
-    evento:   { ciudad: '2027', fecha: 'Fecha por anunciar', lugar: 'Ciudad y sede por anunciar', boton: 'holaswift.com' },
-    codigo:   { archivo: 'Comunidad.swift', codigo: 'let comunidad = "en español"\n\nif estásSolo {\n    únete()\n}', texto: 'Ya no estáis solos.' },
-    pregunta: { etiqueta: 'Comunidad', pregunta: '¿Qué tal tu primer build?', texto: 'Cuéntanoslo en los comentarios.' },
+    piece: 'session', format: 'post', theme: 'light', scale: 1,
+    session:  { month: 'Sesión de enero 2027', word: 'Enero', title: 'Animaciones que se sienten nativas', date: 'Miércoles 20 de enero', time: '19:00 (España)', place: 'Online',
+                speaker0: 'Nombre Apellido', role0: 'iOS Developer', speaker1: '', role1: '', speaker2: '', role2: '' },
+    person:   { label: 'Embajadora', name: 'Nombre Apellido', city: 'España', quote: 'Empecé con Swift sola. Aquí ya no lo estoy.' },
+    event:    { word: '2027', date: 'Fecha por anunciar', place: 'Sede por anunciar', city: 'España', lastLine: 'holaswift.com' },
+    code:     { file: 'Comunidad.swift', code: 'let comunidad = "en español"\n\nif estásSolo {\n    únete()\n}', text: 'Ya no estáis solos.' },
+    collage:  { count: '3', text: 'Así fue la sesión de enero.' },
+    notice:   { label: 'Novedad', headline: 'Ya está la grabación de la sesión de enero.', line: 'holaswift.com', glyph: 'at' },
+    resource: { label: 'Recurso', why: 'Para entender cómo piensa SwiftUI por dentro.', title: 'Demystify SwiftUI', source: 'Apple, WWDC21', link: 'developer.apple.com/videos' },
+    sponsor:  { label: 'Patrocinio', company: 'Empresa', title: 'Gracias a Empresa por apoyar a la comunidad de Swift en español.', line: 'holaswift.com' },
+    logo:     { shape: 'h', finish: '2d', description: '' },
+    question: { label: 'Comunidad', question: '¿Qué tal tu primer build?', text: 'Cuéntanoslo en los comentarios.' },
   };
-  window.HolaRedes = R;
+  window.HolaSocial = R;
 })();
 </script>
-<script>/* hola Swift · Redes — interfaz. Lee y escribe un único objeto de estado (solo en memoria: no se guarda nada). */
+<script>/* hola Swift · Redes: UI. Reads and writes a single state object (in memory only: nothing is saved). */
 (function () {
-  const R = window.HolaRedes, $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const CLAVE = 'holaswift-redes-v1';
-  const copia = (o) => JSON.parse(JSON.stringify(o));
-  let s = copia(R.BASE); s.fotos = {};
-  // No se guarda nada: cada vez que se abre, empieza de cero. Borra lo que guardaban versiones anteriores.
-  try { localStorage.removeItem(CLAVE); } catch (e) {}
-  const fotosIm = {};                                          // id -> {im, fx, fy, zoom}
+  const R = window.HolaSocial, $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const STORAGE_KEY = 'holaswift-redes-v1';
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  let s = clone(R.BASE); s.photos = {};
+  // Nothing is saved: every time it opens, it starts from scratch. Delete what older versions stored.
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  const photoImages = {};                                      // id -> {im, fx, fy, zoom}
 
-  // ── Campos por pieza ─────────────────────────────────────────────────────
-  const CAMPOS = {
-    charla: [
-      ['fila', ['numero', 'Número', 'text', 'Charla #'], ['tema', 'Tema', 'text', 'Sale enorme: SwiftUI, Xcode…']],
-      ['titulo', 'Título de la charla', 'area'], ['fila', ['fecha', 'Fecha', 'text'], ['hora', 'Hora', 'text']], ['lugar', 'Dónde', 'text'],
-      ['fila', ['ponente0', 'Ponente', 'text'], ['rol0', 'Rol', 'text']],
-      ['fila', ['ponente1', 'Segundo ponente', 'text', 'Opcional'], ['rol1', 'Rol', 'text']],
+  // ── Fields per piece ─────────────────────────────────────────────────────
+  // The first element is the data key, except for the markers 'row', 'groups' and 'legend': no data key may use those names.
+  const FIELDS = {
+    session: [
+      ['row', ['month', 'Sesión', 'text', 'Sesión de enero 2027'], ['word', 'Palabra grande', 'text', 'El mes: Enero, Febrero…']],
+      ['title', 'Nombre de la sesión', 'area'], ['row', ['date', 'Fecha', 'text'], ['time', 'Hora', 'text']], ['place', 'Dónde', 'text'],
+      ['groups', 'Ponentes', [['0', 'Primer ponente'], ['1', 'Segundo ponente', 'Opcional'], ['2', 'Tercer ponente', 'Opcional']].map(([i, title, help]) =>
+        ({ title, help, photo: 'speaker' + i, fields: [['row', ['speaker' + i, 'Nombre', 'text'], ['role' + i, 'Rol', 'text']]] }))],
     ],
-    persona: [['etiqueta', 'Etiqueta', 'text', 'Embajadora, Embajador, Ponente…'], ['nombre', 'Nombre', 'text'], ['ciudad', 'Ciudad', 'text'], ['frase', 'Frase', 'area', 'Opcional']],
-    evento: [['ciudad', 'Palabra grande', 'text', 'Una ciudad, un año…'], ['fecha', 'Fecha', 'text'], ['fila', ['lugar', 'Lugar', 'text'], ['boton', 'Última línea', 'text', 'Opcional']]],
-    codigo: [['archivo', 'Nombre del archivo', 'text', 'Opcional'], ['codigo', 'Código', 'mono', 'Swift, hasta 12 líneas'], ['texto', 'Frase debajo', 'area']],
-    pregunta: [['pregunta', 'Pregunta', 'area', 'Con sus signos: ¿…?'], ['texto', 'Texto debajo', 'area', 'Opcional']],
+    person: [['groups', 'Persona', [{ photo: 'person', fields: [['name', 'Nombre', 'text'], ['quote', 'Frase', 'area', 'Opcional'],
+      ['row', ['label', 'Etiqueta', 'text', 'Embajadora, Ponente…'], ['city', 'De', 'text', 'Ciudad o país']]] }]]],
+    event: [['word', 'Palabra grande', 'text', 'Una ciudad, un año…'], ['date', 'Fecha', 'text'], ['row', ['place', 'Lugar', 'text'], ['city', 'Ciudad', 'text']], ['lastLine', 'Última línea', 'text', 'Opcional']],
+    code: [['text', 'Frase', 'area'], ['file', 'Nombre del archivo', 'text', 'Opcional'], ['code', 'Código', 'mono', 'Swift, hasta 12 líneas']],
+    question: [['question', 'Pregunta', 'area', 'Con sus signos: ¿…?'], ['text', 'Texto debajo', 'area', 'Opcional']],
+    collage: [['text', 'Descripción', 'area', 'Opcional'], ['count', 'Cuántas fotos', 'segmented', [['1', 'Una'], ['2', 'Dos'], ['3', 'Tres']]],
+      ['groups', 'Fotos', (d) => [0, 1, 2].slice(0, +d.count || 1).map((i) => ({ title: 'Foto ' + (i + 1), photo: 'photo' + i, fields: [] }))]],
+    notice: [['label', 'Etiqueta', 'text', 'Aviso, Novedad, Recordatorio…'], ['headline', 'Titular', 'area'], ['line', 'Línea de abajo', 'text', 'Opcional'], ['glyph', 'Glifo', 'glyph']],
+    resource: [['label', 'Etiqueta', 'text', 'Recurso, Vídeo, Artículo…'], ['why', 'Por qué lo compartimos', 'area', 'Opcional'], ['title', 'Título del recurso', 'area'],
+      ['row', ['source', 'Autor o fuente', 'text'], ['link', 'Enlace', 'text', 'Sin https://']],
+      ['groups', 'Imagen', [{ photo: 'resource', fields: [] }], 'Opcional: una captura o la miniatura del vídeo. Arrástrala en la vista previa para encuadrarla.']],
+    sponsor: [['row', ['label', 'Etiqueta', 'text', 'Patrocinio, Colaboración…'], ['company', 'Empresa', 'text']], ['title', 'Titular', 'area'], ['line', 'Línea de abajo', 'text', 'Opcional'],
+      ['groups', 'Logo de la empresa', [{ photo: 'sponsor', fields: [] }], 'Mejor en PNG o SVG, con fondo transparente. Sin logo, sale el nombre de la empresa.']],
+    logo: [['legend', 'Versión'], ['shape', 'Forma', 'segmented', [['h', 'La h'], ['horizontal', 'Horizontal'], ['stacked', 'Apilado']]], ['finish', 'Acabado', 'segmented', [['2d', '2D'], ['3d', '3D']]], ['description', 'Descripción', 'area', 'Opcional: La comunidad de Swift en español.']],
   };
-  const FOTOS = { charla: [['ponente0', 'Ponente'], ['ponente1', 'Segundo ponente']], persona: [['persona', 'Foto']] };
 
-  // ── Construcción del formulario ──────────────────────────────────────────
-  const piezas = $('#piezas');
-  Object.entries(R.PIEZAS).forEach(([k, p]) => {
+  // ── Form building ────────────────────────────────────────────────────────
+  const pieceButtons = $('#pieces');
+  Object.entries(R.PIECES).forEach(([k, p]) => {
     const b = document.createElement('button'); b.type = 'button'; b.dataset.v = k;
-    b.innerHTML = (p.acento ? `<i style="background:${R.ESPECTRO[p.acento]}"></i>` : '<i style="background:#111"></i>') + p.nombre;
-    b.onclick = () => { s.pieza = k; montar(); pintar(); };
-    piezas.append(b);
+    b.innerHTML = (p.accent ? `<i style="background:${R.SPECTRUM[p.accent]}"></i>` : '<i style="background:#111"></i>') + p.name;
+    b.onclick = () => { s.piece = k; build(); render(); };
+    pieceButtons.append(b);
   });
-  function campo([clave, etiqueta, tipo, ayuda]) {
+  function field([key, label, type, extra]) {
+    if (type === 'glyph') {
+      const l = document.createElement('div'); l.className = 'seg-field'; l.append(label);
+      const g = document.createElement('div'); g.className = 'glyphs'; g.setAttribute('role', 'group'); g.setAttribute('aria-label', label);
+      R.GLYPHS.forEach(([v, name]) => {
+        const b = document.createElement('button'), url = R.PATHS['glyph-' + v];
+        b.type = 'button'; b.setAttribute('aria-label', name); b.setAttribute('aria-pressed', s[s.piece][key] === v);
+        b.innerHTML = `<img src="${(window.HOLA_SOCIAL_DATA || {})[url] || url}" alt="">`;
+        b.onclick = () => { s[s.piece][key] = v; build(); render(); }; g.append(b);
+      });
+      l.append(g); return l;
+    }
+    if (type === 'segmented') {                               // in 'segmented', the fourth element is the options: [value, text]
+      const l = document.createElement('div'); l.className = 'seg-field'; l.append(label);
+      const g = document.createElement('div'); g.className = 'seg switch'; g.setAttribute('role', 'group'); g.setAttribute('aria-label', label);
+      g.style.gridTemplateColumns = `repeat(${extra.length}, 1fr)`;
+      extra.forEach(([v, text]) => {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = text; b.setAttribute('aria-pressed', s[s.piece][key] === v);
+        b.onclick = () => { s[s.piece][key] = v; build(); render(); }; g.append(b);
+      });
+      l.append(g); return l;
+    }
     const l = document.createElement('label');
-    l.append(etiqueta); if (ayuda) { const sm = document.createElement('small'); sm.textContent = ayuda; l.append(sm); }
-    const el = tipo === 'text' ? document.createElement('input') : document.createElement('textarea');
-    if (tipo === 'text') el.type = 'text'; if (tipo === 'mono') { el.className = 'mono'; el.spellcheck = false; }
-    el.id = `${s.pieza}-${clave}`; el.value = s[s.pieza][clave] || '';
-    el.oninput = () => { s[s.pieza][clave] = el.value; pintar(); };
+    l.append(label); if (extra) { const sm = document.createElement('small'); sm.textContent = extra; l.append(sm); }
+    const el = type === 'text' ? document.createElement('input') : document.createElement('textarea');
+    if (type === 'text') el.type = 'text'; if (type === 'mono') { el.className = 'mono'; el.spellcheck = false; }
+    el.id = `${s.piece}-${key}`; el.value = s[s.piece][key] || '';
+    el.oninput = () => { s[s.piece][key] = el.value; render(); };
     l.append(el); return l;
   }
-  function montar() {
-    $$('#piezas button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.pieza));
-    const cs = $('#campos'); cs.replaceChildren(cs.querySelector('legend') || Object.assign(document.createElement('legend'), { textContent: 'Textos' }));
-    CAMPOS[s.pieza].forEach((c) => {
-      if (c[0] === 'fila') { const f = document.createElement('div'); f.className = 'fila'; f.append(campo(c[1]), campo(c[2])); cs.append(f); }
-      else cs.append(campo(c));
+  function build() {
+    $$('#pieces button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.piece));
+    const cs = $('#fields'), legend = FIELDS[s.piece].find((c) => c[0] === 'legend');   // 'Textos' unless the piece says otherwise
+    cs.replaceChildren(Object.assign(document.createElement('legend'), { textContent: legend ? legend[1] : 'Textos' }));
+    $$('fieldset.groups').forEach((n) => n.remove());
+    let after = cs;
+    FIELDS[s.piece].forEach((c) => {
+      if (c[0] === 'groups') { const g = groups(c[1], typeof c[2] === 'function' ? c[2](s[s.piece]) : c[2], c[3]); after.after(g); after = g; }
+      else if (c[0] !== 'legend') cs.append(c[0] === 'row' ? row(c) : field(c));
     });
-    // fotos
-    const fs = $('#fotos'); fs.hidden = !FOTOS[s.pieza];
-    $$('.foto', fs).forEach((n) => n.remove());
-    (FOTOS[s.pieza] || []).forEach(([id, nombre]) => fs.append(controlFoto(id, nombre)));
-    $$('#tema button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.tema));
-    $('.rango').hidden = s.pieza === 'persona';
+    cs.hidden = cs.children.length < 2;                      // only the legend: everything is in its own boxes
+    const list = R.formatsFor(s.piece);
+    if (!list.includes(s.format)) s.format = 'post';
+    $$('.formats button').forEach((b) => (b.hidden = !list.includes(b.dataset.v)));
+    $(".formats").style.gridTemplateColumns = `repeat(${list.length > 4 ? 3 : 4}, minmax(0, 1fr))`;   // six: two rows of three
+    $('#all-formats').textContent = list.length === 4 ? 'Los cuatro formatos' : `Los ${list.length} formatos`;
+    $$('#theme button').forEach((b) => {
+      b.setAttribute('aria-pressed', b.dataset.v === s.theme);
+      if (b.dataset.v.startsWith('color')) b.innerHTML = `<i style="background:${R.SPECTRUM[R.themeAccent(s.piece, b.dataset.v)]}"></i>Color ${b.dataset.v === 'color2' ? 2 : 1}`;
+    });
+    $('.range').hidden = ['person', 'collage', 'resource', 'sponsor'].includes(s.piece);
+    $('.range').firstChild.textContent = { logo: 'Tamaño del logo ', notice: 'Tamaño del glifo ' }[s.piece] || 'Tamaño del tubo ';
   }
-  function controlFoto(id, nombre) {
-    const d = document.createElement('div'); d.className = 'foto';
-    const f = s.fotos[id];
+  function row(c) { const f = document.createElement('div'); f.className = 'row'; f.append(field(c[1]), field(c[2])); return f; }
+  // one box with the photo and the details of each person; with several, a frame for each one inside the box
+  function groups(title, items, help) {
+    const fs = document.createElement('fieldset'); fs.className = 'groups';
+    fs.innerHTML = `<legend>${title}</legend><p class="help"></p>`;
+    $('.help', fs).textContent = help || `Arrastra ${items.length > 1 ? 'cada foto' : 'la foto'} en la vista previa para encuadrarla.`;
+    items.forEach((it) => {
+      const g = items.length > 1 ? Object.assign(document.createElement('div'), { className: 'group' }) : fs;
+      if (it.title && items.length > 1) {
+        const h = document.createElement('p'); h.className = 'group-title'; h.textContent = it.title;
+        if (it.help) { const sm = document.createElement('small'); sm.textContent = it.help; h.append(' ', sm); }
+        g.append(h);
+      }
+      g.append(photoControl(it.photo, ''));
+      it.fields.forEach((c) => g.append(c[0] === 'row' ? row(c) : field(c)));
+      if (g !== fs) fs.append(g);
+    });
+    return fs;
+  }
+  function photoControl(id, name) {
+    const d = document.createElement('div'); d.className = 'photo';
+    const f = s.photos[id];
     d.innerHTML = `<div class="mini" style="${f && f.src ? `background-image:url(${f.src})` : ''}"></div>
-      <div class="ctl"><b>${nombre}</b>
-        <div class="botones"><label>${f && f.src ? 'Cambiar' : 'Subir'} foto<input type="file" accept="image/*" hidden></label>${f && f.src ? '<button type="button">Quitar</button>' : ''}</div>
-        ${f && f.src ? `<label style="font-weight:400;font-size:13px;color:var(--texto-3)">Zoom<input type="range" min="1" max="2.5" step="0.01" value="${f.zoom || 1}"></label>` : ''}
+      <div class="ctl">${name ? `<b>${name}</b>` : ''}
+        <div class="buttons"><label>${f && f.src ? 'Cambiar' : 'Subir'} foto<input type="file" accept="image/*" hidden></label>${f && f.src ? '<button type="button">Quitar</button>' : ''}</div>
+        ${f && f.src ? `<label style="font-weight:400;font-size:13px;color:var(--text-3)">Zoom<input type="range" min="1" max="2.5" step="0.01" value="${f.zoom || 1}"></label>` : ''}
       </div>`;
     $('input[type=file]', d).onchange = async (e) => {
       const file = e.target.files[0]; if (!file) return;
-      const src = await reducir(file, 1600);
-      s.fotos[id] = { src, fx: 0.5, fy: 0.35, zoom: 1 }; await cargarFoto(id); montar(); pintar();
+      const src = await downscale(file, 1600);
+      s.photos[id] = { src, fx: 0.5, fy: 0.35, zoom: 1 }; await loadPhoto(id); build(); render();
     };
-    const q = $('.botones button', d); if (q) q.onclick = () => { delete s.fotos[id]; delete fotosIm[id]; montar(); pintar(); };
-    const r = $('input[type=range]', d); if (r) r.oninput = () => { s.fotos[id].zoom = +r.value; fotosIm[id].zoom = +r.value; pintar(); };
+    const q = $('.buttons button', d); if (q) q.onclick = () => { delete s.photos[id]; delete photoImages[id]; build(); render(); };
+    const r = $('input[type=range]', d); if (r) r.oninput = () => { s.photos[id].zoom = +r.value; photoImages[id].zoom = +r.value; render(); };
     return d;
   }
-  function reducir(file, max) {
+  function downscale(file, max) {
     return new Promise((ok, ko) => {
       const url = URL.createObjectURL(file), im = new Image();
-      im.onload = () => { const k = Math.min(1, max / Math.max(im.width, im.height)); const c = document.createElement('canvas'); c.width = Math.round(im.width * k); c.height = Math.round(im.height * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url); ok(c.toDataURL('image/jpeg', 0.9)); };
+      im.onload = () => {
+        // JPEG only if it already was one: a logo with transparency would come out with a black background. An SVG is drawn at the maximum size.
+        const svg = file.type === 'image/svg+xml', iw = im.naturalWidth || 1200, ih = im.naturalHeight || 600;
+        const k = svg ? max / Math.max(iw, ih) : Math.min(1, max / Math.max(iw, ih));
+        const c = document.createElement('canvas'); c.width = Math.round(iw * k); c.height = Math.round(ih * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url); ok(file.type === 'image/jpeg' ? c.toDataURL('image/jpeg', 0.9) : c.toDataURL('image/png'));
+      };
       im.onerror = () => ko(new Error('No se pudo leer la imagen')); im.src = url;
     });
   }
-  function cargarFoto(id) {
-    const f = s.fotos[id]; if (!f || !f.src) return Promise.resolve();
-    return new Promise((ok) => { const im = new Image(); im.onload = () => { fotosIm[id] = { im, fx: f.fx, fy: f.fy, zoom: f.zoom || 1 }; ok(); }; im.onerror = ok; im.src = f.src; });
+  function loadPhoto(id) {
+    const f = s.photos[id]; if (!f || !f.src) return Promise.resolve();
+    return new Promise((ok) => { const im = new Image(); im.onload = () => { photoImages[id] = { im, fx: f.fx, fy: f.fy, zoom: f.zoom || 1 }; ok(); }; im.onerror = ok; im.src = f.src; });
   }
-  const esc = $('#escala'), escV = () => ($('#escalaVal').textContent = Math.round((s.escala || 1) * 100) + ' %');
-  esc.value = s.escala || 1; escV();
-  esc.oninput = () => { s.escala = +esc.value; escV(); pintar(); };
-  esc.ondblclick = () => { s.escala = 1; esc.value = 1; escV(); pintar(); };
-  $$('#tema button').forEach((b) => (b.onclick = () => { s.tema = b.dataset.v; montar(); pintar(); }));
-  $("#reset").onclick = () => { const f = s.formato; s = copia(R.BASE); s.fotos = {}; s.formato = f; for (const k in fotosIm) delete fotosIm[k]; $("#escala").value = 1; $("#escalaVal").textContent = "100 %"; montar(); pintar(); estado("Todo vuelve a los textos de ejemplo."); };
+  const scaleInput = $('#scale'), showScale = () => ($('#scale-value').textContent = Math.round((s.scale || 1) * 100) + ' %');
+  scaleInput.value = s.scale || 1; showScale();
+  scaleInput.oninput = () => { s.scale = +scaleInput.value; showScale(); render(); };
+  scaleInput.ondblclick = () => { s.scale = 1; scaleInput.value = 1; showScale(); render(); };
+  $$('#theme button').forEach((b) => (b.onclick = () => { s.theme = b.dataset.v; build(); render(); }));
+  $("#reset").onclick = () => { const f = s.format; s = clone(R.BASE); s.photos = {}; s.format = f; for (const k in photoImages) delete photoImages[k]; $("#scale").value = 1; $("#scale-value").textContent = "100 %"; build(); render(); setStatus("Todo vuelve a los textos de ejemplo."); };
 
-  // ── Formatos y vista previa ──────────────────────────────────────────────
-  const lienzo = $('canvas.lienzo'), seguro = $('.seguro');
-  const fmts = $('.formatos');
-  Object.entries(R.FORMATOS).forEach(([k, F]) => {
+  // ── Formats and preview ──────────────────────────────────────────────────
+  const canvas = $('canvas.artboard'), safeZone = $('.safe-zone');
+  // the same icons as the holaswift.com footer, and in its order: each network always shows in the same place
+  const ICONS = {"X": "<path fill=\"currentColor\" d=\"M17.8 3h3.1l-6.8 7.7 8 10.3h-6.2l-4.9-6.3L5.4 21H2.3l7.3-8.2L1.9 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z\"/>", "Mastodon": "<path fill=\"currentColor\" d=\"M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z\"/>", "Bluesky": "<path fill=\"currentColor\" d=\"M5.9 3.6C8.2 5.3 10.6 8.8 11.5 10.7c.9-1.9 3.3-5.4 5.6-7.1 1.6-1.2 4.3-2.2 4.3.9 0 .6-.4 5.2-.6 5.9-.7 2.6-3.3 3.2-5.6 2.8 4 .7 5 3 2.8 5.2-4.2 4.3-6-1.1-6.5-2.5l-.1-.4-.1.4c-.5 1.4-2.3 6.8-6.5 2.5-2.2-2.2-1.2-4.5 2.8-5.2-2.3.4-4.9-.2-5.6-2.8-.2-.7-.6-5.3-.6-5.9 0-3.1 2.7-2.1 4.3-.9Z\"/>", "LinkedIn": "<path fill=\"currentColor\" d=\"M6.5 8.6H3V21h3.5V8.6ZM4.8 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM21 14.2c0-3.3-.7-5.9-4.6-5.9-1.9 0-3.1 1-3.6 2V8.6H9.4V21h3.5v-6.1c0-1.6.3-3.2 2.3-3.2s2 1.9 2 3.3V21H21v-6.8Z\"/>", "Instagram": "<path fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" d=\"M7.5 2.9h9a4.6 4.6 0 0 1 4.6 4.6v9a4.6 4.6 0 0 1-4.6 4.6h-9a4.6 4.6 0 0 1-4.6-4.6v-9a4.6 4.6 0 0 1 4.6-4.6Z\"/><circle cx=\"12\" cy=\"12\" r=\"4.1\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\"/><circle cx=\"17.3\" cy=\"6.7\" r=\"1.2\" fill=\"currentColor\"/>", "Threads": "<path fill=\"currentColor\" d=\"M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.589 12c.027 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.321.142 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z\"/>"};
+  ICONS.Discord = '<path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>';
+  const fmts = $('.formats');
+  Object.entries(R.FORMATS).forEach(([k, F]) => {
     const b = document.createElement('button'); b.type = 'button'; b.dataset.v = k;
     const mini = document.createElement('canvas'); mini.width = 68; mini.height = Math.round(68 * F.h / F.w);
-    b.append(mini); const t = document.createElement('span'); t.innerHTML = `<b>${F.nombre}</b><small>${F.w}×${F.h} · ${F.uso}</small>`; b.append(t);
-    b.onclick = () => { s.formato = k; pintar(); };
+    b.append(mini); const t = document.createElement('span'); b.append(t);
+    t.innerHTML = `<b>${F.name}</b><small>${F.w}×${F.h}</small><small class="networks">${Object.keys(ICONS).filter((r) => F.networks.includes(r)).map((r) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[r]}</svg>`).join('')}</small>`;
+    b.setAttribute('aria-label', `${F.name}, ${F.w} por ${F.h}, para ${F.networks.join(', ')}`); b.title = F.networks.join(', ');
+    b.onclick = () => { s.format = k; render(); };
     fmts.append(b);
   });
-  let zonas = [], pendiente = false, miniT = 0;
-  function pintar() {
-    if (pendiente) return; pendiente = true;
+  let zones = [], pending = false, thumbTimer = 0;
+  function render() {
+    if (pending) return; pending = true;
     requestAnimationFrame(() => {
-      pendiente = false;
-      zonas = R.componer(lienzo, s.formato, s, fotosIm);
-      estado(R.aviso || '');
-      lienzo.classList.toggle('arrastrable', zonas.some((z) => fotosIm[z.id]));
-      $$('.formatos button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.formato));
-      colocarSeguro();
-      clearTimeout(miniT); miniT = setTimeout(miniaturas, 380);
+      pending = false;
+      zones = R.compose(canvas, s.format, s, photoImages);
+      setStatus(R.message || '');
+      canvas.classList.toggle('draggable', zones.some((z) => photoImages[z.id]));
+      $$('.formats button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.v === s.format));
+      placeSafeZone();
+      clearTimeout(thumbTimer); thumbTimer = setTimeout(thumbnails, 380);
     });
   }
-  function miniaturas() {
+  function thumbnails() {
     const tmp = document.createElement('canvas');
-    $$('.formatos button').forEach((b) => { R.componer(tmp, b.dataset.v, s, fotosIm); const m = $('canvas', b); const c = m.getContext('2d'); c.clearRect(0, 0, m.width, m.height); c.drawImage(tmp, 0, 0, m.width, m.height); });
+    $$('.formats button').forEach((b) => { R.compose(tmp, b.dataset.v, s, photoImages); const m = $('canvas', b); const c = m.getContext('2d'); c.clearRect(0, 0, m.width, m.height); c.drawImage(tmp, 0, 0, m.width, m.height); });
   }
-  function colocarSeguro() {
-    const F = R.FORMATOS[s.formato];
-    if (!F.seguro || !$('#verSeguro').checked) { seguro.hidden = true; return; }
-    const r = lienzo.getBoundingClientRect(), p = lienzo.parentElement.getBoundingClientRect(), k = r.height / F.h;
-    Object.assign(seguro.style, { left: r.left - p.left + 'px', width: r.width + 'px', top: r.top - p.top + F.seguro[0] * k + 'px', height: (F.seguro[1] - F.seguro[0]) * k + 'px' });
-    seguro.hidden = false;
+  function placeSafeZone() {
+    const F = R.FORMATS[s.format];
+    if (!F.safe || !$('#show-safe').checked) { safeZone.hidden = true; return; }
+    const r = canvas.getBoundingClientRect(), p = canvas.parentElement.getBoundingClientRect(), k = r.height / F.h;
+    Object.assign(safeZone.style, { left: r.left - p.left + 'px', width: r.width + 'px', top: r.top - p.top + F.safe[0] * k + 'px', height: (F.safe[1] - F.safe[0]) * k + 'px' });
+    safeZone.hidden = false;
   }
-  $('#verSeguro').onchange = colocarSeguro; addEventListener('resize', colocarSeguro);
+  $('#show-safe').onchange = placeSafeZone; addEventListener('resize', placeSafeZone);
 
-  // arrastrar para encuadrar una foto
-  let arr = null;
-  lienzo.addEventListener('pointerdown', (e) => {
-    const r = lienzo.getBoundingClientRect(), k = lienzo.width / r.width, x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
-    const z = [...zonas].reverse().find((z) => fotosIm[z.id] && x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h);
+  // drag to frame a photo
+  let drag = null;
+  canvas.addEventListener('pointerdown', (e) => {
+    const r = canvas.getBoundingClientRect(), k = canvas.width / r.width, x = (e.clientX - r.left) * k, y = (e.clientY - r.top) * k;
+    const z = [...zones].reverse().find((z) => photoImages[z.id] && x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h);
     if (!z) return;
-    arr = { z, x: e.clientX, y: e.clientY, k }; lienzo.setPointerCapture(e.pointerId); lienzo.style.cursor = 'grabbing';
+    drag = { z, x: e.clientX, y: e.clientY, k }; canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing';
   });
-  lienzo.addEventListener('pointermove', (e) => {
-    if (!arr) return;
-    const f = fotosIm[arr.z.id], im = f.im, z = arr.z;
-    const esc = Math.max(z.w / im.width, z.h / im.height) * f.zoom, sobraX = im.width * esc - z.w, sobraY = im.height * esc - z.h;
-    const dx = (e.clientX - arr.x) * arr.k, dy = (e.clientY - arr.y) * arr.k; arr.x = e.clientX; arr.y = e.clientY;
-    if (sobraX > 1) f.fx = R.clamp(f.fx - dx / sobraX, 0, 1);
-    if (sobraY > 1) f.fy = R.clamp(f.fy - dy / sobraY, 0, 1);
-    Object.assign(s.fotos[z.id], { fx: f.fx, fy: f.fy }); pintar();
+  canvas.addEventListener('pointermove', (e) => {
+    if (!drag) return;
+    const f = photoImages[drag.z.id], im = f.im, z = drag.z;
+    const k = Math.max(z.w / im.width, z.h / im.height) * f.zoom, spareX = im.width * k - z.w, spareY = im.height * k - z.h;
+    const dx = (e.clientX - drag.x) * drag.k, dy = (e.clientY - drag.y) * drag.k; drag.x = e.clientX; drag.y = e.clientY;
+    if (spareX > 1) f.fx = R.clamp(f.fx - dx / spareX, 0, 1);
+    if (spareY > 1) f.fy = R.clamp(f.fy - dy / spareY, 0, 1);
+    Object.assign(s.photos[z.id], { fx: f.fx, fy: f.fy }); render();
   });
-  const soltar = () => { if (arr) { arr = null; lienzo.style.cursor = ''; } };
-  lienzo.addEventListener('pointerup', soltar); lienzo.addEventListener('pointercancel', soltar);
+  const release = () => { if (drag) { drag = null; canvas.style.cursor = ''; } };
+  canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release);
 
-  // ── Exportar ─────────────────────────────────────────────────────────────
-  const TOCA = matchMedia('(pointer: coarse)').matches;
-  if (TOCA) $('#descargar').textContent = 'Compartir';
+  // ── Export ───────────────────────────────────────────────────────────────
+  const TOUCH = matchMedia('(pointer: coarse)').matches;
+  if (TOUCH) $('#download').textContent = 'Compartir';
   const slug = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
-  function nombre(fmt) {
-    const d = s[s.pieza], clave = { charla: d.tema, persona: d.nombre, evento: d.ciudad, codigo: d.archivo || d.texto, pregunta: d.pregunta }[s.pieza];
-    return ['holaswift', s.pieza, slug(clave), fmt].filter(Boolean).join('-') + '.png';
+  // file names keep the Spanish slugs (pieces, formats, logo shapes) they had before the code was in English
+  const LOGO_SHAPE_FILE = { h: 'h', horizontal: 'horizontal', stacked: 'apilado' };
+  function fileName(fmt) {
+    const d = s[s.piece], key = { session: d.word, person: d.name, event: d.word, code: d.file || d.text, question: d.question, collage: d.text, logo: LOGO_SHAPE_FILE[d.shape] || d.shape, notice: d.headline, resource: d.title, sponsor: d.company }[s.piece];
+    return ['holaswift', R.PIECES[s.piece].file, slug(key), fmt && R.FORMATS[fmt].file].filter(Boolean).join('-') + '.png';
   }
-  function blob(fmt) { const c = document.createElement('canvas'); R.componer(c, fmt, s, fotosIm); return new Promise((ok) => c.toBlob(ok, 'image/png')); }
-  // publicada como artifact de claude.ai, el visor solo deja descargar a través de su capacidad "downloads"
+  function blob(fmt) { const c = document.createElement('canvas'); R.compose(c, fmt, s, photoImages); return new Promise((ok) => c.toBlob(ok, 'image/png')); }
+  // published as a claude.ai artifact, the viewer only allows downloads through its "downloads" capability
   let dlP = null;
-  const descargas = () => (dlP = dlP || (window.claude && window.claude.use ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null)));
-  async function entregar(files) {
-    const dl = await descargas();
+  const downloads = () => (dlP = dlP || (window.claude && window.claude.use ? window.claude.use('downloads').catch(() => null) : Promise.resolve(null)));
+  async function deliver(files) {
+    const dl = await downloads();
     if (dl) {
       for (const f of files) {
         try { await dl.save({ filename: f.name, data: f }); }
-        catch (e) { estado(e && e.code === 'declined' ? 'Descarga cancelada.' : 'No se pudo descargar ' + f.name + '.'); return false; }
+        catch (e) { setStatus(e && e.code === 'declined' ? 'Descarga cancelada.' : 'No se pudo descargar ' + f.name + '.'); return false; }
       }
       return true;
     }
-    if (TOCA && navigator.canShare && navigator.canShare({ files })) { try { await navigator.share({ files }); return true; } catch (e) { if (e.name === 'AbortError') return false; } }
+    if (TOUCH && navigator.canShare && navigator.canShare({ files })) { try { await navigator.share({ files }); return true; } catch (e) { if (e.name === 'AbortError') return false; } }
     for (const f of files) { const a = document.createElement('a'); a.href = URL.createObjectURL(f); a.download = f.name; document.body.append(a); a.click(); a.remove(); await new Promise((r) => setTimeout(r, 300)); }
     return true;
   }
-  $('#descargar').onclick = async () => { const b = await blob(s.formato); if (await entregar([new File([b], nombre(s.formato), { type: 'image/png' })])) estado('Descargado: ' + nombre(s.formato)); };
-  $('#todos').onclick = async () => {
-    const btn = $('#todos'); btn.disabled = true; estado('Preparando los cuatro formatos…');
+  $('#download').onclick = async () => { const b = await blob(s.format); if (await deliver([new File([b], fileName(s.format), { type: 'image/png' })])) setStatus('Descargado: ' + fileName(s.format)); };
+  $('#all-formats').onclick = async () => {
+    const btn = $('#all-formats'); btn.disabled = true; setStatus('Preparando los formatos…');
     const files = [];
-    for (const f of Object.keys(R.FORMATOS)) files.push(new File([await blob(f)], nombre(f), { type: 'image/png' }));
+    for (const f of R.formatsFor(s.piece)) files.push(new File([await blob(f)], fileName(f), { type: 'image/png' }));
     try {
-      if (TOCA && !(await descargas())) throw 0;
-      await cargarZip();
+      if (TOUCH && !(await downloads())) throw 0;
+      await loadZip();
       const zip = new window.JSZip(); files.forEach((f) => zip.file(f.name, f));
       const z = await zip.generateAsync({ type: 'blob' });
-      const ok = await entregar([new File([z], `holaswift-${s.pieza}-${slug(nombre('').replace('.png', ''))}.zip`.replace(/-+\.zip$/, '.zip'), { type: 'application/zip' })]);
-      btn.disabled = false; if (ok) estado('Listo: ' + files.length + ' imágenes en un zip.'); return;
-    } catch (e) { const ok = await entregar(files); btn.disabled = false; if (ok) estado('Listo: ' + files.length + ' imágenes.'); return; }
+      const ok = await deliver([new File([z], fileName('').replace(/\.png$/, '.zip'), { type: 'application/zip' })]);
+      btn.disabled = false; if (ok) setStatus('Listo: ' + files.length + ' imágenes en un zip.'); return;
+    } catch (e) { const ok = await deliver(files); btn.disabled = false; if (ok) setStatus('Listo: ' + files.length + ' imágenes.'); return; }
   };
-  function cargarZip() {
+  function loadZip() {
     if (window.JSZip) return Promise.resolve();
     return new Promise((ok, ko) => { const sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'; sc.onload = ok; sc.onerror = ko; document.head.append(sc); });
   }
-  function estado(t) { $('#estado').textContent = t; }
+  function setStatus(t) { $('#status').textContent = t; }
 
-  // ── Arranque ─────────────────────────────────────────────────────────────
-  estado('Cargando tipografías e imágenes…');
-  R.cargar().then(async () => {
-    await Promise.all(Object.keys(s.fotos || {}).map(cargarFoto));
-    montar(); pintar(); estado('');
+  // ── Startup ──────────────────────────────────────────────────────────────
+  setStatus('Cargando tipografías e imágenes…');
+  R.load().then(async () => {
+    await Promise.all(Object.keys(s.photos || {}).map(loadPhoto));
+    build(); render(); setStatus('');
   });
 })();
 </script>

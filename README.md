@@ -12,7 +12,7 @@
 Todo lo que necesitáis para firmar, publicar y presentar con la marca, sin instalar nada: se abre en el navegador.
 
 - **[Firma de email](https://holaswift.com/herramientas/firmas/)**: rellenad vuestros datos, copiad la firma y pegadla en Gmail, Apple Mail u Outlook.
-- **[Imágenes para redes](https://holaswift.com/herramientas/redes/)**: anuncios de charlas, quedadas y avisos con la marca, listos para descargar en cada formato.
+- **[Imágenes para redes](https://holaswift.com/herramientas/redes/)**: anuncios de sesiones, encuentros y avisos con la marca, listos para descargar en cada formato.
 - **[Kit de Discord](https://holaswift.com/herramientas/descargas/holaswift-discord.zip)**: iconos del servidor, banner, emojis y stickers, también animados.
 - **[Kit de perfiles en redes](https://holaswift.com/herramientas/descargas/holaswift-redes.zip)**: fotos de perfil, cabeceras, destacados y bios para cada red.
 - **[Presentaciones](https://holaswift.com/presentaciones/)**: la skill de Claude para hacer diapositivas, las fuentes y la plantilla para ponentes.
@@ -27,7 +27,7 @@ material, avisad en el canal del equipo en Discord.
 |---|---|
 | `index.html` | La página de inicio de las herramientas |
 | `firmas/` | El generador de firmas. `hola-swift-firma.png` es el logo que cargan las firmas desde los correos: **no lo mováis ni lo renombréis**, o las firmas ya enviadas lo perderán |
-| `redes/` | El generador de imágenes para redes. Funciona en el navegador, sin servidor. `assets/` tiene las fuentes, los logos, el tubo y las pegatinas |
+| `redes/` | El generador de imágenes para redes. Funciona en el navegador, sin servidor. `assets/` tiene las fuentes, los logos, el tubo y los glifos 3D |
 | `descargas/` | Los ZIP de Discord y de perfiles. Llegan solos desde el repositorio privado `marca` |
 
 **Publicación:** GitHub Pages desde la rama `main` (Settings › Pages › Deploy from a branch › `main` / root). Como la web

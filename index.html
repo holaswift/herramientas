@@ -15,13 +15,13 @@ a{color:var(--link);text-underline-offset:3px}
 :focus-visible{outline:2px solid var(--interface);outline-offset:3px;border-radius:12px}
 .wrap{width:min(1120px,100% - max(16px,var(--sa-l)) - max(16px,var(--sa-r)));margin-inline:auto}
 nav.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px;padding-top:var(--sa-t)}
-nav.top .volver{font-size:15px;color:var(--text-2);text-decoration:none}
+nav.top .back{font-size:15px;color:var(--text-2);text-decoration:none}
 header{padding:clamp(32px,7vh,80px) 0 clamp(24px,4vh,40px)}
-.ceja{font:600 15px/20px var(--f-text);color:var(--text-3);margin:0 0 14px}
+.eyebrow{font:600 15px/20px var(--f-text);color:var(--text-3);margin:0 0 14px}
 h1{font:700 clamp(40px,5.6vw,64px)/1 var(--f-headings);letter-spacing:-.03em;margin:0;text-wrap:balance}
 .lede{font-size:clamp(19px,1.7vw,21px);line-height:1.45;color:var(--text-2);margin:20px 0 0;max-width:46ch}
 h2{font:700 clamp(26px,3vw,32px)/1.1 var(--f-headings);letter-spacing:-.02em;margin:48px 0 0}
-.lista{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0 0;padding:0;list-style:none}
+.list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0 0;padding:0;list-style:none}
 .item{position:relative;background:var(--surface);border-radius:28px;padding:28px;display:flex;flex-direction:column;min-height:230px}
 .item img{width:auto;height:56px;align-self:flex-start}
 .item h3{font:600 22px/28px var(--f-headings);letter-spacing:-.01em;margin:20px 0 6px}
@@ -31,30 +31,30 @@ h2{font:700 clamp(26px,3vw,32px)/1.1 var(--f-headings);letter-spacing:-.02em;mar
 .item a:hover{text-decoration:underline}
 .item:has(a:focus-visible){outline:2px solid var(--interface);outline-offset:3px}
 .item a:focus-visible{outline:none}
-.aviso{margin:40px 0 0;padding:20px 24px;border:1px dashed #A5A5AF;border-radius:20px;color:var(--text-2);font-size:15px;line-height:22px;max-width:70ch}
+.notice{margin:40px 0 0;padding:20px 24px;border:1px dashed #A5A5AF;border-radius:20px;color:var(--text-2);font-size:15px;line-height:22px;max-width:70ch}
 footer{margin-top:72px;padding:40px 0 calc(56px + var(--sa-b));border-top:1px solid var(--hairline);font-size:14px;color:var(--text-2)}
 footer a{color:var(--text-2)}
-@media (max-width:900px){.lista{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.lista{grid-template-columns:1fr}.item{min-height:0}nav.top .volver{display:none}}
+@media (max-width:900px){.list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.list{grid-template-columns:1fr}.item{min-height:0}nav.top .back{display:none}}
 </style>
 </head>
 <body>
 <nav class="top" aria-label="Principal">
   <div class="wrap">
     <a class="brand" href="https://holaswift.com/" aria-label="hola Swift, inicio"><img src="assets/logo-horizontal-color.webp" alt="hola Swift" width="129" height="36"></a>
-    <a class="volver" href="https://holaswift.com/">← Volver a hola Swift</a>
+    <a class="back" href="https://holaswift.com/">← Volver a hola Swift</a>
   </div>
 </nav>
 
 <main class="wrap">
   <header>
-    <p class="ceja">Equipo</p>
+    <p class="eyebrow">Equipo</p>
     <h1>Herramientas de hola Swift.</h1>
     <p class="lede">Todo lo que necesitas para firmar, publicar y presentar con la marca. Sin instalar nada: se abre en el navegador.</p>
   </header>
 
   <h2>Crear</h2>
-  <ul class="lista">
+  <ul class="list">
     <li class="item">
       <img src="assets/glifos/arroba.webp" alt="" aria-hidden="true">
       <h3>Firma de email</h3>
@@ -64,7 +64,7 @@ footer a{color:var(--text-2)}
     <li class="item">
       <img src="assets/glifos/corazon.webp" alt="" aria-hidden="true">
       <h3>Imágenes para redes</h3>
-      <p>Anuncios de charlas, quedadas y avisos con la marca, listos para descargar en cada formato.</p>
+      <p>Anuncios de sesiones, encuentros y avisos con la marca, listos para descargar en cada formato.</p>
       <a href="redes/">Abrir ↗</a>
     </li>
     <li class="item">
@@ -76,7 +76,7 @@ footer a{color:var(--text-2)}
   </ul>
 
   <h2>Descargar</h2>
-  <ul class="lista">
+  <ul class="list">
     <li class="item">
       <img src="assets/glifos/mano.webp" alt="" aria-hidden="true">
       <h3>Kit de Discord</h3>
@@ -97,7 +97,7 @@ footer a{color:var(--text-2)}
     </li>
   </ul>
 
-  <p class="aviso">Esta página es para el equipo y no aparece en buscadores. Comparte el enlace solo con quien colabore con hola Swift. Si algo no funciona o falta material, avisad en el canal del equipo en Discord.</p>
+  <p class="notice">Esta página es para el equipo y no aparece en buscadores. Comparte el enlace solo con quien colabore con hola Swift. Si algo no funciona o falta material, avisad en el canal del equipo en Discord.</p>
 </main>
 
 <footer>
