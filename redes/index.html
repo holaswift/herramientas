@@ -29,7 +29,8 @@
   .formats button canvas { width: 34px; height: auto; border-radius: 4px; box-shadow: 0 0 0 1px var(--line); flex: none; }
   .formats button b { display: block; font-weight: 600; font-size: 14px; }
   .formats button small { display: block; color: var(--text-3); font-size: 12px; line-height: 1.35; }
-  .formats button small.networks { display: flex; gap: 6px; margin-top: 4px; }
+  .formats button > span { min-width: 0; }
+  .formats button small.networks { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 4px; }
   .formats button small.networks svg { width: 14px; height: 14px; flex: none; }
   .formats button[aria-pressed="true"] { border-color: var(--ui); box-shadow: 0 0 0 1px var(--ui); }
   .formats button:focus-visible, .seg button:focus-visible, .btn:focus-visible { outline: 2px solid var(--ui); outline-offset: 2px; }
@@ -101,9 +102,14 @@
     .preview { position: static; }
     .stage { padding: 12px; }
     .stage canvas.artboard { max-height: 36vh; }
-    .formats button { flex-direction: column; gap: 6px; padding: 8px 4px; text-align: center; }
-    .formats button small { display: none; }
-    .formats button b { font-size: 12px; }
+    /* one scrolling row that bleeds to the screen edges; the inline grid columns set by JS do not apply to flex */
+    .formats { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 16px; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .formats::-webkit-scrollbar { display: none; }
+    .formats button { flex: none; scroll-snap-align: start; }
+    .formats button b { white-space: nowrap; }
+    .formats button small.networks { flex-wrap: nowrap; }
+    #pieces button { padding: 12px; white-space: nowrap; }
+    .seg.switch button { padding: 8px 4px; white-space: nowrap; gap: 6px; }
   }
 </style>
 <div class="hs">
